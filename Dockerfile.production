@@ -1,0 +1,28 @@
+FROM        python:3.6.4-slim
+MAINTAINER  devhsj@gmail.com
+
+#apt-get으로 nginx, supervisor 설치
+RUN         apt-get -y update
+RUN         apt-get -y dist-upgrade
+RUN         apt-get -y install build-essential nginx supervisor
+
+#requirements만 복사
+COPY        .requirements /srv/.requirements
+
+WORKDIR     /srv
+RUN         pip install -r /srv/.requirements/production.txt
+
+ENV         BUILD_MODE              production
+ENV         DJANGO_SETTINGS_MODULE  config.settings.${BUILD_MODE}
+
+COPY        . /srv/project
+
+RUN         cp -f   /srv/project/.config/${BUILD_MODE}/nginx.conf       /etc/nginx/nginx.conf &&\
+            cp -f   /srv/project/.config/${BUILD_MODE}/nginx-app.conf   /etc/nginx/sites-available/ &&\
+            rm -f   /etc/nginx/sites-enabled/* &&\
+            ln -sf  /etc/nginx/sites-available/nginx-app.conf   /etc/nginx/sites-enabled/
+
+RUN         cp -f   /srv/project/.config/${BUILD_MODE}/supervisord.conf /etc/supervisor/conf.d/
+
+#pkill
+CMD         pkill nginx; supervisord -n
