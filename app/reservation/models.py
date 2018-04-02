@@ -6,7 +6,7 @@ from django.db import models
 # Create your models here.
 from django.utils import timezone
 
-from members.models import Member
+from members.models import *
 from travel.models import Travel_Schedule, Travel_Information
 
 
@@ -16,7 +16,7 @@ class Reservation(models.Model):
         on_delete=models.CASCADE
     )
     member = models.ForeignKey(
-        Member,
+        User,
         on_delete=models.CASCADE
 
     )
@@ -36,7 +36,7 @@ class RecentVisitPage(models.Model):
         Travel_Schedule,
         on_delete=models.CASCADE)
     member = models.ForeignKey(
-        Member,
+        User,
         on_delete=models.CASCADE)
     isusable = models.BooleanField('사용여부', default=True)
     creationdatetime = models.DateTimeField('생성시간', default=timezone.now)
@@ -49,7 +49,7 @@ class WishList(models.Model):
         on_delete=models.CASCADE
     )
     member = models.ForeignKey(
-        Member,
+        User,
         on_delete=models.CASCADE
     )
     isusable = models.BooleanField('사용여부', default=True)

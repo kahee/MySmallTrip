@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import User, Member
+from .models import User
 
 # Register your models here.
 
@@ -30,4 +30,4 @@ class UserAdmin(DjangoUserAdmin):
 
 
 admin.site.register(User, UserAdmin)
-admin.site.register(Member)
+

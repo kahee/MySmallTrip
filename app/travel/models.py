@@ -3,9 +3,9 @@ from django.utils import timezone
 from django.db import models
 
 from config import settings
-from members.models import Member
+from members.models import User
 
-User = settings.AUTH_USER_MODEL
+# User = settings.AUTH_USER_MODEL
 
 
 class City_Information(models.Model):
@@ -102,7 +102,7 @@ class Travel_Schedule(models.Model):
 
     maxPeople = models.IntegerField
     member = models.ManyToManyField(
-        Member,
+        User,
         # through='Member',
         related_name='reserved_member',
         # blank=True

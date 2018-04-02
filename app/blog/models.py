@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 from django.utils import timezone
 
-from members.models import Member
+from members.models import *
 from travel.models import Travel_Schedule
 
 
