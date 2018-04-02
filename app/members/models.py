@@ -11,10 +11,7 @@ from django.dispatch import receiver
 
 
 class User(AbstractUser):
-    # 이름. 메일주소, 비밀번호, 비밀번호 확인,  프로필 이미지(페이스북 로그인시)
-    # username = email true name
-    # signup authtoken
-    # social id facebook user 1:1
+
     email = models.EmailField(
         verbose_name='Email',
         max_length=255,
@@ -47,16 +44,3 @@ class User(AbstractUser):
     creationdatetime = models.DateTimeField('생성시간', default=timezone.now)
     modifydatetime = models.DateTimeField('수정시간', default=timezone.now)
 
-
-
-
-# @receiver(pre_save, sender=User)
-# def user_create(sender, instance, **kwargs):
-#     try:
-#         validate_email(instance.email)
-#
-#     except ValidationError:
-#         raise ValidationError('이메일 형식 오류')
-#
-#     except IntegrityError:
-#         raise IntegrityError('이메일 중복')

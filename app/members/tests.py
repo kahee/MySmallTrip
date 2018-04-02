@@ -29,11 +29,9 @@ class test_create_user(APITestCase):
         }
 
         response = self.client.post(self.create_url, data, format='json')
-        print(data)
 
-        # self.assertEqual(User.objects.count(), 2)
-        # self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        # self.assertEqual(response.data['email'], data['username'])
-
-        # self.assertEqual(response.data['email'], data['email'])
-        # # self.assertFalse('password' in response.data)
+        self.assertEqual(User.objects.count(), 2)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['email'], response.data['username'])
+        self.assertEqual(response.data['email'], data['email'])
+        # self.client.login(username='12345@gmail.com', password='rkgml12345')

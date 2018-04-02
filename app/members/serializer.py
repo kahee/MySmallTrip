@@ -7,6 +7,7 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
+
     email = serializers.EmailField(
         required=True,
         validators=[UniqueValidator(queryset=User.objects.all())]
@@ -17,6 +18,9 @@ class UserSerializer(serializers.ModelSerializer):
     )
 
     def create(self, validate_data):
+        # request.data 로 받은 email데이터를 검증한 후,
+        # username에도 저장
+
         password = validate_data['password']
 
         user = User.objects.create_user(
