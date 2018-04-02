@@ -138,13 +138,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Sentry
     'raven.contrib.django.raven_compat',
-    'rest_framework',
-
-    'blog',
-    'homepage',
     'members',
-    'reservation',
-    'travel',
     'utils',
 ]
 

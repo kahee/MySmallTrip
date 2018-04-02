@@ -10,35 +10,35 @@
     <title>EB Docker</title>
 
 
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
 </head>
 <body>
-<div class="container">
-    <table class="table">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">email</th>
-            <th scope="col">username</th>
-            <th scope="col">Profile Img</th>
-
-        </tr>
-        </thead>
-
-        <tbody>
-
-        {% for user in users %}
+    <div class="container">
+        <table class="table">
+            <thead class="thead-dark">
             <tr>
-                <th scope="row">{{ user.pk }}</th>
-                <td>{{ user.email }}</td>
+                <th scope="col">ID</th>
+                <th scope="col">username</th>
+                <th scope="col">Nickname</th>
+                <th scope="col">Profile Img</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for user in users %}
+            <tr>
+                <th scope="row" {{ user.pk}}></th>
                 <td>{{ user.username }}</td>
+                <td>{{ user.nickname }}</td>
                 {% if user.img_profile %}
-                    <td><img src="{{ user.img_profile.url }}" alt=""></td>
+                <td><img src="{{ user.img_profile.url }}" alt=""></td>
                 {% endif %}
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
