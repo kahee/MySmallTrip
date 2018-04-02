@@ -12,7 +12,6 @@ class UserCreate(APIView):
 
         if serializer.is_valid():
             user = serializer.save()
-            print(user)
             if user:
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:

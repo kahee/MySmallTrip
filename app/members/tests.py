@@ -23,17 +23,17 @@ class test_create_user(APITestCase):
 
     def test_create_user(self):
         data = {
-            'email': 'kahee@gmail.com',
+            'email': '12345@gmail.com',
             'first_name': 'kahee',
             'password': 'rkgml12345',
         }
 
-        factory = APIRequestFactory()
-
-        response = factory.post(self.create_url, data)
+        response = self.client.post(self.create_url, data, format='json')
+        print(data)
 
         # self.assertEqual(User.objects.count(), 2)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        # # self.assertEqual(response.data['username'], data['username'])
-        # # self.assertEqual(response.data['email'], data['email'])
+        # self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        # self.assertEqual(response.data['email'], data['username'])
+
+        # self.assertEqual(response.data['email'], data['email'])
         # # self.assertFalse('password' in response.data)

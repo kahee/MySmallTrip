@@ -16,17 +16,6 @@ class UserSerializer(serializers.ModelSerializer):
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
 
-    # def validate(self, attrs):
-    #     password = attrs.get('password')
-    #     password2 = attrs.get('password2')
-    #
-    #     print(password,password2)
-    #
-    #     if password != password2:
-    #         raise ValidationError("비밀번호가 일치하지 않습니다.")
-    #
-    #     return attrs
-
     def create(self, validate_data):
         password = validate_data['password']
 
