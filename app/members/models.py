@@ -23,3 +23,4 @@ class Member(models.Model):
     isusable = models.BooleanField('사용여부', default=True)
     creationdatetime = models.DateTimeField('생성시간', default=timezone.now)
     modifydatetime = models.DateTimeField('수정시간', default=timezone.now)
+g
