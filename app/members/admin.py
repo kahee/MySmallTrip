@@ -30,5 +30,4 @@ class UserAdmin(DjangoUserAdmin):
 
 
 admin.site.register(User, UserAdmin)
-admin.site.register(User)
 admin.site.register(Member)

@@ -24,7 +24,7 @@ class Reservation(models.Model):
     iscancled = models.BooleanField('취소여부', default=False)
     reversedpeople = models.IntegerField('예약수', default=0)
     concept = models.TextField('여행컨셉', blank=True)
-    agegeneration = models.CharField('연령대',blank=True)
+    agegeneration = models.CharField('연령대',blank=True, max_length=50)
     personal_request = models.TextField('요청사항',blank=True)
     isusable = models.BooleanField('사용여부', default=True)
     creationdatetime = models.DateTimeField('생성시간', default=timezone.now)

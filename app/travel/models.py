@@ -103,7 +103,7 @@ class Travel_Schedule(models.Model):
     maxPeople = models.IntegerField
     member = models.ManyToManyField(
         Member,
-        through='Member',
+        # through='Member',
         related_name='reserved_member',
         # blank=True
     )

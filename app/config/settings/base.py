@@ -140,7 +140,11 @@ INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
     'rest_framework',
 
+    'blog',
+    'homepage',
     'members',
+    'reservation',
+    'travel',
     'utils',
 ]
 
