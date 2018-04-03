@@ -32,9 +32,18 @@ class UserSerializer(serializers.ModelSerializer):
             phone_number=validate_data['phone_number'],
             img_profile=validate_data['img_profile'],
         )
+
         user.set_password(password)
         return user
 
     class Meta:
         model = User
-        fields = '__all__'
+        fields = (
+            'pk',
+            'username',
+            'email',
+            'first_name',
+            'phone_number',
+            'img_profile',
+            'password'
+        )
