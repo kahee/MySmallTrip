@@ -10,6 +10,7 @@ from ..serializer import UserSerializer
 class LoginfromAuthTokenView(APIView):
 
     def post(self, request):
+
         serializers = AuthTokenSerializer(data=request.data)
 
         if serializers.is_valid():
@@ -23,4 +24,4 @@ class LoginfromAuthTokenView(APIView):
 
             return Response(data, status=status.HTTP_200_OK)
         else:
-            return Response(serializers.errors, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
