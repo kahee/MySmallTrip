@@ -99,11 +99,20 @@ def set_config(obj, module_name=None, start=False):
 # import raven이라고 쓸 경우 Code reformating에서 필요없는 import로 인식해서 지워짐
 # raven모듈을 importlib를 사용해 가져온 후 현재 모듈에 'raven'이라는 이름으로 할당
 setattr(sys.modules[__name__], 'raven', importlib.import_module('raven'))
-# set_config(secrets, module_name=__name__, start=True)
 SECRET_KEY = SECRETS['SECRET_KEY']
-# print(f'SECRET_KEY:{getattr(sys.modules[__name__],"SECRET_KEY")}')
-# print(f'RAVEN_CONFIG:{getattr(sys.modules[__name__],"RAVEN_CONFIG")}')
 
+
+#Facebok Infomation
+
+# FACEBOOK_APP_ID = '956569987850562'
+# FACEBOOK_SECRET_CODE = '70aae02cd2a59ede34f240762dcbe241'
+FACEBOOK_APP_ID = SECRETS['FACEBOOK_APP_ID']
+FACEBOOK_SECRET_CODE = SECRETS['FACEBOOK_SECRET_CODE']
+
+AUTHENTICATION_BACKENDS =[
+    'django.contrib.auth.backends.ModelBackend',
+    'members.backends.APIFacebookBackends',
+]
 # Raven
 RAVEN_CONFIG = {
     'dsn': SECRETS['RAVEN_DSN'],
@@ -112,7 +121,6 @@ RAVEN_CONFIG = {
     # 'release': raven.fetch_git_sha(os.path.abspath(BASE_DIR)),
     # 'release': raven.fetch_git_sha(os.path.dirname(__file__)),
 }
-print(RAVEN_CONFIG)
 STATIC_URL = '/static/'
 
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
@@ -139,6 +147,7 @@ INSTALLED_APPS = [
     # Sentry
     'raven.contrib.django.raven_compat',
     'rest_framework',
+    'rest_framework.authtoken',
 
     'blog',
     'homepage',
