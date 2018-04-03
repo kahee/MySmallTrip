@@ -37,7 +37,7 @@ class test_create_user(APITestCase):
             # format에 json으로 설정하면 이미지 파일 불러오기를 못함.
 
             response = self.client.post(self.create_url, {
-                'email': '12345@gmail.com',
+                'email': 'rkgml12345@gmail.com',
                 'first_name': 'kahee',
                 'password': 'rkgml12345',
                 'password2': 'rkgml12345',
@@ -48,7 +48,7 @@ class test_create_user(APITestCase):
         self.assertEqual(User.objects.count(), 2)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['email'], response.data['username'])
-        self.assertEqual(response.data['email'], '12345@gmail.com')
+        self.assertEqual(response.data['email'], 'rkgml12345@gmail.com')
         self.assertEqual(response.data['phone_number'], '010-2345-0232')
 
         user = User.objects.get(pk=2)

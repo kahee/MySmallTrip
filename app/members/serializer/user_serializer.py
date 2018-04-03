@@ -22,6 +22,10 @@ class UserSerializer(serializers.ModelSerializer):
         required=False,
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
+    phone_number = serializers.CharField(
+        required=True,
+    )
+    password = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
 
     class Meta:
