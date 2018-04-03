@@ -61,4 +61,4 @@ if private_ip:
     ALLOWED_HOSTS.append(private_ip)
 
 # S3대신 EC2에서 정적파일을 제공 (프리티어의 put사용량 절감을 위해 )
-# STATICFILES_STORAGE = 'config.storage.StaticFilesStorage'
+STATICFILES_STORAGE = 'config.storage.StaticFilesStorage'

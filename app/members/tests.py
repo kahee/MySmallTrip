@@ -40,6 +40,7 @@ class test_create_user(APITestCase):
                 'email': '12345@gmail.com',
                 'first_name': 'kahee',
                 'password': 'rkgml12345',
+                'password2': 'rkgml12345',
                 'phone_number': '010-2345-0232',
                 'img_profile': f,
             })
