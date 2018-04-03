@@ -139,6 +139,8 @@ INSTALLED_APPS = [
     # Sentry
     'raven.contrib.django.raven_compat',
     'rest_framework',
+    'rest_framework.authtoken',
+
 
     'blog',
     'homepage',
@@ -157,6 +159,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
 
 ROOT_URLCONF = 'config.urls'
 
