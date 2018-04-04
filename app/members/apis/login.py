@@ -10,6 +10,7 @@ from ..serializer import UserSerializer
 class LoginfromAuthTokenView(APIView):
 
     def post(self, request):
+
         serializers = AuthTokenSerializer(data=request.data)
 
         if serializers.is_valid():
