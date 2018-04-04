@@ -18,7 +18,8 @@ class User(AbstractUser):
     email = models.EmailField(
         verbose_name='Email',
         max_length=255,
-        unique=True,
+        # unique=True,
+        blank=True,
     )
     img_profile = models.ImageField(
         verbose_name='Profile',

@@ -30,26 +30,32 @@ class APIFacebookBackends:
 
         if response.status_code == status.HTTP_200_OK:
             user_info = response.json()
+            # print(user_info['id'])
+            # print(user_info['email'])
+
             facebook_id = user_info['id']
             name = user_info['name']
-            first_name = user_info['first_name']
-            last_name = user_info['last_name']
             url_img_profile = user_info['picture']['data']['url']
-            email = user_info['email']
 
+            # facebook유저중에 email이 없는 경우가 있어서 없는경우는 email을 빈값으로 입력
+            if 'email' in user_info:
+                email = user_info['email']
+            else:
+                email = ''
+
+            # first_name = user_info['first_name']
 
             # print(facebook_id, name, first_name, last_name)
 
             try:
-                #email이 unique이기 때문에 email로 구분한다.
-                user = User.objects.get(email=email)
-                print(user)
+                # email이 unique이기 때문에 email로 구분한다.
+                user = User.objects.get(username=facebook_id)
+
             except:
                 user = User.objects.create_user(
                     email=email,
-                    username=name,
-                    first_name=first_name,
-                    last_name=last_name,
+                    username=facebook_id,
+                    first_name=name,
                     is_facebook_user=True,
                     # img_profile=img_profile,
                     # 이미지는 따로 저장한다.
