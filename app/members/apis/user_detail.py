@@ -23,12 +23,11 @@ class UserDetailView(APIView):
 
     # 비밀번호 변경
     def patch(self, request, *args, **kwargs):
-
-        user = User.objects.get(username=request.user)
         serializer = ChangePasswordSerializer(data=request.data)
 
         # 비밀번호 유효성 검사가 패스 되면, 새로운 비밀번호로 변경
         if serializer.is_valid():
+            user = User.objects.get(username=request.user)
             user.set_password(serializer.validated_data['user']['password'])
             user.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -45,12 +44,12 @@ class UserDetailImageView(APIView):
 
     # 프로필 이미지 변경
     def patch(self, request, *args, **kwargs):
-        user = User.objects.get(username=request.user)
         serializer = ChangeImageSerializer(data=request.data)
 
         if serializer.is_valid():
+            user = User.objects.get(username=request.user)
             user.img_profile = serializer.validated_data['img_profile']
             user.save()
-            return Response(status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
