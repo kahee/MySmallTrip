@@ -7,12 +7,6 @@ from rest_framework.validators import UniqueValidator
 User = get_user_model()
 
 
-class PasswordMismatchError(APIException):
-    status_code = status.HTTP_400_BAD_REQUEST
-    default_detail = '비밀번호가 일치하지 않습니다!'
-    default_code = 'password_mismatch'
-
-
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
@@ -39,6 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
             'img_profile',
             'password',
             'password2',
+            'is_facebook_user',
         )
 
     def validate_password(self, password):
