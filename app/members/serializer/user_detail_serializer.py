@@ -39,3 +39,11 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(errors)
 
         return password
+
+
+class ChangeImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'img_profile',
+        )
