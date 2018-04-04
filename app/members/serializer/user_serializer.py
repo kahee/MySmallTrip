@@ -71,7 +71,7 @@ class UserSerializer(serializers.ModelSerializer):
             phone_number=validate_data['phone_number'],
             img_profile=validate_data['img_profile'],
         )
-
+        # 비밀번호 설정 후 저장
         user.set_password(password)
         user.save()
         return user
