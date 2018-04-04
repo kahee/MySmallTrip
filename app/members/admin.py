@@ -24,7 +24,7 @@ class UserAdmin(DjangoUserAdmin):
             'fields': ('email', 'username', 'password1', 'password2'),
         }),
     )
-    list_display = ('email', 'username', 'is_staff')
+    list_display = ('username', 'email', 'is_staff')
     search_fields = ('email', 'username')
     ordering = ('email',)
 
