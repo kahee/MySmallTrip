@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from members.serializer import UserSerializer
 
 
-class UserCreate(APIView):
+class UserCreateView(APIView):
 
     def post(self, request):
 

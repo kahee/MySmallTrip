@@ -83,7 +83,7 @@ def set_config(obj, module_name=None, start=False):
             # 그 외의 경우 value를 평가한 값을 할당
             else:
                 obj[key] = eval_obj(value)
-               # set_config()가 처음 호출된 loop에서만 setattr()을 실행
+            # set_config()가 처음 호출된 loop에서만 setattr()을 실행
             if start:
                 setattr(sys.modules[module_name], key, value)
 
@@ -124,7 +124,6 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 
 MEDIA_URL = '/media/'
 
-
 # Application definition
 
 AUTH_USER_MODEL = 'members.User'
@@ -140,7 +139,6 @@ INSTALLED_APPS = [
     'raven.contrib.django.raven_compat',
     'rest_framework',
     'rest_framework.authtoken',
-
 
     'blog',
     'homepage',
@@ -164,9 +162,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     )
 }
-
 
 ROOT_URLCONF = 'config.urls'
 

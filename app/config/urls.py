@@ -18,13 +18,19 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from members.apis import UserCreateView, LoginfromAuthTokenView
 from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('members.urls')),
+
+    path('members/', include('members.urls')),
     path('', views.index, name='index'),
+
+    path('sign-up/', UserCreateView.as_view(), name='sign-up'),
+    path('login/', LoginfromAuthTokenView.as_view(), name='login'),
 ]
+
 urlpatterns += static(
     settings.MEDIA_URL,
     document_root=settings.MEDIA_ROOT,
