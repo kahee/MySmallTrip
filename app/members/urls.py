@@ -1,8 +1,10 @@
 from django.urls import path
 
-from .apis import UserCreate, FacebookLogin
+from members.apis import FacebookLogin
+from .apis.user_detail import UserDetailView, UserDetailImageView
 
 urlpatterns = [
-    path('sign-up/', UserCreate.as_view(), name='sign-up'),
-    path('facebook-login/',FacebookLogin.as_view(), name='facebook-login'),
+    path('info/', UserDetailView.as_view(), name='user-detail'),
+    path('info/img_change/', UserDetailImageView.as_view(), name='user-image-change'),
+    path('facebook-login/', FacebookLogin.as_view(), name='facebook-login'),
 ]

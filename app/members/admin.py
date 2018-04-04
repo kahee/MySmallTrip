@@ -13,9 +13,9 @@ class UserAdmin(DjangoUserAdmin):
 
     fieldsets = (
         (None, {'fields': ('email', 'password', 'username')}),
-        ('Personal info', {'fields': ('first_name', 'last_name')}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser','is_facebook_user',
-                                    'groups', 'user_permissions')}),
+
+        ('Personal info', {'fields': ('first_name', 'last_name', 'img_profile', 'is_facebook_user',)}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser','groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
@@ -24,10 +24,9 @@ class UserAdmin(DjangoUserAdmin):
             'fields': ('email', 'username', 'password1', 'password2'),
         }),
     )
-    list_display = ('email', 'username', 'is_staff')
+    list_display = ('username', 'email', 'is_staff')
     search_fields = ('email', 'username')
     ordering = ('email',)
 
 
 admin.site.register(User, UserAdmin)
-

@@ -6,12 +6,13 @@ from rest_framework.views import APIView
 from members.serializer import UserSerializer, AccessTokenSerializer
 
 
-class UserCreate(APIView):
+class UserCreateView(APIView):
 
     def post(self, request):
+
         serializer = UserSerializer(data=request.data)
 
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             user = serializer.save()
             if user:
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -23,6 +24,7 @@ class FacebookLogin(APIView):
 
     def post(self, request):
         serializer = AccessTokenSerializer(data=request.data)
+
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, _ = Token.objects.get_or_create(user=user)
@@ -30,4 +32,4 @@ class FacebookLogin(APIView):
             'token': token.key,
             'user': UserSerializer(user).data,
         }
-        return Response(data)
+        return Response(data, status=status.HTTP_200_OK)
