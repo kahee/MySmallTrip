@@ -33,8 +33,8 @@ class User(AbstractUser):
         null=True,
     )
 
-    mypoint = models.IntegerField('내포인트', default=0)
-    mycoupon = models.IntegerField('내쿠폰', default=0)
+    mypoint = models.IntegerField('내포인트', default=0,)
+    mycoupon = models.IntegerField('내쿠폰', default=0,)
     isgetemail = models.BooleanField('메일수신여부체크', default=True)
     isgetsms = models.BooleanField('sms수신여부체크', default=True)
     isgetapppush = models.BooleanField('apppush수신여부체크', default=True)

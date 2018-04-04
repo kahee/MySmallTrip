@@ -21,7 +21,7 @@ class LoginfromAuthTokenView(APIView):
                 'token': token.key,
                 'user': UserSerializer(user).data,
             }
-
             return Response(data, status=status.HTTP_200_OK)
+
         else:
             return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
