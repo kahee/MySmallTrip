@@ -12,7 +12,7 @@ User = get_user_model()
 class LoginfromAuthTokenView(APIView):
 
     def post(self, request):
-
+        # username과 password 입력 받은 후, 유효성 검사
         serializers = AuthTokenSerializer(data=request.data)
 
         if serializers.is_valid(raise_exception=True):
