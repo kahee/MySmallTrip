@@ -12,4 +12,5 @@ RUN         apt-get -y install build-essential nginx supervisor
 COPY        .requirements /srv/.requirements
 
 WORKDIR     /srv
+RUN         pip install --upgrade pip
 RUN         pip install -r /srv/.requirements/production.txt
