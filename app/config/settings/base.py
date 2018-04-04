@@ -25,10 +25,15 @@ SECRETS_BASE = os.path.join(SECRETS_DIR, 'base.json')
 SECRETS_LOCAL = os.path.join(SECRETS_DIR, 'local.json')
 SECRETS_DEV = os.path.join(SECRETS_DIR, 'dev.json')
 SECRETS_PRODUCTION = os.path.join(SECRETS_DIR, 'production.json')
-# secrets = json.loads(open(SECRETS_BASE, 'rt').read())
 SECRETS = json.loads(open(SECRETS_BASE, 'rt').read())
 TEMPLATE_DIR = os.path.join(ROOT_DIR, 'templates')
 
+AWS_ACCESS_KEY_ID = SECRETS['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = SECRETS['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = SECRETS['AWS_STORAGE_BUCKET_NAME']
+AWS_DEFAULT_ACL = 'private'
+AWS_S3_REGION_NAME = 'ap-northeast-2'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
 
 def set_config(obj, module_name=None, start=False):
     """
@@ -117,9 +122,6 @@ AUTHENTICATION_BACKENDS =[
 RAVEN_CONFIG = {
     'dsn': SECRETS['RAVEN_DSN'],
     'release': raven.fetch_git_sha(os.path.dirname(BASE_DIR)),
-    # 'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
-    # 'release': raven.fetch_git_sha(os.path.abspath(BASE_DIR)),
-    # 'release': raven.fetch_git_sha(os.path.dirname(__file__)),
 }
 STATIC_URL = '/static/'
 
@@ -127,6 +129,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
+
 STATIC_ROOT = os.path.join(ROOT_DIR, '.static')
 MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 
@@ -144,6 +147,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     # Sentry
     'raven.contrib.django.raven_compat',
     'rest_framework',
