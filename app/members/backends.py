@@ -3,8 +3,6 @@ import requests
 from django.contrib.auth import get_user_model
 from django.core.files import File
 from rest_framework import status
-
-from config.settings.base import FACEBOOK_APP_ID, FACEBOOK_SECRET_CODE
 from utils.file import download, get_buffer_ext
 
 User = get_user_model()

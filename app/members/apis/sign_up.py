@@ -24,6 +24,7 @@ class FacebookLogin(APIView):
 
     def post(self, request):
         serializer = AccessTokenSerializer(data=request.data)
+
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, _ = Token.objects.get_or_create(user=user)

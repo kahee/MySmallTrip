@@ -13,7 +13,7 @@ class LoginfromAuthTokenView(APIView):
 
         serializers = AuthTokenSerializer(data=request.data)
 
-        if serializers.is_valid():
+        if serializers.is_valid(raise_exception=True):
             user = serializers.validated_data['user']
             token, _ = Token.objects.get_or_create(user=user)
 
