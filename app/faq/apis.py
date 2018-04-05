@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from faq.models import FrequentQuestion
+from .models import FrequentQuestion
 from .serializer import FrequentQuestionSerializer
 
 
