@@ -34,7 +34,7 @@ class User(AbstractUser):
         null=True,
     )
 
-    certification_number = models.IntegerField('인증번호', blank=True, null=True)
+    certification_number = models.CharField('인증번호', blank=True, null=True, max_length=5)
     mypoint = models.IntegerField('내포인트', default=0, )
     mycoupon = models.IntegerField('내쿠폰', default=0, )
     isgetemail = models.BooleanField('메일수신여부체크', default=True)
