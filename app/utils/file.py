@@ -1,8 +1,8 @@
-import magic
+
 from io import BytesIO
 
 import requests
-
+import magic
 
 def download(url):
     response = requests.get(url)
