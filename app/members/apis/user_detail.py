@@ -74,9 +74,17 @@ class UserDetailPhoneNumberView(APIView):
         serializer = ChangePhoneNumberSerializer(data=request.data)
 
         if serializer.is_valid():
+            user = User.objects.get(username=request.user)
+
+            # 인증하려는 번호가 이미 사용하고 있는 번호이면 400리턴
+            if serializer.validated_data['phone_number'] == user.phone_number:
+                data = {
+                    'detail': f' {user.username}님이 이미 사용하고 있는 휴대폰 번호 입니다. '
+                }
+                return Response(data, status=status.HTTP_400_BAD_REQUEST)
+
             # 특정길이 랜덤숫자를 user객체의 인증번호로 저장 및 문자로 발송
             certification_number = rand_str(5)
-            user = User.objects.get(username=request.user)
             user.certification_number = certification_number
             user.save()
             send_message(serializer.validated_data['phone_number'], f'My Small Trip 인증번호 : {certification_number}')
@@ -89,7 +97,6 @@ class UserDetailPhoneNumberView(APIView):
 
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
     # 인증번호 검증을 통해 핸드폰 번호 변경
     def patch(self, request, *args, **kwargs):
