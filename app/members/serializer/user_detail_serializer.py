@@ -47,3 +47,12 @@ class ChangeImageSerializer(serializers.ModelSerializer):
         fields = (
             'img_profile',
         )
+
+
+class ChangePhoneNumberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'phone_number',
+            'certification_number',
+        )
