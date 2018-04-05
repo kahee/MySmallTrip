@@ -1,10 +1,11 @@
+from django.conf import settings
 from sdk.api.message import Message
 from sdk.exceptions import CoolsmsException
 
 
 def send_message(phonenum, message):
-    api_key = "NCSGLMHSQ2FTVZUA"
-    api_secret = "6SJTTSSM27RIGTG3ERVXKFLKVWVEUHFI"
+    api_key = settings.COOLSMS_API_KEY
+    api_secret = settings.COOLSMS_API_SECRET
 
     params = dict()
     params['type'] = 'sms'

@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from members.apis import UserCreateView, LoginforAuthTokenView, FacebookLogin
+from members.apis import UserCreateView, LoginforAuthTokenView, FacebookLogin, LogoutView
 from . import views
 
 urlpatterns = [
@@ -29,6 +29,7 @@ urlpatterns = [
 
     path('sign-up/', UserCreateView.as_view(), name='sign-up'),
     path('login/', LoginforAuthTokenView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('facebook-login/', FacebookLogin.as_view(), name='facebook-login'),
 ]
 
