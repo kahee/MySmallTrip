@@ -9,6 +9,7 @@ class FrequentQuestionSerializer(serializers.ModelSerializer):
         model = FrequentQuestion
         fields = (
             'subject',
+            'subject2',
             'question',
             'answer',
         )
