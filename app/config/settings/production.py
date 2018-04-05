@@ -3,7 +3,7 @@ from .base import *
 secrets_base = json.loads(open(SECRETS_PRODUCTION, 'rt').read())
 
 DATABASES = secrets_base['DATABASES']
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
