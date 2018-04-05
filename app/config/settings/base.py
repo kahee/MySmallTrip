@@ -34,6 +34,9 @@ AWS_STORAGE_BUCKET_NAME = SECRETS['AWS_STORAGE_BUCKET_NAME']
 AWS_DEFAULT_ACL = 'private'
 AWS_S3_REGION_NAME = 'ap-northeast-2'
 AWS_S3_SIGNATURE_VERSION = 's3v4'
+COOLSMS_API_KEY = SECRETS['API_KEY']
+COOLSMS_API_SECRET = SECRETS['API_SECRET']
+
 
 def set_config(obj, module_name=None, start=False):
     """
