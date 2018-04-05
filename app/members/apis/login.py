@@ -9,7 +9,8 @@ from ..serializer import UserSerializer
 
 User = get_user_model()
 
-class LoginfromAuthTokenView(APIView):
+
+class LoginforAuthTokenView(APIView):
 
     def post(self, request):
         # username과 password 입력 받은 후, 유효성 검사

@@ -47,3 +47,25 @@ class ChangeImageSerializer(serializers.ModelSerializer):
         fields = (
             'img_profile',
         )
+
+
+class ChangePhoneNumberSerializer(serializers.ModelSerializer):
+    phone_number = serializers.CharField(required=True, max_length=11, min_length=11)
+
+    class Meta:
+        model = User
+        fields = (
+            'phone_number',
+        )
+
+
+class CheckCertificationNumberSerializer(serializers.ModelSerializer):
+    phone_number = serializers.CharField(required=True, max_length=11)
+    certification_number = serializers.CharField(required=True, max_length=5, min_length=5, )
+
+    class Meta:
+        model = User
+        fields = (
+            'phone_number',
+            'certification_number',
+        )
