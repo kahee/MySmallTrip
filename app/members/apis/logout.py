@@ -13,7 +13,7 @@ class LogoutView(APIView):
         request.user.auth_token.delete()
 
         data = {
-            "detail": "로그아웃이 되었습니다."
+            "detail": "로그아웃 되었습니다."
         }
 
         return Response(data,status=status.HTTP_200_OK)
