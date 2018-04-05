@@ -24,13 +24,16 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('faq/', include('faq.urls')),
     path('members/', include('members.urls')),
     path('', views.index, name='index'),
 
     path('sign-up/', UserCreateView.as_view(), name='sign-up'),
+
     path('login/', LoginforAuthTokenView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('facebook-login/', FacebookLogin.as_view(), name='facebook-login'),
+
 ]
 
 urlpatterns += static(

@@ -1,8 +1,9 @@
-# import requests
-import requests
 from django.contrib.auth import get_user_model
 from django.core.files import File
 from rest_framework import status
+
+import requests
+
 from utils.file import download, get_buffer_ext
 
 User = get_user_model()
@@ -28,8 +29,6 @@ class APIFacebookBackends:
 
         if response.status_code == status.HTTP_200_OK:
             user_info = response.json()
-            # print(user_info['id'])
-            # print(user_info['email'])
 
             facebook_id = user_info['id']
             name = user_info['name']
@@ -40,10 +39,6 @@ class APIFacebookBackends:
                 email = user_info['email']
             else:
                 email = ''
-
-            # first_name = user_info['first_name']
-
-            # print(facebook_id, name, first_name, last_name)
 
             try:
                 # email이 unique이기 때문에 email로 구분한다.
