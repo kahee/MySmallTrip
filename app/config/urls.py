@@ -24,11 +24,13 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('faq/', include('faq.urls')),
     path('members/', include('members.urls')),
     path('', views.index, name='index'),
 
     path('sign-up/', UserCreateView.as_view(), name='sign-up'),
     path('login/', LoginfromAuthTokenView.as_view(), name='login'),
+
 ]
 
 urlpatterns += static(

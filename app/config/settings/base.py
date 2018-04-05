@@ -146,7 +146,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     'blog',
-    'homepage',
+    'faq',
     'members',
     'reservation',
     'travel',

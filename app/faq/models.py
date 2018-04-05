@@ -4,10 +4,11 @@ from django.db import models
 from django.utils import timezone
 
 
-class HomepageInfomation(models.Model):
-    serviceinfo = models.TextField
-    companyinfo = models.TextField
-    qna = models.TextField
-    isusable = models.BooleanField('사용여부')
+class FrequentQuestion(models.Model):
+    subject = models.CharField(max_length=30)
+    question = models.TextField('질문')
+    answer = models.TextField('답변')
+    isusable = models.BooleanField('사용여부', default=True)
     creationdatetime = models.DateTimeField('생성시간', default=timezone.now)
     modifydatetime = models.DateTimeField('수정시간', default=timezone.now)
+
