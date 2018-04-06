@@ -1,6 +1,10 @@
+from django.contrib.auth import get_user_model
+
 from members.models import *
 from .reservation_base import ReservationBase
 from travel.models import TravelInformation
+
+User = get_user_model()
 
 
 class RecentVisitPage(ReservationBase):
