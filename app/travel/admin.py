@@ -1,10 +1,12 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import *
 
-admin.site.register(City_Information)
-admin.site.register(City_Hotplace)
-admin.site.register(Company_Information)
-admin.site.register(Travel_Information)
-admin.site.register(Travel_Schedule)
+from .models import CityHotplace, TravelInformation, TravelSchedule, CompanyInformation, CityInformation,TravelInformationImage
+
+admin.site.register(CityInformation)
+admin.site.register(CityHotplace)
+admin.site.register(CompanyInformation)
+admin.site.register(TravelInformation)
+admin.site.register(TravelSchedule)
+admin.site.register(TravelInformationImage)

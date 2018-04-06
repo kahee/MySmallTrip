@@ -9,12 +9,13 @@ from django.test import TestCase
 # Create your tests here.
 from django.urls import reverse
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase, APIRequestFactory
-
+from .models import User
 User = get_user_model()
 
 
-class test_create_user(APITestCase):
+class Test_create_user(APITestCase):
 
     def setUp(self):
         self.test_user = User.objects.create_user(
@@ -60,3 +61,14 @@ class test_create_user(APITestCase):
         print('temp_file.name', temp_file.name)
 
         self.assertTrue(filecmp.cmp(file_path, temp_file.name))
+
+
+class Test_login_user(APITestCase):
+    MODEL = User
+    # VIEW_NAME = 'apis:login:'
+
+    def test_login_user(self):
+        user = User.objects.create_user('hong', 'tjrwo123')
+        token = Token.objects.create(user=user)
+        self.assertEqual(self.client.login(username='hong', password='tjrwo123'))
+        print(user)
