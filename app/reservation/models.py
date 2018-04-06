@@ -33,7 +33,7 @@ class Reservation(models.Model):
 
 class RecentVisitPage(models.Model):
     travel_Schedule = models.ForeignKey(
-        Travel_Schedule,
+        Travel_Information,
         on_delete=models.CASCADE)
     member = models.ForeignKey(
         User,

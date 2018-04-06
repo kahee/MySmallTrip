@@ -33,7 +33,7 @@ class City_Hotplace(models.Model):
     def __str__(self):
         return self.name
 
-
+# 회사+가이드 다 입력
 class Company_Information(models.Model):
     name = models.CharField('회사명', max_length=50)
     info = models.TextField('회사설명')
@@ -69,7 +69,9 @@ class Travel_Information(models.Model):
     category = models.CharField('카테고리', max_length=10, choices=CHOICES_CATEGORY_TYPE, blank=True)
 
     theme = models.CharField('테마', max_length=100, blank=True)
+    #producttype 예시) 상품유형: 가이드투어
     productType = models.CharField('상품타입', max_length=100, blank=True)
+
     language = models.CharField('언어', max_length=3)
     city = models.ForeignKey(
         City_Information,
@@ -82,6 +84,8 @@ class Travel_Information(models.Model):
         verbose_name='company')
     images = models.ImageField('이미지')
     description = models.TextField('상품설명')
+    meetingTime = models.CharField('만남시간', max_length=100)
+    mettingPlace = models.CharField('만남장소', max_length=100)
     isusable = models.BooleanField('사용여부', default=True)
     creationdatetime = models.DateTimeField('생성시간', default=timezone.now)
     modifydatetime = models.DateTimeField('수정시간', default=timezone.now)
@@ -96,19 +100,12 @@ class Travel_Schedule(models.Model):
         on_delete=models.CASCADE,
         verbose_name='travelinfo')
     start_date = models.DateField('여행시작날짜', auto_now_add=True)
-    end_date = models.DateField('여행마끝날짜', auto_now_add=True, blank=True)
+    end_date = models.DateField('여행끝날짜', auto_now_add=True, blank=True)
     price = models.IntegerField('상품금액', default=0)
     price_descrption = models.TextField('상품금액 포함사항')
 
     maxPeople = models.IntegerField
-    member = models.ManyToManyField(
-        User,
-        # through='Member',
-        related_name='reserved_member',
-        # blank=True
-    )
-    meetingTime = models.CharField('만남시간', max_length=100)
-    mettingPlace = models.CharField('만남장소', max_length=100)
+
     isusable = models.BooleanField('사용여부', default=True)
     creationdatetime = models.DateTimeField('생성시간', default=timezone.now)
     modifydatetime = models.DateTimeField('수정시간', default=timezone.now)

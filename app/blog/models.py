@@ -4,12 +4,13 @@ from django.db import models
 from django.utils import timezone
 
 from members.models import *
+from reservation.models import Reservation
 from travel.models import Travel_Schedule
 
 
 class Blog(models.Model):
-    travel_Schedule = models.OneToOneField(
-        Travel_Schedule,
+    travel_Reservation = models.OneToOneField(
+        Reservation,
         on_delete=models.CASCADE,
         primary_key=True
 
