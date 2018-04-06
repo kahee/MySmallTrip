@@ -22,7 +22,6 @@ class TravelDetail:
         product_info = dict(zip(type, info))
         print(product_info)
 
-
         # 가이드 정보
         guide_page = soup.find('div', class_='guide-container')
         guide_img_profile = guide_page.find('img', class_='img-profile').get('src')
@@ -40,13 +39,16 @@ class TravelDetail:
         print(photos)
 
         # 상품 소개
-
         introduce_title = soup.find('div', class_='introduce-container').find('div', class_='title').get_text(
             strip=True)
         introduce_content = soup.find('div', class_='introduce-container').find('p', class_='more').get_text(strip=True)
         introduce = dict()
         introduce[introduce_title] = introduce_content
         print(introduce)
+
+        result = dict()
+
+
 
 
 if __name__ == '__main__':

@@ -7,13 +7,14 @@ User = get_user_model()
 
 
 class LogoutView(APIView):
-    queryset = User.objects.all()
+
 
     def get(self, request):
-        request.user.auth_token.delete()
 
-        data = {
-            "detail": "로그아웃 되었습니다."
-        }
+            request.user.auth_token.delete()
 
-        return Response(data, status=status.HTTP_200_OK)
+            data = {
+                "detail": "로그아웃 되었습니다."
+            }
+
+            return Response(data, status=status.HTTP_200_OK)
