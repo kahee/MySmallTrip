@@ -36,6 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
             'is_facebook_user',
         )
 
+
     def validate_password(self, password):
         # 두개의 비밀번호가 일치하는지 검사
         # 일치하면 비밀번호 유효성 검사 실시
@@ -52,7 +53,6 @@ class UserSerializer(serializers.ModelSerializer):
 
         except ValidationError as e:
             errors['password'] = list(e.messages)
-            print(errors)
 
         if errors:
             raise serializers.ValidationError(errors)

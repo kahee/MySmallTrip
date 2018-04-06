@@ -18,7 +18,5 @@ class TestLogout(APITestCase):
 
         self.create_url = reverse('logout')
 
-
     def test_logout(self):
-
-        self.client.login(username='yuygh131@gmail.com',password='rkgml12345')
+        self.client.login(username='yuygh131@gmail.com', password='rkgml12345')
