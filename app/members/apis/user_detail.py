@@ -79,7 +79,7 @@ class UserDetailPhoneNumberView(APIView):
             # 인증하려는 번호가 이미 사용하고 있는 번호이면 400리턴
             if serializer.validated_data['phone_number'] == user.phone_number:
                 data = {
-                    'detail': f' {user.username}님이 이미 사용하고 있는 휴대폰 번호 입니다. '
+                    'detail': f' {user.username}님이 이미 사용하고 있는 휴대폰 번호 입니다.'
                 }
                 return Response(data, status=status.HTTP_400_BAD_REQUEST)
 

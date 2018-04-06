@@ -15,7 +15,7 @@ class UserAdmin(DjangoUserAdmin):
         (None, {'fields': ('email', 'password', 'username')}),
 
         ('Personal info',
-         {'fields': ('first_name', 'last_name', 'img_profile', 'is_facebook_user', 'certification_number')}),
+         {'fields': ('first_name', 'phone_number', 'img_profile','certification_number','is_facebook_user')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )

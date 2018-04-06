@@ -16,4 +16,4 @@ class LogoutView(APIView):
             "detail": "로그아웃 되었습니다."
         }
 
-        return Response(data,status=status.HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)
