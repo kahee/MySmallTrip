@@ -1,7 +1,13 @@
 
+
+
+from django.contrib.auth import get_user_model
+
+from members.models import *
 from reservation.models.reservation_base import ReservationBase
-from travel.models import TravelInformation, TravelSchedule
-from django.db import models
+from travel.models import TravelSchedule
+
+User = get_user_model()
 
 class Reservation(ReservationBase):
     travel_Schedule = models.ForeignKey(
