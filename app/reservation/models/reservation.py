@@ -1,7 +1,7 @@
-from members.models import *
+
 from reservation.models.reservation_base import ReservationBase
 from travel.models import TravelInformation, TravelSchedule
-
+from django.db import models
 
 class Reservation(ReservationBase):
     travel_Schedule = models.ForeignKey(

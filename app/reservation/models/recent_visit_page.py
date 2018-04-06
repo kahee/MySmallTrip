@@ -1,4 +1,5 @@
-from members.models import *
+
+from django.db import models
 from .reservation_base import ReservationBase
 from travel.models import TravelInformation
 
