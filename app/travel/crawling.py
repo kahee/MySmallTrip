@@ -1,20 +1,22 @@
 import re
 from datetime import datetime
+import time
 
 import os
 import requests
 from bs4 import BeautifulSoup
 from io import BytesIO
 
+from django.core.files import File
 from selenium import webdriver
 
-from utils.file import download, get_buffer_ext
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.production')
 import django
 
 django.setup()
-from travel.models import TravelInformation, CityInformation, CompanyInformation, TravelInformationImage
+from travel.models import CityInformation, CompanyInformation, TravelInformationImage, TravelSchedule
+
+from utils.file import get_buffer_ext
 
 __all__ = (
     'TravelData',
@@ -85,6 +87,7 @@ class TravelData:
             category = product.find_element_by_class_name('category').text
             time = product.find_element_by_class_name('meta-infos').text
 
+            # detail_info = self.travel_detail('1474')
             detail_info = self.travel_detail(product_id)
             detail_basic_info = detail_info[0]
 
@@ -150,9 +153,6 @@ class TravelData:
                 'product_description': product_description,
 
             })
-
-        # city,_ =
-        # print(result)
         return result
 
 
@@ -164,20 +164,22 @@ if __name__ == '__main__':
 
     for travel_info in travel_infos:
 
-        city,_ = CityInformation.objects.get_or_create(
+        # 도시, 회사정보 저장
+        city, _ = CityInformation.objects.get_or_create(
             name=travel_info['city'],
             continent='Europe',
             nationality=travel_info['city'],
         )
 
-        company,_ = CompanyInformation.objects.get_or_create(
+        company, _ = CompanyInformation.objects.get_or_create(
             name=travel_info['guide_name'],
             info=travel_info['guide_description'],
         )
-        print(city,company)
+        print(city, company)
 
+        # 상품정보 저장
 
-        travel,_ = TravelInformation.objects.get_or_create(
+        travel, _ = TravelInformation.objects.get_or_create(
             travel_id=travel_info['product_id'],
             name=travel_info['product_name'],
             category=travel_info['category'],
@@ -192,19 +194,35 @@ if __name__ == '__main__':
             meeting_place='where',
             # is_usable=True,
         )
-        # url_img_product = requests.get(travel_info['product_image'])
-        # binary_data = url_img_product.content
-        # temp_file = BytesIO()
-        # temp_file.write(binary_data)
-        # temp_file.seek(0)
-        # temp_file = download(url_img_product)
-        # file_name = '{prduct_id}.{ext}'.format(
-        #     product_id=travel_infos['product_id'],
-        #     ext=get_buffer_ext(temp_file),
-        # )
-        #
-        # image,_ = TravelInformationImage.objects.get_or_create(
-        #     travel_id = travel,
-        #     img_field = travel_info['product_image'],
-        # )
+
+        # 상품이미지 저장 부분
+
+        id = travel_info['product_id']
+        images = travel_info['product_image']
+
+        for image in images:
+            url_img_product = requests.get(image)
+            # print(url_img_product.content)
+            binary_data = url_img_product.content
+            temp_file = BytesIO()
+            temp_file.write(binary_data)
+            temp_file.seek(0)
+            # temp_file = download(url_img_product)
+            file_name = '{product_id}.{img}.{ext}'.format(
+                product_id=id,
+                img=datetime.now(),
+                ext=get_buffer_ext(temp_file),
+            )
+            timestamp = int(time.mktime(datetime.now().timetuple()))
+            time.sleep(0.5)
+
+            image, _ = TravelInformationImage.objects.get_or_create(
+                travel_id=travel,
+                image_id=timestamp,
+            )
+
+            if image in TravelInformation.objects.all():
+                image.product_image.delete()
+            image.product_image.save(file_name, File(temp_file))
+
         print(travel)

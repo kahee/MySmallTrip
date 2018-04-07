@@ -9,4 +9,7 @@ class TravelInformationImage(ProductBase):
         TravelInformation,
         on_delete=models.CASCADE
     )
-    img_field = models.ImageField('상품이미지', upload_to='product')
+    image_id = models.IntegerField(
+        '이미지 ID'
+    )
+    product_image = models.ImageField('상품이미지', upload_to='product')
