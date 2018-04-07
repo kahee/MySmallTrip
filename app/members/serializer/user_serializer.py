@@ -19,8 +19,8 @@ class UserSerializer(serializers.ModelSerializer):
     phone_number = serializers.CharField(
         required=True,
     )
-    password = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
+    img_profile = serializers.ImageField(required=False, allow_empty_file=True)
 
     class Meta:
         model = User
@@ -69,8 +69,11 @@ class UserSerializer(serializers.ModelSerializer):
             username=validate_data['email'],
             first_name=validate_data['first_name'],
             phone_number=validate_data['phone_number'],
-            img_profile=validate_data['img_profile'],
         )
+
+        if 'img_profile' in validate_data:
+            user.img_profile = validate_data['img_profile']
+
         # 비밀번호 설정 후 저장
         user.set_password(password)
         user.save()

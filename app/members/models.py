@@ -21,7 +21,6 @@ class User(AbstractUser):
         verbose_name='Profile',
         upload_to='user',
         blank=True,
-        null=True,
     )
     is_facebook_user = models.BooleanField(
         verbose_name='Facebook_user',

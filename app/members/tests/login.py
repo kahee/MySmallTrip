@@ -29,3 +29,5 @@ class TestLogin(APITestCase):
 
         token = Token.objects.get(user=user)
         self.assertEqual(response.data['token'], token.key)
+
+
