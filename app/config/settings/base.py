@@ -153,7 +153,6 @@ INSTALLED_APPS = [
     'members',
     'reservation',
     'travel',
-
     'utils',
 ]
 
