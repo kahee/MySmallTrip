@@ -34,12 +34,12 @@ class TravelInformation(ProductBase):
     # producttype 예시) 상품유형: 상품유형
     product_type = models.CharField('상품타입', max_length=100, blank=True)
 
-    language = models.CharField('언어', max_length=3)
+    language = models.CharField('언어', max_length=40)
     city = models.ForeignKey(
         CityInformation,
         on_delete=models.CASCADE,
         verbose_name='city')
-    time = models.CharField('소요시간',max_length=20)
+    time = models.CharField('소요시간',max_length=40)
     company = models.ForeignKey(
         CompanyInformation,
         on_delete=models.CASCADE,
