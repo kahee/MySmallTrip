@@ -4,6 +4,8 @@ from travel.models import CityInformation, CompanyInformation
 from .product_base import ProductBase
 
 
+
+
 class TravelInformation(ProductBase):
     CATEGORY_TYPE_Ticket = 'ticket'
     CATEGORY_TYPE_Convenience = 'convenience'
@@ -37,14 +39,14 @@ class TravelInformation(ProductBase):
         CityInformation,
         on_delete=models.CASCADE,
         verbose_name='city')
-    time = models.IntegerField('소요시간')
+    time = models.CharField('소요시간',max_length=20)
     company = models.ForeignKey(
         CompanyInformation,
         on_delete=models.CASCADE,
         verbose_name='company')
     description = models.TextField('상품설명')
-    meeting_Time = models.CharField('만남시간', max_length=100)
-    metting_Place = models.CharField('만남장소', max_length=100)
+    meeting_time = models.CharField('만남시간', max_length=100)
+    meeting_place = models.CharField('만남장소', max_length=100)
 
     def __str__(self):
         return self.name
