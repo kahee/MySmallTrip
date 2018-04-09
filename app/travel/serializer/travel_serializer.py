@@ -4,11 +4,19 @@ from travel.models import TravelInformation, CityInformation, TravelInformationI
 
 
 class TravelInformationImageSerializer(serializers.ModelSerializer):
+    product_thumbnail = serializers.ImageField(read_only=True)
+    print(product_thumbnail)
+    # product_thumbnail_2x = serializers.ImageField(read_only=True)
+    # product_thumbnail_3x = serializers.ImageField(read_only=True)
+
     class Meta:
         model = TravelInformationImage
         fields = (
             'image_id',
             'product_image',
+            'product_thumbnail',
+            # 'product_thumbnail_2x',
+            # 'product_thumbnail_3x',
         )
 
 

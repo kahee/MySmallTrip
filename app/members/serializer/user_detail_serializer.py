@@ -42,6 +42,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
 
 class ChangeImageSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = (

@@ -6,6 +6,7 @@ WSGI_APPLICATION = 'config.wsgi.local.application'
 
 INSTALLED_APPS +=[
     'django_extensions',
+    'imagekit',
 ]
 STATIC_ROOT = os.path.join(ROOT_DIR, '.static')
 MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
