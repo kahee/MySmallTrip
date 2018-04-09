@@ -19,10 +19,18 @@ class TestLogout(APITestCase):
         self.create_url = reverse('logout')
 
     def test_logout(self):
+        data = {
+            'username': 'yuygh131@gmail.com',
+            'password': 'rkgml12345',
+        }
 
-        response = self.client.get(self.create_url)
-
-
+        response = self.client.post('/login/', data)
         print(response.data)
-        self.assertEqual(response.status_code, 200)
+        user = User.objects.latest('id')
+        token, _ = Token.objects.get_or_create(user=user)
+        # credentials 은 request에 필요한 요청을 헤더에 포함
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
 
+        response = self.client.get(self.create_url,)
+        print(response.data)
+        # self.assertEqual(response.status_code, 200)
