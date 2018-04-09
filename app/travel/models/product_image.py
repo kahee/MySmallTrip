@@ -7,7 +7,8 @@ from .travel_information import TravelInformation
 class TravelInformationImage(ProductBase):
     travel_id = models.ForeignKey(
         TravelInformation,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='images'
     )
     image_id = models.IntegerField(
         '이미지 ID'
