@@ -5,10 +5,9 @@ from bs4 import BeautifulSoup
 from config.settings import ROOT_DIR
 
 
-class TravelDetail:
+class TravelDetailData:
 
-    def travel_detail(self, keyword,):
-
+    def travel_detail(self, keyword, ):
         url = "https://www.myrealtrip.com/offers/" + keyword
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'lxml')
@@ -52,6 +51,6 @@ class TravelDetail:
 
 
 if __name__ == '__main__':
-    crawler = TravelDetail()
+    crawler = TravelDetailData()
     detail = crawler.travel_detail('24589')
     print(detail)

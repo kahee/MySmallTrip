@@ -7,6 +7,10 @@ from .travel_information import TravelInformation
 class TravelInformationImage(ProductBase):
     travel_id = models.ForeignKey(
         TravelInformation,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='images'
     )
-    img_field = models.ImageField('상품이미지', upload_to='product')
+    image_id = models.IntegerField(
+        '이미지 ID'
+    )
+    product_image = models.ImageField('상품이미지', upload_to='product')

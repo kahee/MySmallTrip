@@ -1,8 +1,11 @@
+
+
+
 from django.contrib.auth import get_user_model
 
 from members.models import *
 from reservation.models.reservation_base import ReservationBase
-from travel.models import TravelInformation, TravelSchedule
+from travel.models import TravelSchedule
 
 User = get_user_model()
 
