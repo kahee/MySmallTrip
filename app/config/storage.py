@@ -8,3 +8,4 @@ class StaticFilesStorage(S3Boto3Storage):
 
 class DefaultFileStorage(S3Boto3Storage):
     location = 'media'
+    default_acl = 'public-read'

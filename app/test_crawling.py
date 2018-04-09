@@ -1,16 +1,15 @@
-import os
 import requests
 from bs4 import BeautifulSoup
 
-from config.settings import ROOT_DIR
 
-
-class TravelDetailData:
+class TravelData:
 
     def travel_detail(self, keyword, ):
+
         url = "https://www.myrealtrip.com/offers/" + keyword
         response = requests.get(url)
         soup = BeautifulSoup(response.text, 'lxml')
+        result = []
 
         # 상품유형, 만나는시간, 소유시간, 언어 정보
         products_type = soup.find('div', class_='info-icon-container').find_all('div', class_='text-sm')
@@ -19,7 +18,8 @@ class TravelDetailData:
         info = [item.get_text(strip=True) for item in products_info]
 
         product_info = dict(zip(type, info))
-        print(product_info)
+        # print(product_info)
+        result.append(product_info)
 
         # 가이드 정보
         guide_page = soup.find('div', class_='guide-container')
@@ -30,27 +30,29 @@ class TravelDetailData:
         guide['img_profile'] = guide_img_profile
         guide['name'] = guide_name
         guide['description'] = guide_description
-        print(guide)
-
+        # print(guide)
+        result.append(guide)
         # 사진
-        img_photos = soup.find('ul', class_='item-container').find_all('img', class_='img')
-        photos = [item.get('srcset') for item in img_photos]
+        img_photos = soup.find('ul', class_='item-container').find_all('picture')
+        # print(img_photos)
+
+        photos = [item.find('source').get('srcset') for item in img_photos]
         print(photos)
+        result.append(photos)
 
         # 상품 소개
+
         introduce_title = soup.find('div', class_='introduce-container').find('div', class_='title').get_text(
             strip=True)
         introduce_content = soup.find('div', class_='introduce-container').find('p', class_='more').get_text(strip=True)
         introduce = dict()
         introduce[introduce_title] = introduce_content
         print(introduce)
-
-        result = dict()
-
-
+        result.append(introduce)
+        return result
 
 
 if __name__ == '__main__':
-    crawler = TravelDetailData()
-    detail = crawler.travel_detail('24589')
-    print(detail)
+
+    crawler = TravelData()
+    crawler.travel_detail('2122')

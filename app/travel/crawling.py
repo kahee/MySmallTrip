@@ -10,7 +10,7 @@ from io import BytesIO
 from django.core.files import File
 from selenium import webdriver
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.production')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
 import django
 
 django.setup()
@@ -53,9 +53,9 @@ class TravelData:
         # print(guide)
         result.append(guide)
         # 사진
-        img_photos = soup.find('ul', class_='item-container').find_all('img', class_='img')
-        photos = [item.get('srcset') for item in img_photos]
-        # print(photos)
+        img_photos = soup.find('ul', class_='item-container').find_all('picture')
+        photos = [item.find('source').get('srcset') for item in img_photos]
+        print(photos)
         result.append(photos)
 
         # 상품 소개

@@ -106,7 +106,10 @@ class UserDetailPhoneNumberView(APIView):
             user = User.objects.get(username=request.user)
 
             if not user.certification_number == serializer.validated_data['certification_number']:
-                raise ValidationError('인증번호가 일치하지 않습니다.')
+                data = {
+                    'detail': '인증번호가 일치하지 않습니다.'
+                }
+                return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
             user.phone_number = serializer.validated_data['phone_number']
             user.certification_number = None
@@ -115,7 +118,6 @@ class UserDetailPhoneNumberView(APIView):
             data = {
                 'user': UserSerializer(user).data
             }
-
             return Response(data, status=status.HTTP_200_OK)
 
         else:

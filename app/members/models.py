@@ -8,6 +8,8 @@ from django.db import models, IntegrityError
 # Create your models here.
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from imagekit.models import ImageSpecField, ProcessedImageField
+from pilkit.processors import ResizeToFill
 
 
 class User(AbstractUser):
@@ -17,12 +19,13 @@ class User(AbstractUser):
         # unique=True,
         blank=True,
     )
+
     img_profile = models.ImageField(
         verbose_name='Profile',
         upload_to='user',
         blank=True,
-        null=True,
     )
+
     is_facebook_user = models.BooleanField(
         verbose_name='Facebook_user',
         default=False,
