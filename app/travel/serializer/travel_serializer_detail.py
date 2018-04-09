@@ -19,7 +19,7 @@ class CityInformationSerializer(serializers.ModelSerializer):
         exclude = ('id', 'creation_datetime', 'modify_datetime', 'is_usable')
 
 
-class TravelInformationSerializer(serializers.ModelSerializer):
+class TravelInformationDetailSerializer(serializers.ModelSerializer):
     images = TravelInformationImageSerializer(many=True)
     city = CityInformationSerializer()
 
@@ -30,5 +30,6 @@ class TravelInformationSerializer(serializers.ModelSerializer):
             'name',
             'city',
             'time',
+            'description',
             'images',
         )
