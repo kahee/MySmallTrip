@@ -49,7 +49,7 @@ class TravelInformation(ProductBase):
     price = models.IntegerField('상품금액', default=0)
     price_descrption = models.TextField('상품금액 포함사항')
 
-    maxPeople = models.IntegerField('최대 사람 수')
+    maxPeople = models.IntegerField('최대 사람 수',default=0)
 
     def __str__(self):
         return self.name
