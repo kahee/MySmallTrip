@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class TravelinformationConfig(AppConfig):
-    name = 'TravelInformation'
+class TravelConfig(AppConfig):
+    name = 'travel'
