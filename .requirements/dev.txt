@@ -1,15 +1,15 @@
 beautifulsoup4==4.6.0
 boto3==1.6.6
 botocore==1.9.6
-bs4==0.0.1
 certifi==2018.1.18
 chardet==3.0.4
 coolsms-python-sdk==2.0.3
 decorator==4.2.1
 Django==2.0.3
+django-appconf==1.0.2
 django-extensions==2.0.3
 django-filter==1.1.0
-django-request==1.5.4
+django-imagekit==4.0.2
 django-rest-auth==0.9.3
 django-storages==1.6.5
 djangorestframework==3.7.7
@@ -24,6 +24,7 @@ lxml==4.2.1
 parso==0.1.1
 pexpect==4.4.0
 pickleshare==0.7.4
+pilkit==2.0
 Pillow==5.0.0
 prompt-toolkit==1.0.15
 psycopg2-binary==2.7.4

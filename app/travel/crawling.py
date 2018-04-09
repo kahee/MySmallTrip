@@ -53,9 +53,9 @@ class TravelData:
         # print(guide)
         result.append(guide)
         # 사진
-        img_photos = soup.find('ul', class_='item-container').find_all('img', class_='img')
-        photos = [item.get('srcset') for item in img_photos]
-        # print(photos)
+        img_photos = soup.find('ul', class_='item-container').find_all('picture')
+        photos = [item.find('source').get('srcset') for item in img_photos]
+        print(photos)
         result.append(photos)
 
         # 상품 소개
@@ -223,6 +223,7 @@ if __name__ == '__main__':
 
             if image in TravelInformation.objects.all():
                 image.product_image.delete()
+                image.save()
             image.product_image.save(file_name, File(temp_file))
 
         print(travel)
