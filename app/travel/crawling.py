@@ -11,7 +11,7 @@ from django.core.files import File
 from selenium import webdriver
 
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.production')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
 
 import django
 
@@ -77,89 +77,89 @@ class TravelData:
         main_url = "https://www.myrealtrip.com/offers?" + "city=" + city + "&country=" + country
         driver.get(main_url)
         # 1건 데이터 크롤링 할때 81,82줄 주석처리 하고 78줄 주석해제, for문 안에 있는 내용 줄맞추기
-        # product = driver.find_element_by_class_name('list-wrapper').find_element_by_class_name('item')
+        product = driver.find_element_by_class_name('list-wrapper').find_element_by_class_name('item')
 
         # 여러건 크롤링 할 때
-        travel_product_list = driver.find_element_by_class_name('list-wrapper').find_elements_by_class_name('item')
-        for product in travel_product_list:
+        # travel_product_list = driver.find_element_by_class_name('list-wrapper').find_elements_by_class_name('item')
+        # for product in travel_product_list:
         #
-            product_id_string = product.find_element_by_class_name('offer-link').get_attribute("href")
-            product_id = re.sub(r'[^\d]', '', product_id_string)
-            print(product_id)
-            # product_image_url = product.find_element_by_class_name('profile-img').get_attribute("src")
-            product_profile_name = product.find_element_by_class_name('profile-name').text
-            product_name = product.find_element_by_class_name('name').text
-            price = product.find_element_by_class_name('price').get_attribute("data-offer-price")
-            category = product.find_element_by_class_name('category').text
-            time = product.find_element_by_class_name('meta-infos').text
+        product_id_string = product.find_element_by_class_name('offer-link').get_attribute("href")
+        product_id = re.sub(r'[^\d]', '', product_id_string)
+        print(product_id)
+        # product_image_url = product.find_element_by_class_name('profile-img').get_attribute("src")
+        product_profile_name = product.find_element_by_class_name('profile-name').text
+        product_name = product.find_element_by_class_name('name').text
+        price = product.find_element_by_class_name('price').get_attribute("data-offer-price")
+        category = product.find_element_by_class_name('category').text
+        time = product.find_element_by_class_name('meta-infos').text
 
-            # detail_info = self.travel_detail('1474')
-            detail_info = self.travel_detail(product_id)
-            detail_basic_info = detail_info[0]
+        # detail_info = self.travel_detail('1474')
+        detail_info = self.travel_detail(product_id)
+        detail_basic_info = detail_info[0]
 
-            if '상품 유형' in detail_basic_info:
-                product_type = detail_basic_info['상품 유형']
-            else:
-                product_type = ''
+        if '상품 유형' in detail_basic_info:
+            product_type = detail_basic_info['상품 유형']
+        else:
+            product_type = ''
 
-            if '만나는 시간' in detail_basic_info:
-                meeting_time = detail_basic_info['만나는 시간']
-            else:
-                meeting_time = ''
-            # if detail_basic_info['소요 시간']:
-            #     time = detail_basic_info['소요 시간']
-            if '언어' in detail_basic_info:
-                language = detail_basic_info['언어']
-            else:
-                language = ''
-            detail_second_info = detail_info[1]
+        if '만나는 시간' in detail_basic_info:
+            meeting_time = detail_basic_info['만나는 시간']
+        else:
+            meeting_time = ''
+        # if detail_basic_info['소요 시간']:
+        #     time = detail_basic_info['소요 시간']
+        if '언어' in detail_basic_info:
+            language = detail_basic_info['언어']
+        else:
+            language = ''
+        detail_second_info = detail_info[1]
 
-            if 'img_profile' in detail_second_info:
-                guide_img_profile = detail_second_info['img_profile']
-            else:
-                guide_img_profile = ''
+        if 'img_profile' in detail_second_info:
+            guide_img_profile = detail_second_info['img_profile']
+        else:
+            guide_img_profile = ''
 
-            if 'name' in detail_second_info:
-                guide_name = detail_second_info['name']
-            else:
-                guide_name = ''
-            if 'description' in detail_second_info:
-                guide_description = detail_second_info['description']
-            else:
-                guide_description = ''
-            detail_third_info = detail_info[2]
+        if 'name' in detail_second_info:
+            guide_name = detail_second_info['name']
+        else:
+            guide_name = ''
+        if 'description' in detail_second_info:
+            guide_description = detail_second_info['description']
+        else:
+            guide_description = ''
+        detail_third_info = detail_info[2]
 
-            if detail_third_info:
-                product_image = detail_third_info
-            else:
-                product_image = ''
+        if detail_third_info:
+            product_image = detail_third_info
+        else:
+            product_image = ''
 
-            detail_fourth_info = detail_info[3]
-            if detail_fourth_info:
-                product_description = detail_fourth_info
-            else:
-                product_description = ''
+        detail_fourth_info = detail_info[3]
+        if detail_fourth_info:
+            product_description = detail_fourth_info
+        else:
+            product_description = ''
 
-            result.append({
-                'product_id': product_id,
-                # 'product_image_url': product_image_url,
-                'product_profile_name': product_profile_name,
-                'product_name': product_name,
-                'price': re.sub(r'[^\d.]', '', price),
-                'category': category,
-                'time': time,
-                'product_type': product_type,
-                'meeting_time': meeting_time,
-                'language': language,
-                'city': city,
-                'country': country,
-                'guide_img_profile': guide_img_profile,
-                'guide_name': guide_name,
-                'guide_description': guide_description,
-                'product_image': product_image,
-                'product_description': product_description,
+        result.append({
+            'product_id': product_id,
+            # 'product_image_url': product_image_url,
+            'product_profile_name': product_profile_name,
+            'product_name': product_name,
+            'price': re.sub(r'[^\d.]', '', price),
+            'category': category,
+            'time': time,
+            'product_type': product_type,
+            'meeting_time': meeting_time,
+            'language': language,
+            'city': city,
+            'country': country,
+            'guide_img_profile': guide_img_profile,
+            'guide_name': guide_name,
+            'guide_description': guide_description,
+            'product_image': product_image,
+            'product_description': product_description,
 
-            })
+        })
         return result
 
 
