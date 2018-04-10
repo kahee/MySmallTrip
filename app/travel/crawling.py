@@ -74,9 +74,13 @@ class TravelData:
         driver = webdriver.Chrome('chromedriver')
         main_url = "https://www.myrealtrip.com/offers?" + "city=" + city + "&country=" + country
         driver.get(main_url)
-        travel_product_list = driver.find_element_by_class_name('list-wrapper').find_elements_by_class_name('item')
+        # 1건 데이터 크롤링 할때 81,82줄 주석처리 하고 78줄 주석해제, for문 안에 있는 내용 줄맞추기
         # product = driver.find_element_by_class_name('list-wrapper').find_element_by_class_name('item')
+
+        # 여러건 크롤링 할 때
+        travel_product_list = driver.find_element_by_class_name('list-wrapper').find_elements_by_class_name('item')
         for product in travel_product_list:
+        #
             product_id_string = product.find_element_by_class_name('offer-link').get_attribute("href")
             product_id = re.sub(r'[^\d]', '', product_id_string)
             print(product_id)
@@ -146,6 +150,7 @@ class TravelData:
                 'meeting_time': meeting_time,
                 'language': language,
                 'city': city,
+                'country': country,
                 'guide_img_profile': guide_img_profile,
                 'guide_name': guide_name,
                 'guide_description': guide_description,
@@ -168,7 +173,7 @@ if __name__ == '__main__':
         city, _ = CityInformation.objects.get_or_create(
             name=travel_info['city'],
             continent='Europe',
-            nationality=travel_info['city'],
+            nationality=travel_info['country'],
         )
 
         company, _ = CompanyInformation.objects.get_or_create(
