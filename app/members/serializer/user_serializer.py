@@ -19,6 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
     phone_number = serializers.CharField(
         required=True,
     )
+    password = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
     img_profile = serializers.ImageField(required=False, allow_empty_file=True)
 
@@ -35,7 +36,6 @@ class UserSerializer(serializers.ModelSerializer):
             'password2',
             'is_facebook_user',
         )
-
 
     def validate_password(self, password):
         # 두개의 비밀번호가 일치하는지 검사
