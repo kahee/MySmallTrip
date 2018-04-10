@@ -10,7 +10,9 @@ from io import BytesIO
 from django.core.files import File
 from selenium import webdriver
 
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.production')
+
 import django
 
 django.setup()
@@ -207,6 +209,7 @@ if __name__ == '__main__':
         images = travel_info['product_image']
 
         for image in images:
+            print(image)
             url_img_product = requests.get(image)
             # print(url_img_product.content)
             binary_data = url_img_product.content
@@ -220,12 +223,13 @@ if __name__ == '__main__':
                 ext=get_buffer_ext(temp_file),
             )
             timestamp = int(time.mktime(datetime.now().timetuple()))
-            time.sleep(0.5)
+            time.sleep(1)
 
             image, _ = TravelInformationImage.objects.get_or_create(
                 travel_id=travel,
                 image_id=timestamp,
             )
+            print(image)
 
             if image in TravelInformation.objects.all():
                 image.product_image.delete()
