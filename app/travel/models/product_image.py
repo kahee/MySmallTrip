@@ -16,6 +16,7 @@ class TravelInformationImage(ProductBase):
         '이미지 ID'
     )
     product_image = models.ImageField('상품이미지', upload_to='product')
+
     product_thumbnail = ImageSpecField(
         source='product_image',
         processors=[ResizeToFill(375,199)],

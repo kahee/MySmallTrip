@@ -2,10 +2,13 @@ import re
 from datetime import datetime
 import time
 import os
+from urllib.request import urlopen
+
 import requests
 from bs4 import BeautifulSoup
 from io import BytesIO
 from django.core.files import File
+from django.core.files.base import ContentFile
 from selenium import webdriver
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
@@ -77,9 +80,9 @@ class TravelData:
         product = driver.find_element_by_class_name('list-wrapper').find_element_by_class_name('item')
 
         # 여러건 크롤링 할 때
-        travel_product_list = driver.find_element_by_class_name('list-wrapper').find_elements_by_class_name('item')
+        # travel_product_list = driver.find_element_by_class_name('list-wrapper').find_elements_by_class_name('item')
         # for product in travel_product_list:
-        # #
+        #
         product_id_string = product.find_element_by_class_name('offer-link').get_attribute("href")
         product_id = re.sub(r'[^\d]', '', product_id_string)
         print(product_id)
@@ -206,13 +209,13 @@ if __name__ == '__main__':
         images = travel_info['product_image']
 
         for image in images:
-            print(image)
             url_img_product = requests.get(image)
             # print(url_img_product.content)
             binary_data = url_img_product.content
             temp_file = BytesIO()
             temp_file.write(binary_data)
             temp_file.seek(0)
+
             # temp_file = download(url_img_product)
             file_name = '{product_id}.{img}.{ext}'.format(
                 product_id=id,
@@ -231,7 +234,6 @@ if __name__ == '__main__':
 
             if image in TravelInformation.objects.all():
                 image.product_image.delete()
-            time.sleep(1)
             image.product_image.save(file_name, File(temp_file))
 
         print(travel)
