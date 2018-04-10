@@ -7,3 +7,4 @@ django-storages==1.6.5
 Pillow<6.0.0
 coolsms-python-sdk==2.0.3
 django-imagekit==4.0.2
+psycopg2-binary==2.7.4
