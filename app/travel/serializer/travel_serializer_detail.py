@@ -30,6 +30,7 @@ class TravelInformationDetailSerializer(serializers.ModelSerializer):
             'name',
             'city',
             'time',
+            'price',
             'description',
             'images',
         )

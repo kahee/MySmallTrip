@@ -3,6 +3,10 @@ uWSGI<2.1
 djangorestframework==3.7.7
 boto3<1.7
 Django<2.1
-djangostorages<1.7
+django-storages==1.6.5
 Pillow<6.0.0
 coolsms-python-sdk==2.0.3
+django-imagekit==4.0.2
+psycopg2-binary==2.7.4
+requests==2.18.4
+python-magic==0.4.15
