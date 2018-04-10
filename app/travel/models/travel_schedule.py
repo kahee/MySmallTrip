@@ -1,5 +1,5 @@
+from django.conf import settings
 from django.db import models
-
 from .product_base import ProductBase
 from .travel_information import TravelInformation
 
@@ -10,8 +10,15 @@ class TravelSchedule(ProductBase):
         on_delete=models.CASCADE,
         verbose_name='travel_info')
     start_date = models.DateField('여행시작날짜')
-    end_date = models.DateField('여행끝날짜', blank=True)
+    end_date = models.DateField('여행끝날짜', blank=True, )
+    reversed_people = models.IntegerField('예약자수', default=0)
 
+    reserved_user = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        through='reservation.Reservation',
+        related_name="reserve_travel",
+        blank=True,
+    )
 
     class Meta:
         ordering = ['-creation_datetime']
