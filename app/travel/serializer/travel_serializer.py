@@ -36,6 +36,7 @@ class TravelInformationSerializer(serializers.ModelSerializer):
             'pk',
             'name',
             'city',
+            'price',
             'time',
             'images',
         )

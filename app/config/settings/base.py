@@ -131,6 +131,7 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 
 MEDIA_URL = '/media/'
 
+IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
 # Application definition
 
 AUTH_USER_MODEL = 'members.User'
