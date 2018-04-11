@@ -1,6 +1,7 @@
 import magic
 from django.core.files import File
 from django.db import models
+
 from io import BytesIO
 from PIL import Image
 
@@ -56,3 +57,7 @@ class TravelInformationImage(ProductBase):
             self.product_image_thumbnail.save(f'{name}_thumbnail.{ext}', File(temp_file), save=False)
         else:
             self.product_image_thumbnail.delete(save=False)
+<<<<<<< HEAD
+=======
+>>>>>>> b1586be8acf053a85cd1fc25e13f9fada2e6c842
+>>>>>>> 399949c218f2bab6a8517d2a34bf647dbe1f0f8a
