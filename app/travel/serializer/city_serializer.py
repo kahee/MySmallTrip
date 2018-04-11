@@ -8,4 +8,6 @@ class CityInformationSerializer(serializers.ModelSerializer):
         fields = (
             'name',
             'nationality',
+            'city_image',
+            'city_image_thumbnail',
         )
