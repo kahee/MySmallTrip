@@ -83,6 +83,8 @@ class TravelData:
         # travel_product_list = driver.find_element_by_class_name('list-wrapper').find_elements_by_class_name('item')
         # for product in travel_product_list:
         #
+        city_img_url = driver.find_element_by_class_name('header-container').find_element_by_tag_name('meta').get_attribute('content')
+        print(city_img_url)
         product_id_string = product.find_element_by_class_name('offer-link').get_attribute("href")
         product_id = re.sub(r'[^\d]', '', product_id_string)
         print(product_id)
@@ -152,6 +154,7 @@ class TravelData:
             'meeting_time': meeting_time,
             'language': language,
             'city': city,
+            'city_img_url': city_img_url,
             'country': country,
             'guide_img_profile': guide_img_profile,
             'guide_name': guide_name,
@@ -167,7 +170,7 @@ if __name__ == '__main__':
     from travel.models import TravelInformation
 
     crawler = TravelData()
-    travel_infos = crawler.travel_infomation('Netherlands', 'Amsterdam')
+    travel_infos = crawler.travel_infomation('Switzerland', 'Zurich')
 
     for travel_info in travel_infos:
 
@@ -176,13 +179,39 @@ if __name__ == '__main__':
             name=travel_info['city'],
             continent='Europe',
             nationality=travel_info['country'],
+
         )
 
+        # 도시이미지 저장부분
+        url_img_city= requests.get(travel_info['city_img_url'])
+        binary_data = url_img_city.content
+        temp_file = BytesIO()
+        temp_file.write(binary_data)
+        temp_file.seek(0)
+        file_name = '{city_id}.{img}.{ext}'.format(
+            city_id=id,
+            img=datetime.now(),
+            ext=get_buffer_ext(temp_file),
+        )
+        city.city_image.save(file_name, File(temp_file))
+
+        # 가이드 정보 저장
         company, _ = CompanyInformation.objects.get_or_create(
             name=travel_info['guide_name'],
             info=travel_info['guide_description'],
         )
-        print(city, company)
+        # 가이드 이미지 저장
+        url_img_company = requests.get(travel_info['city_img_url'])
+        binary_data = url_img_company.content
+        temp_file = BytesIO()
+        temp_file.write(binary_data)
+        temp_file.seek(0)
+        file_name = '{company_id}.{img}.{ext}'.format(
+            company_id=id,
+            img=datetime.now(),
+            ext=get_buffer_ext(temp_file),
+        )
+        company.company_image.save(file_name, File(temp_file))
 
         # 상품정보 저장
 
@@ -202,6 +231,7 @@ if __name__ == '__main__':
             price=travel_info['price'],
             # is_usable=True,
         )
+
 
         # 상품이미지 저장 부분
 

@@ -9,6 +9,7 @@ class TravelInformationImageSerializer(serializers.ModelSerializer):
         fields = (
             'image_id',
             'product_image',
+            'product_image_thumbnail',
         )
 
 
