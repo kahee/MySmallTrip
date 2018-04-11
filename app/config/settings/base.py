@@ -131,7 +131,6 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 
 MEDIA_URL = '/media/'
 
-IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
 # Application definition
 
 AUTH_USER_MODEL = 'members.User'
@@ -172,6 +171,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
 
 }
 

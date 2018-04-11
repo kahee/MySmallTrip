@@ -10,7 +10,7 @@ urlpatterns = [
     path('', CityInformationView.as_view(), name='city-information'),
     # path('<int:travel_id>/', TravelInformationView.as_view(), name='travel-information'),
     path('<str:cityname>/',TravelInformationView.as_view(), name='travel-information'),
-    path('<str:cityname>/<int:pk>', TravelInformationDetailView.as_view(), name='travel-information-detail')
+    path('<str:cityname>/<int:pk>/', TravelInformationDetailView.as_view(), name='travel-information-detail')
 
     # path('travel-detail/', TravelInformationDetailView.as_view(),name='travel-information-detail')
 ]
