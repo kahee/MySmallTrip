@@ -8,7 +8,6 @@ from rest_framework.renderers import JSONRenderer
 
 
 class CityInformationView(APIView):
-    renderer_classes = (JSONRenderer,)
     def get(self, request,format=None):
         city_informations = CityInformation.objects.all()
         serializer = CityInformationSerializer(city_informations, many=True)
