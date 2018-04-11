@@ -11,7 +11,7 @@ from django.core.files import File
 from selenium import webdriver
 
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
 
 import django
 
@@ -172,7 +172,7 @@ if __name__ == '__main__':
     from travel.models import TravelInformation
 
     crawler = TravelData()
-    travel_infos = crawler.travel_infomation('Switzerland', 'Zurich')
+    travel_infos = crawler.travel_infomation('United+Kingdom', 'London')
 
     for travel_info in travel_infos:
 
