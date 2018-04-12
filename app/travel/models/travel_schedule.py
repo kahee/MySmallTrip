@@ -10,7 +10,7 @@ class TravelSchedule(ProductBase):
         on_delete=models.CASCADE,
         verbose_name='travel_info')
     start_date = models.DateField('여행시작날짜')
-    end_date = models.DateField('여행끝날짜', blank=True,null=True)
+    end_date = models.DateField('여행끝날짜', blank=True, null=True)
 
     reserved_user = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
