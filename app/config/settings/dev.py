@@ -22,8 +22,7 @@ INSTALLED_APPS += [
 # S3대신 EC2에서 정적파일을 제공 (프리티어의 put사용량 절감을 위해 )
 STATICFILES_STORAGE = 'config.storage.StaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'config.storage.DefaultFileStorage'
-# IMAGEKIT_DEFAULT_FILE_STORAGE = 'config.storage.DefaultFileStorage'
-IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
+
 def is_ec2_linux():
     """Detect if we are running on an EC2 Linux Instance
        See http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/identify_ec2_instances.html
