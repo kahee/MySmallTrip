@@ -1,15 +1,14 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 
 from members.models import *
 from reservation.models.reservation_base import ReservationBase
 from travel.models import TravelSchedule
 
-User = get_user_model()
-
-
 __all__ = (
     'Reservation',
 )
+
 
 class Reservation(ReservationBase):
     travel_Schedule = models.ForeignKey(
@@ -18,7 +17,7 @@ class Reservation(ReservationBase):
         verbose_name='travel_schedule'
     )
     member = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         verbose_name='user'
 

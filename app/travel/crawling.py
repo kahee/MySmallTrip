@@ -11,7 +11,7 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from selenium import webdriver
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
 
 import django
 
