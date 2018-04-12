@@ -132,7 +132,6 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 MEDIA_URL = '/media/'
 
 # Application definition
-
 AUTH_USER_MODEL = 'members.User'
 
 INSTALLED_APPS = [

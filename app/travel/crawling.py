@@ -1,15 +1,15 @@
 import re
 from datetime import datetime
 import time
-
 import os
+from urllib.request import urlopen
+
 import requests
 from bs4 import BeautifulSoup
 from io import BytesIO
-
 from django.core.files import File
+from django.core.files.base import ContentFile
 from selenium import webdriver
-
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
 
@@ -120,7 +120,6 @@ class TravelData:
             guide_img_profile = detail_second_info['img_profile']
         else:
             guide_img_profile = ''
-        print(guide_img_profile)
 
         if 'name' in detail_second_info:
             guide_name = detail_second_info['name']
@@ -136,7 +135,6 @@ class TravelData:
             product_image = detail_third_info
         else:
             product_image = ''
-        print(product_image)
 
         detail_fourth_info = detail_info[3]
         if detail_fourth_info:
@@ -241,13 +239,13 @@ if __name__ == '__main__':
         images = travel_info['product_image']
 
         for image in images:
-            print(image)
             url_img_product = requests.get(image)
             # print(url_img_product.content)
             binary_data = url_img_product.content
             temp_file = BytesIO()
             temp_file.write(binary_data)
             temp_file.seek(0)
+
             # temp_file = download(url_img_product)
             file_name = '{product_id}.{img}.{ext}'.format(
                 product_id=id,
@@ -257,11 +255,12 @@ if __name__ == '__main__':
             timestamp = int(time.mktime(datetime.now().timetuple()))
             time.sleep(1)
 
-            image, _ = TravelInformationImage.objects.get_or_create(
+            image,image_ok = TravelInformationImage.objects.get_or_create(
                 travel_id=travel,
                 image_id=timestamp,
             )
             print(image)
+            print(image_ok)
 
             if image in TravelInformation.objects.all():
                 image.product_image.delete()

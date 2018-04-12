@@ -12,7 +12,7 @@ STATIC_ROOT = os.path.join(ROOT_DIR, '.static')
 MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
