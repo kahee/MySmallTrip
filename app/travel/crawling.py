@@ -170,7 +170,7 @@ if __name__ == '__main__':
     from travel.models import TravelInformation
 
     crawler = TravelData()
-    travel_infos = crawler.travel_infomation('United+Kingdom', 'London')
+    travel_infos = crawler.travel_infomation('Spain', 'Barcelona')
 
     for travel_info in travel_infos:
 
