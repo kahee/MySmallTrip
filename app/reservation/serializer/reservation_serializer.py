@@ -1,9 +1,5 @@
 
-from rest_framework import serializers
 from rest_framework import serializers, status
-from rest_framework.response import Response
-from rest_framework.validators import UniqueTogetherValidator
-
 from members.serializer import UserSerializer, get_user_model
 from reservation.models import Reservation
 from travel.models import TravelSchedule
