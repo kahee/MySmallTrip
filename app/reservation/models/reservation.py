@@ -7,18 +7,24 @@ from travel.models import TravelSchedule
 User = get_user_model()
 
 
+__all__ = (
+    'Reservation',
+)
+
 class Reservation(ReservationBase):
     travel_Schedule = models.ForeignKey(
         TravelSchedule,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='travel_schedule'
     )
     member = models.ForeignKey(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        verbose_name='user'
 
     )
     is_canceled = models.BooleanField('취소여부', default=False)
-    reversed_people = models.IntegerField('예약수', default=0)
+    reserve_people = models.IntegerField('예약수', default=1)
     concept = models.TextField('여행컨셉', blank=True)
     age_generation = models.CharField('연령대', blank=True, max_length=50)
     personal_request = models.TextField('요청사항', blank=True)
