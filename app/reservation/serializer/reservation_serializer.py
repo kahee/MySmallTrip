@@ -8,7 +8,7 @@ from travel.serializer import TravelInformationSerializer
 
 User = get_user_model()
 
-
+#  관리자가 필요한 기능
 class TravelScheduleSerializer(serializers.ModelSerializer):
     travel_info = TravelInformationSerializer()
 
