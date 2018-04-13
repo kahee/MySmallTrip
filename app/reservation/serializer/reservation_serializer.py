@@ -37,20 +37,15 @@ class ReservationSerializer(serializers.ModelSerializer):
             'age_generation',
             'personal_request',
         )
-        # 체크1 (user가 같은 상품을 같은 명수 예약할 때, 같은 예약으로 처리할 지? 다른예약으로 처리할 지?)
-        # validators = UniqueTogetherValidator(
-        #     queryset=Reservation.objects.all(),
-        #     fields=['travel_Schedule', 'member','reserve_people']
-        # )
-
-    def update(self, instance, validated_data):
-        instance.is_canceled = validated_data.get('is_canceled', instance.email)
-        instance.reserve_people = validated_data.get('reserve_people', instance.reserve_people)
-        instance.concept = validated_data.get('concept', instance.concept)
-        instance.age_generation = validated_data.get('age_generation', instance.age_generation)
-        instance.personal_request = validated_data.get('personal_request', instance.personal_request)
-        instance.save()
-        return instance
+    #
+    # def update(self, instance, validated_data):
+    #     instance.is_canceled = validated_data.get('is_canceled', instance.email)
+    #     instance.reserve_people = validated_data.get('reserve_people', instance.reserve_people)
+    #     instance.concept = validated_data.get('concept', instance.concept)
+    #     instance.age_generation = validated_data.get('age_generation', instance.age_generation)
+    #     instance.personal_request = validated_data.get('personal_request', instance.personal_request)
+    #     instance.save()
+    #     return instance
 
     def create(self, validate_data, **kwargs):
         # 1.받은 travel_id 와 user를 검증하고나서 reservation에 저장
