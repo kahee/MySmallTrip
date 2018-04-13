@@ -42,12 +42,13 @@ class TravelInformation(ProductBase):
         CompanyInformation,
         on_delete=models.CASCADE,
         verbose_name='company')
-    description = models.TextField('상품설명')
-    meeting_time = models.CharField('만남시간', max_length=100)
-    meeting_place = models.CharField('만남장소', max_length=100)
+
+    description = models.TextField('상품설명',blank=True)
+    meeting_time = models.CharField('만남시간', max_length=100,blank=True)
+    meeting_place = models.CharField('만남장소', max_length=100,blank=True)
 
     price = models.IntegerField('상품금액', default=0)
-    price_descrption = models.TextField('상품금액 포함사항')
+    price_descrption = models.TextField('상품금액 포함사항',blank=True)
 
     maxPeople = models.IntegerField('최대 사람 수', default=0)
 

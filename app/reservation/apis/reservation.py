@@ -3,12 +3,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from reservation.models import Reservation
-from reservation.serializer import ReservationSerializer
+from reservation.serializer import ReservationSerializer, ReservationCancelSerializer
 
 
 class ReservationView(APIView):
     def get(self, request, **kwargs):
-        reservation_informations = Reservation.objects.all()
+        reservation_informations = Reservation.objects.filter(is_canceled=False)
         serializer = ReservationSerializer(reservation_informations, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
