@@ -1,5 +1,6 @@
 from django.urls import path
 
+from reservation.apis.wish_list import WishListView
 from .apis import ReservationView
 
 urlpatterns = [
@@ -10,5 +11,5 @@ urlpatterns = [
     path('', ReservationView.as_view(), name='reservation'),
     # path('cancel/', ReservationCancleView.as_view(), name='reservation-cancel')
     # path('list/',ReservationListView.as_view(),)
-
+    path('wishlist/', WishListView.as_view(), name='wish-list'),
 ]

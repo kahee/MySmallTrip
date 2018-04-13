@@ -1,22 +1,13 @@
 from django.utils import timezone
-
 from django.contrib.auth.models import AbstractUser
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
 from django.db import models, IntegrityError
-
-# Create your models here.
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-from imagekit.models import ImageSpecField, ProcessedImageField
-from pilkit.processors import ResizeToFill
+from travel.models import TravelInformation
 
 
 class User(AbstractUser):
     email = models.EmailField(
         verbose_name='Email',
         max_length=255,
-        # unique=True,
         blank=True,
     )
 
@@ -47,4 +38,21 @@ class User(AbstractUser):
     creation_datetime = models.DateTimeField('생성시간', default=timezone.now)
     modify_datetime = models.DateTimeField('수정시간', default=timezone.now)
 
+    wish_products = models.ManyToManyField(
+        TravelInformation,
+        through='reservation.WishList',
+        related_name='wish_users',
+        blank=True,
+    )
+
     REQUIRED_FIELDS = ['email', 'first_name']
+    #
+    # def toggle_wish_product(self, travel_id):
+    #     # 유저가 선택한 상품이 이미 선택한 상품인지 체크
+    #     # 만약 없다면 위시리스트에 추가 있으면 위시리스트 삭제
+    #     wish, wish_created = self.wish_products_info_list.get_or_create(pk=travel_id)
+    #
+    #     if not wish_created:
+    #         wish.delete()
+    #
+    #     return wish_created
