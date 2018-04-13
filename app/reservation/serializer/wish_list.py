@@ -16,13 +16,10 @@ class WishListSerializer(serializers.ModelSerializer):
     travel_info = serializers.PrimaryKeyRelatedField(
         queryset=TravelInformation.objects.all(),
         read_only=False,
-        validators=[UniqueValidator(
-            queryset=WishList.objects.all())]
+        # validators=[UniqueValidator(
+        #     queryset=WishList.objects.all()]
     )
 
     class Meta:
         model = WishList
         fields = '__all__'
-
-
-
