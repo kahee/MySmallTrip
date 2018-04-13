@@ -11,7 +11,7 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from selenium import webdriver
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
 
 import django
 
@@ -170,7 +170,7 @@ if __name__ == '__main__':
     from travel.models import TravelInformation
 
     crawler = TravelData()
-    travel_infos = crawler.travel_infomation('', 'Praha')
+    travel_infos = crawler.travel_infomation('Netherlands', 'Hague')
 
     for travel_info in travel_infos:
 
@@ -214,7 +214,6 @@ if __name__ == '__main__':
         company.company_image.save(file_name, File(temp_file))
 
         # 상품정보 저장
-
         travel, _ = TravelInformation.objects.get_or_create(
             travel_id=travel_info['product_id'],
             name=travel_info['product_name'],

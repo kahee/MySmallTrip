@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from reservation.models import Reservation
+from travel.models import TravelSchedule
 
 User = get_user_model()
 

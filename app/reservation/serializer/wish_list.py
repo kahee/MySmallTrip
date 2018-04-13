@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import APIException
 from rest_framework.validators import UniqueTogetherValidator
 
-from members.serializer import UserSerializer
+from members.serializer import UserSerializer, UserSerializerWishList
 from reservation.models import WishList
 from travel.models import TravelInformation
 
@@ -12,7 +12,7 @@ User = get_user_model()
 
 class WishListCreateSerializer(serializers.ModelSerializer):
     # CurrentUserDefault의 경우 context로 request를 넣어서 보내줘야 한다.
-    user = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
+    user = UserSerializerWishList(read_only=True, default=serializers.CurrentUserDefault())
     travel_info = serializers.PrimaryKeyRelatedField(
         queryset=TravelInformation.objects.all(),
         read_only=False,
@@ -20,7 +20,12 @@ class WishListCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WishList
-        fields = '__all__'
+        fields = (
+            'id',
+            'user',
+            'travel_info',
+
+        )
         validators = [
             UniqueTogetherValidator(
                 queryset=WishList.objects.all(),
@@ -38,7 +43,7 @@ class TravelInfoDoesNotExists(APIException):
 
 class WishListDeleteSerializer(serializers.ModelSerializer):
     # travel_info 가 WishList 테이블에 있는지 유효성 검사.
-    user = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
+    user = UserSerializerWishList(read_only=True, default=serializers.CurrentUserDefault())
     travel_info = serializers.PrimaryKeyRelatedField(
         queryset=TravelInformation.objects.all(),
         read_only=False,
@@ -46,7 +51,12 @@ class WishListDeleteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WishList
-        fields = '__all__'
+        fields = (
+            'id',
+            'user',
+            'travel_info',
+
+        )
 
     def validate(self, attrs):
         # 해당 상품이 위시리스트에 있는지 체크

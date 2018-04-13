@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from reservation.models import Reservation
-from reservation.serializer import ReservationSerializer, status
+from reservation.serializer import ReservationSerializer, status, CalenderSerializer
 
 
 class CalenderView(APIView):

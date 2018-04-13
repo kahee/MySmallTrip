@@ -3,9 +3,8 @@ from django.contrib.auth import get_user_model
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from reservation.models import WishList
 from reservation.serializer.wish_list import WishListCreateSerializer, WishListDeleteSerializer
+from travel.serializer import TravelInformationWishListSerializer
 
 User = get_user_model()
 
@@ -14,6 +13,14 @@ class WishListView(APIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
+
+    def get(self, request):
+        user = User.objects.get(username=request.user)
+        wish_lists = user.wish_products.all()
+        serializer = TravelInformationWishListSerializer(wish_lists, many=True)
+        return Response(serializer.data, status.HTTP_200_OK)
+
+
 
     def post(self, request):
         """
