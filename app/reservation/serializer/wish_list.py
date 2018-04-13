@@ -1,8 +1,5 @@
 from django.contrib.auth import get_user_model
-from django_extensions import logging
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
-
 from members.serializer import UserSerializer
 from reservation.models import WishList
 from travel.models import TravelInformation
