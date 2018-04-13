@@ -37,19 +37,21 @@ class TravelInformation(ProductBase):
         CityInformation,
         on_delete=models.CASCADE,
         verbose_name='city')
-    time = models.CharField('소요시간',max_length=40)
+    time = models.CharField('소요시간', max_length=40)
     company = models.ForeignKey(
         CompanyInformation,
         on_delete=models.CASCADE,
         verbose_name='company')
+
     description = models.TextField('상품설명',blank=True)
     meeting_time = models.CharField('만남시간', max_length=100,blank=True)
     meeting_place = models.CharField('만남장소', max_length=100,blank=True)
-    
+
     price = models.IntegerField('상품금액', default=0)
     price_descrption = models.TextField('상품금액 포함사항',blank=True)
 
-    maxPeople = models.IntegerField('최대 사람 수',default=0)
+    maxPeople = models.IntegerField('최대 사람 수', default=0)
 
     def __str__(self):
         return self.name
+
