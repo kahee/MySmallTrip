@@ -34,3 +34,17 @@ class TravelInformationSerializer(serializers.ModelSerializer):
             'time',
             'images',
         )
+
+
+class TravelInformationWishListSerializer(serializers.ModelSerializer):
+    city = CityInformationSerializer()
+
+    class Meta:
+        model = TravelInformation
+        fields = (
+            'pk',
+            'name',
+            'city',
+            'price',
+            'time',
+        )

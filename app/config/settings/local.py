@@ -19,3 +19,5 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+# imagekit 설정
+IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'config.settings.imagekit-strategy.FixJustInTime'
