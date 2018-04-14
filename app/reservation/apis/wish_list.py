@@ -20,8 +20,6 @@ class WishListView(APIView):
         serializer = TravelInformationWishListSerializer(wish_lists, many=True)
         return Response(serializer.data, status.HTTP_200_OK)
 
-
-
     def post(self, request):
         """
         위시리스트 생성
