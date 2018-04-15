@@ -82,87 +82,91 @@ class TravelData:
         # 여러건 크롤링 할 때
         # travel_product_list = driver.find_element_by_class_name('list-wrapper').find_elements_by_class_name('item')
         # for product in travel_product_list:
-        #
-        city_img_url = driver.find_element_by_class_name('header-container').find_element_by_tag_name('meta').get_attribute('content')
-        print(city_img_url)
-        product_id_string = product.find_element_by_class_name('offer-link').get_attribute("href")
-        product_id = re.sub(r'[^\d]', '', product_id_string)
-        print(product_id)
-        # product_image_url = product.find_element_by_class_name('profile-img').get_attribute("src")
-        product_profile_name = product.find_element_by_class_name('profile-name').text
-        product_name = product.find_element_by_class_name('name').text
-        price = product.find_element_by_class_name('price').get_attribute("data-offer-price")
-        category = product.find_element_by_class_name('category').text
-        time = product.find_element_by_class_name('meta-infos').text
+        count = 0
+        while count < 3:
+            count += 1
 
-        # detail_info = self.travel_detail('1474')
-        detail_info = self.travel_detail(product_id)
-        detail_basic_info = detail_info[0]
+            city_img_url = driver.find_element_by_class_name('header-container').find_element_by_tag_name(
+                'meta').get_attribute('content')
+            print(city_img_url)
+            product_id_string = product.find_element_by_class_name('offer-link').get_attribute("href")
+            product_id = re.sub(r'[^\d]', '', product_id_string)
+            print(product_id)
+            # product_image_url = product.find_element_by_class_name('profile-img').get_attribute("src")
+            product_profile_name = product.find_element_by_class_name('profile-name').text
+            product_name = product.find_element_by_class_name('name').text
+            price = product.find_element_by_class_name('price').get_attribute("data-offer-price")
+            category = product.find_element_by_class_name('category').text
+            time = product.find_element_by_class_name('meta-infos').text
 
-        if '상품 유형' in detail_basic_info:
-            product_type = detail_basic_info['상품 유형']
-        else:
-            product_type = ''
+            # detail_info = self.travel_detail('1474')
+            detail_info = self.travel_detail(product_id)
+            detail_basic_info = detail_info[0]
 
-        if '만나는 시간' in detail_basic_info:
-            meeting_time = detail_basic_info['만나는 시간']
-        else:
-            meeting_time = ''
-        # if detail_basic_info['소요 시간']:
-        #     time = detail_basic_info['소요 시간']
-        if '언어' in detail_basic_info:
-            language = detail_basic_info['언어']
-        else:
-            language = ''
-        detail_second_info = detail_info[1]
+            if '상품 유형' in detail_basic_info:
+                product_type = detail_basic_info['상품 유형']
+            else:
+                product_type = ''
 
-        if 'img_profile' in detail_second_info:
-            guide_img_profile = detail_second_info['img_profile']
-        else:
-            guide_img_profile = ''
+            if '만나는 시간' in detail_basic_info:
+                meeting_time = detail_basic_info['만나는 시간']
+            else:
+                meeting_time = ''
+            # if detail_basic_info['소요 시간']:
+            #     time = detail_basic_info['소요 시간']
+            if '언어' in detail_basic_info:
+                language = detail_basic_info['언어']
+            else:
+                language = ''
+            detail_second_info = detail_info[1]
 
-        if 'name' in detail_second_info:
-            guide_name = detail_second_info['name']
-        else:
-            guide_name = ''
-        if 'description' in detail_second_info:
-            guide_description = detail_second_info['description']
-        else:
-            guide_description = ''
-        detail_third_info = detail_info[2]
+            if 'img_profile' in detail_second_info:
+                guide_img_profile = detail_second_info['img_profile']
+            else:
+                guide_img_profile = ''
 
-        if detail_third_info:
-            product_image = detail_third_info
-        else:
-            product_image = ''
+            if 'name' in detail_second_info:
+                guide_name = detail_second_info['name']
+            else:
+                guide_name = ''
+            if 'description' in detail_second_info:
+                guide_description = detail_second_info['description']
+            else:
+                guide_description = ''
+            detail_third_info = detail_info[2]
 
-        detail_fourth_info = detail_info[3]
-        if detail_fourth_info:
-            product_description = detail_fourth_info
-        else:
-            product_description = ''
+            if detail_third_info:
+                product_image = detail_third_info
+            else:
+                product_image = ''
 
-        result.append({
-            'product_id': product_id,
-            # 'product_image_url': product_image_url,
-            'product_profile_name': product_profile_name,
-            'product_name': product_name,
-            'price': re.sub(r'[^\d.]', '', price),
-            'category': category,
-            'time': time,
-            'product_type': product_type,
-            'meeting_time': meeting_time,
-            'language': language,
-            'city': city,
-            'city_img_url': city_img_url,
-            'country': country,
-            'guide_img_profile': guide_img_profile,
-            'guide_name': guide_name,
-            'guide_description': guide_description,
-            'product_image': product_image,
-            'product_description': product_description,
+            detail_fourth_info = detail_info[3]
+            if detail_fourth_info:
+                product_description = detail_fourth_info
+            else:
+                product_description = ''
 
-        })
+            result.append({
+                'product_id': product_id,
+                # 'product_image_url': product_image_url,
+                'product_profile_name': product_profile_name,
+                'product_name': product_name,
+                'price': re.sub(r'[^\d.]', '', price),
+                'category': category,
+                'time': time,
+                'product_type': product_type,
+                'meeting_time': meeting_time,
+                'language': language,
+                'city': city,
+                'city_img_url': city_img_url,
+                'country': country,
+                'guide_img_profile': guide_img_profile,
+                'guide_name': guide_name,
+                'guide_description': guide_description,
+                'product_image': product_image,
+                'product_description': product_description,
+
+            })
         return result
 
 
@@ -170,7 +174,7 @@ if __name__ == '__main__':
     from travel.models import TravelInformation
 
     crawler = TravelData()
-    travel_infos = crawler.travel_infomation('Netherlands', 'Hague')
+    travel_infos = crawler.travel_infomation('Czech+Republic', 'Praha')
 
     for travel_info in travel_infos:
 
@@ -183,7 +187,7 @@ if __name__ == '__main__':
         )
 
         # 도시이미지 저장부분
-        url_img_city= requests.get(travel_info['city_img_url'])
+        url_img_city = requests.get(travel_info['city_img_url'])
         binary_data = url_img_city.content
         temp_file = BytesIO()
         temp_file.write(binary_data)
@@ -231,7 +235,6 @@ if __name__ == '__main__':
             # is_usable=True,
         )
 
-
         # 상품이미지 저장 부분
 
         id = travel_info['product_id']
@@ -254,7 +257,7 @@ if __name__ == '__main__':
             timestamp = int(time.mktime(datetime.now().timetuple()))
             time.sleep(1)
 
-            image,image_ok = TravelInformationImage.objects.get_or_create(
+            image, image_ok = TravelInformationImage.objects.get_or_create(
                 travel_id=travel,
                 image_id=timestamp,
             )

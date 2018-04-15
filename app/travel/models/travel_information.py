@@ -4,6 +4,10 @@ from travel.models import CityInformation, CompanyInformation
 from .product_base import ProductBase
 
 
+__all__ = (
+    'TravelInformation',
+)
+
 class TravelInformation(ProductBase):
     CATEGORY_TYPE_Ticket = 'ticket'
     CATEGORY_TYPE_Convenience = 'convenience'
