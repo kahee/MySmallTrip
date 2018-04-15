@@ -11,7 +11,7 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from selenium import webdriver
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
 
 import django
 
@@ -84,7 +84,7 @@ class TravelData:
         # for product in travel_product_list:
         count = 0
         while count < 3:
-            count+=1
+            count += 1
 
             city_img_url = driver.find_element_by_class_name('header-container').find_element_by_tag_name(
                 'meta').get_attribute('content')
@@ -218,7 +218,6 @@ if __name__ == '__main__':
         company.company_image.save(file_name, File(temp_file))
 
         # 상품정보 저장
-
         travel, _ = TravelInformation.objects.get_or_create(
             travel_id=travel_info['product_id'],
             name=travel_info['product_name'],

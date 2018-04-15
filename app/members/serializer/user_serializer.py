@@ -1,10 +1,23 @@
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.password_validation import validate_password
-from rest_framework import serializers, status, exceptions
-from rest_framework.exceptions import APIException, ValidationError
+from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
 
 User = get_user_model()
+
+
+class UserSerializerWishList(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'pk',
+            'username',
+            'email',
+            'first_name',
+            'is_facebook_user',
+            'wish_products',
+        )
 
 
 class UserSerializer(serializers.ModelSerializer):
