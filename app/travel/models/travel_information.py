@@ -47,6 +47,7 @@ class TravelInformation(ProductBase):
         on_delete=models.CASCADE,
         verbose_name='company')
 
+    description_title = models.TextField('상품설명제목',blank=True, null=True)
     description = models.TextField('상품설명',blank=True)
     meeting_time = models.CharField('만남시간', max_length=100,blank=True)
     meeting_place = models.CharField('만남장소', max_length=100,blank=True)
@@ -55,6 +56,7 @@ class TravelInformation(ProductBase):
     price_descrption = models.TextField('상품금액 포함사항',blank=True)
 
     maxPeople = models.IntegerField('최대 사람 수', default=0)
+
 
     def __str__(self):
         return self.name

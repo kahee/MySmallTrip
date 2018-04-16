@@ -4,7 +4,8 @@ from ..models import TravelInformation, TravelSchedule
 
 
 class TravelInformationScheduleSerializer(serializers.ModelSerializer):
-    # is_possible = serializers.SerializerMethodField(source='get_is_possible')
+    # is_possible = serializers.SerializerMethodField(read_only=True)
+    # people = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = TravelSchedule
@@ -12,6 +13,7 @@ class TravelInformationScheduleSerializer(serializers.ModelSerializer):
             # 'is_possible',
             'travel_info',
             'start_date',
+            # 'people',
             'reserved_people',
         )
 
@@ -27,6 +29,7 @@ class TravelInformationScheduleSerializer(serializers.ModelSerializer):
 
 
 class TravelInformationDetailCalenderSerializer(serializers.ModelSerializer):
+    # people = TravelInformationScheduleSerializer()
     schedules = TravelInformationScheduleSerializer(many=True)
 
     class Meta:

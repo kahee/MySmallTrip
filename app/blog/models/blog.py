@@ -4,7 +4,7 @@ from reservation.models import Reservation
 
 
 class Blog(BlogBase):
-    travel_Reservation = models.OneToOneField(
+    travel_reservation = models.OneToOneField(
         Reservation,
         on_delete=models.CASCADE,
         primary_key=True
