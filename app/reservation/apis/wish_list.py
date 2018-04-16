@@ -1,15 +1,22 @@
 from django.contrib.auth import get_user_model
 
 from rest_framework import permissions, status
+from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from reservation.serializer.wish_list import WishListCreateSerializer, WishListDeleteSerializer
+
+from reservation.models import WishTravel
+from reservation.serializer.wish_list import WishListCreateSerializer
 from travel.serializer import TravelInformationWishListSerializer
 
 User = get_user_model()
 
 
-class WishListView(APIView):
+class WishTravelListCreateView(APIView):
+    # 모델 명 바꾸기
+    # 1. WishTraveled
+    # 2. api view create ,  reterive, delete 이렇게 나눠서
+
     permission_classes = (
         permissions.IsAuthenticated,
     )
@@ -42,6 +49,15 @@ class WishListView(APIView):
         else:
             return Response(status.HTTP_400_BAD_REQUEST)
 
+
+#  해당 상품이 위시리스트에 있는지 체크
+class TravelInfoDoesNotExists(APIException):
+    status_code = 400
+    default_detail = '해당 상품이 위시리스트에 없습니다.'
+    default_code = 'travel_info_DoesNotExists'
+
+
+class WishTravelDeleteView(APIView):
     def delete(self, request):
         """
         위시리스트 삭제
@@ -49,20 +65,15 @@ class WishListView(APIView):
         :return:
         """
 
-        context = {
-            "request": self.request,
-        }
+        try:
+            wish_product = WishTravel.objects.get(travel_info=request.data['travel_info'], user=request.user)
 
-        serializer = WishListDeleteSerializer(data=request.data, context=context)
-
-        if serializer.is_valid(raise_exception=True):
-
-            user = User.objects.get(username=serializer.validated_data['user'])
-            wish_product = user.wish_products_info_list.get(travel_info=serializer.validated_data['travel_info'])
-            delete = wish_product.delete()
-
-            if delete:
+            if wish_product:
+                wish_product.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response(status.HTTP_400_BAD_REQUEST)
 
-        else:
-            return Response(status.HTTP_400_BAD_REQUEST)
+        except WishTravel.DoesNotExist:
+            raise TravelInfoDoesNotExists
+#

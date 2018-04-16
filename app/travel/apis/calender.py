@@ -7,15 +7,20 @@ from travel.models import TravelInformation
 from travel.serializer import TravelInformationSerializer, TravelInformationDetailCalenderSerializer
 
 
+
 class TravelInformationDetailCalenderView(APIView):
-    def get(self, request, *args, **kwargs):
-        # print(request.META)
-        people = request.META.get('HTTP_PEOPLE')
+
+    def post(self, request, *args, **kwargs):
         travel_detail_informations = TravelInformation.objects.filter(city__name=kwargs['cityname']).filter(
             pk=kwargs['pk'])
-        serializer = TravelInformationDetailCalenderSerializer(travel_detail_informations )
 
-        # serializer = TravelInformationDetailCalenderSerializer(data={'people':people})
+        context = {
+            'people': request.data['people']
+        }
 
-        # serializer.is_valid()
+        print(request.data['people'])
+        serializer = TravelInformationDetailCalenderSerializer(data=travel_detail_informations, context=context, many=True)
+        print(serializer)
+        serializer.is_valid()
+
         return Response(serializer.data, status=status.HTTP_200_OK)
