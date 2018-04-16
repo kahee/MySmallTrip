@@ -5,11 +5,11 @@ from . import ReservationBase
 from ..models import TravelInformation
 
 __all__ = (
-    'WishList',
+    'WishTravel',
 )
 
 
-class WishList(ReservationBase):
+class WishTravel(ReservationBase):
     travel_info = models.ForeignKey(
         TravelInformation,
         on_delete=models.CASCADE,
@@ -23,6 +23,6 @@ class WishList(ReservationBase):
 
     class Meta:
         app_label = 'reservation'
-        # unique_together = (
-        #     ('travel_info', 'user'),
-        # )
+        unique_together = (
+            ('travel_info', 'user'),
+        )

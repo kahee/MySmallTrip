@@ -40,7 +40,7 @@ class User(AbstractUser):
 
     wish_products = models.ManyToManyField(
         TravelInformation,
-        through='reservation.WishList',
+        through='reservation.WishTravel',
         related_name='wish_users',
         blank=True,
     )

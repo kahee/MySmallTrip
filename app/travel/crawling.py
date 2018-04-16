@@ -2,13 +2,11 @@ import re
 from datetime import datetime
 import time
 import os
-from urllib.request import urlopen
 
 import requests
 from bs4 import BeautifulSoup
 from io import BytesIO
 from django.core.files import File
-from django.core.files.base import ContentFile
 from selenium import webdriver
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
@@ -47,7 +45,7 @@ class TravelData:
         guide_page = soup.find('div', class_='guide-container')
         guide_img_profile = guide_page.find('img', class_='img-profile').get('src')
         guide_name = guide_page.find('div', class_='guide-name').get_text(strip=True)
-        guide_description = guide_page.find('div', class_='guide-description').get_text(strip=True)
+        guide_description = guide_page.find('div', class_='guide-description').get_text()
         guide = dict()
         guide['img_profile'] = guide_img_profile
         guide['name'] = guide_name
@@ -57,18 +55,17 @@ class TravelData:
         # 사진
         img_photos = soup.find('ul', class_='item-container').find_all('picture')
         photos = [item.find('source').get('srcset') for item in img_photos]
-        print(photos)
         result.append(photos)
 
         # 상품 소개
 
-        introduce_title = soup.find('div', class_='introduce-container').find('div', class_='title').get_text(
-            strip=True)
-        introduce_content = soup.find('div', class_='introduce-container').find('p', class_='more').get_text(strip=True)
-        introduce = dict()
-        introduce[introduce_title] = introduce_content
-        # print(introduce)
-        result.append(introduce)
+        introduce_title = soup.find('div', class_='introduce-container').find('div', class_='title').get_text()
+        introduce_content = soup.find('div', class_='introduce-container').find('p', class_='more').get_text()
+        introudce = dict()
+        introudce['introduce_title'] = introduce_title
+        introudce['introduce_content'] = introduce_content
+
+        result.append(introudce)
         return result
 
     def travel_infomation(self, country, city):
@@ -91,7 +88,6 @@ class TravelData:
             print(city_img_url)
             product_id_string = product.find_element_by_class_name('offer-link').get_attribute("href")
             product_id = re.sub(r'[^\d]', '', product_id_string)
-            print(product_id)
             # product_image_url = product.find_element_by_class_name('profile-img').get_attribute("src")
             product_profile_name = product.find_element_by_class_name('profile-name').text
             product_name = product.find_element_by_class_name('name').text
@@ -142,8 +138,11 @@ class TravelData:
 
             detail_fourth_info = detail_info[3]
             if detail_fourth_info:
-                product_description = detail_fourth_info
+                product_title = detail_fourth_info['introduce_title']
+                product_description = detail_fourth_info['introduce_content']
+
             else:
+                product_title = ''
                 product_description = ''
 
             result.append({
@@ -164,6 +163,7 @@ class TravelData:
                 'guide_name': guide_name,
                 'guide_description': guide_description,
                 'product_image': product_image,
+                'product_title': product_title,
                 'product_description': product_description,
 
             })
@@ -228,6 +228,7 @@ if __name__ == '__main__':
             city=city,
             time=travel_info['time'],
             company=company,
+            description_title=travel_info['product_title'],
             description=travel_info['product_description'],
             meeting_time=travel_info['meeting_time'],
             meeting_place='where',
@@ -261,11 +262,8 @@ if __name__ == '__main__':
                 travel_id=travel,
                 image_id=timestamp,
             )
-            print(image)
-            print(image_ok)
-
             if image in TravelInformation.objects.all():
                 image.product_image.delete()
             image.product_image.save(file_name, File(temp_file))
 
-        print(travel)
+
