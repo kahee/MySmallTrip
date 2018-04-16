@@ -4,33 +4,30 @@ from ..models import TravelInformation, TravelSchedule
 
 
 class TravelInformationScheduleSerializer(serializers.ModelSerializer):
-    is_possible = serializers.SerializerMethodField(read_only=True)
-    people = serializers.IntegerField()
+    # is_possible = serializers.SerializerMethodField(source='get_is_possible')
 
     class Meta:
         model = TravelSchedule
         fields = (
-            'is_possible',
+            # 'is_possible',
             'travel_info',
             'start_date',
-            'people',
             'reserved_people',
         )
 
-    def get_is_possible(self, attrs):
-        maxPeople = attrs.travel_info.maxPeople
-        reserved_people = attrs.reserved_people
-        reserve_people = self.people
-
-        if maxPeople < reserve_people + reserved_people:
-            return False
-        else:
-            return True
+    # def get_is_possible(self, attrs):
+    #     maxPeople = attrs.travel_info.maxPeople
+    #     reserved_people = attrs.reserved_people
+    #     reserve_people = 4
+    #
+    #     if maxPeople < reserve_people + reserved_people:
+    #         return False
+    #     else:
+    #         return True
 
 
 class TravelInformationDetailCalenderSerializer(serializers.ModelSerializer):
-    # people = serializers.IntegerField()
-    # schedules = TravelInformationScheduleSerializer(many=True)
+    schedules = TravelInformationScheduleSerializer(many=True)
 
     class Meta:
         model = TravelInformation
@@ -39,5 +36,4 @@ class TravelInformationDetailCalenderSerializer(serializers.ModelSerializer):
             'name',
             'schedules',
             'maxPeople',
-            # 'people',
         )
