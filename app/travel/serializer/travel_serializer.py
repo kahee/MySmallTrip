@@ -3,14 +3,14 @@ from rest_framework import serializers
 from travel.models import TravelInformation, CityInformation, TravelInformationImage
 
 
-class TravelInformationImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TravelInformationImage
-        fields = (
-            'image_id',
-            'product_image',
-            'product_image_thumbnail',
-        )
+# class TravelInformationImageSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = TravelInformationImage
+#         fields = (
+#             'image_id',
+#             'product_image',
+#             'product_image_thumbnail',
+#         )
 
 
 class CityInformationSerializer(serializers.ModelSerializer):
@@ -21,7 +21,7 @@ class CityInformationSerializer(serializers.ModelSerializer):
 
 
 class TravelInformationSerializer(serializers.ModelSerializer):
-    images = TravelInformationImageSerializer(many=True)
+    # images = TravelInformationImageSerializer(many=True)
     city = CityInformationSerializer()
 
     class Meta:
@@ -32,7 +32,7 @@ class TravelInformationSerializer(serializers.ModelSerializer):
             'city',
             'price',
             'time',
-            'images',
+            'main_image_thumbnail',
         )
 
 

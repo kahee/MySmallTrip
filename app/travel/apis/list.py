@@ -5,7 +5,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from travel.models import TravelInformation
+# from travel.serializer import TravelInformationSerializer
 from travel.serializer import TravelInformationSerializer
+
 
 class TravelInformationView(APIView):
     def get(self, request, **kwargs):

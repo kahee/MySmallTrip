@@ -82,7 +82,8 @@ class TravelData:
         count = 0
         while count < 3:
             count += 1
-
+            main_image_url = driver.find_element_by_class_name('img-container').find_element_by_class_name(
+                'img').get_attribute("srcset")
             city_img_url = driver.find_element_by_class_name('header-container').find_element_by_tag_name(
                 'meta').get_attribute('content')
             print(city_img_url)
@@ -165,6 +166,7 @@ class TravelData:
                 'product_image': product_image,
                 'product_title': product_title,
                 'product_description': product_description,
+                'main_image_url': main_image_url,
 
             })
         return result
@@ -174,7 +176,7 @@ if __name__ == '__main__':
     from travel.models import TravelInformation
 
     crawler = TravelData()
-    travel_infos = crawler.travel_infomation('Czech+Republic', 'Praha')
+    travel_infos = crawler.travel_infomation('Spain', 'Barcelona')
 
     for travel_info in travel_infos:
 
@@ -235,6 +237,19 @@ if __name__ == '__main__':
             price=travel_info['price'],
             # is_usable=True,
         )
+        # 상품 대표이미지 저장 부분
+        main_image = requests.get(travel_info['main_image_url'])
+        url_img_main_image = main_image
+        binary_data = url_img_main_image.content
+        temp_file = BytesIO()
+        temp_file.write(binary_data)
+        temp_file.seek(0)
+
+        file_name = '{product_id}.main.{ext}'.format(
+            product_id=id,
+            ext=get_buffer_ext(temp_file),
+        )
+        travel.main_image.save(file_name, File(temp_file))
 
         # 상품이미지 저장 부분
 
@@ -265,5 +280,3 @@ if __name__ == '__main__':
             if image in TravelInformation.objects.all():
                 image.product_image.delete()
             image.product_image.save(file_name, File(temp_file))
-
-

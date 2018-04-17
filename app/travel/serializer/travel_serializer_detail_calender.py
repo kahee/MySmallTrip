@@ -26,7 +26,7 @@ class TravelInformationScheduleSerializer(serializers.ModelSerializer):
             return True
 
 
-class TravelInformationSerializer(serializers.ModelSerializer):
+class TravelInfoSerializer(serializers.ModelSerializer):
     people = serializers.SerializerMethodField()
     schedules = TravelInformationScheduleSerializer(context={'people': people}, many=True)
 
