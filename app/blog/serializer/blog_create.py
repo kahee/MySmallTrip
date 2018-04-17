@@ -17,18 +17,18 @@ class BlogImageSerializer(serializers.ModelSerializer):
 
 
 class BlogCreateSerializer(serializers.ModelSerializer):
-    images = BlogImageSerializer(required=False, many=True)
+    images = serializers.ListField(
+        child=serializers.ImageField(allow_empty_file=True)
+    )
     travel_reservation = serializers.PrimaryKeyRelatedField(
         queryset=Reservation.objects.all(),
         read_only=False,
         validators=[UniqueValidator(queryset=Blog.objects.all())]
     )
-    pk = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Blog
         fields = (
-            'pk',
             'travel_reservation',
             'title',
             'contents',
@@ -44,9 +44,27 @@ class BlogCreateSerializer(serializers.ModelSerializer):
             score=validate_data['score'],
         )
 
-        if 'images' in self.validated_data:
-            for item in self.validated_data['images']:
-                blog.images.set(img_field=item)
-                print(blog.images)
+        for item in self.validated_data['images']:
+            print(item)
+            blog.images.create(
+                blog_id=blog,
+                img_field=item
+            )
+            blog.save()
 
         return blog
+
+
+class BlogListSerializer(serializers.ModelSerializer):
+    images = BlogImageSerializer
+
+    class Meta:
+        model = Blog
+        fields = (
+            'pk',
+            'travel_reservation',
+            'title',
+            'contents',
+            'score',
+            'images',
+        )

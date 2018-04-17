@@ -3,7 +3,7 @@ from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework import generics
 from blog.models import Blog, BlogImage
-from blog.serializer import BlogCreateSerializer
+from blog.serializer import BlogCreateSerializer, BlogListSerializer
 
 User = get_user_model()
 
@@ -52,7 +52,7 @@ class BlogListCreateView(generics.ListCreateAPIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
-    serializer_class = BlogCreateSerializer
+    serializer_class = BlogListSerializer
 
     def list(self, request):
         queryset = Blog.objects.select_related('travel_reservation').filter(travel_reservation__member=request.user)
@@ -61,11 +61,16 @@ class BlogListCreateView(generics.ListCreateAPIView):
 
     def create(self, request):
         serializer = BlogCreateSerializer(data=request.data)
-
+        print(request.data)
         if serializer.is_valid(raise_exception=True):
+
             blog = serializer.save()
-            print(blog)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+            data = {
+                'blog': BlogListSerializer(blog).data
+            }
+
+            return Response(data, status=status.HTTP_201_CREATED)
 
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
