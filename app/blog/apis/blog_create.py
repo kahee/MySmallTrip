@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework import generics
-from blog.models import Blog, BlogImage
+from blog.models import Blog
 from blog.serializer import BlogCreateSerializer, BlogListSerializer
 
 User = get_user_model()
@@ -20,7 +20,13 @@ class BlogListCreateView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-        serializer = BlogCreateSerializer(data=request.data)
+
+        context = {
+            "request": self.request ,
+        }
+
+        serializer = BlogCreateSerializer(data=request.data, context=context)
+
         if serializer.is_valid(raise_exception=True):
 
             blog = serializer.save()
