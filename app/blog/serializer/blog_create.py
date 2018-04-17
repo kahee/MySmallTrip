@@ -35,6 +35,9 @@ class BlogCreateSerializer(serializers.ModelSerializer):
         read_only=False,
         validators=[UniqueValidator(queryset=Blog.objects.all())]
     )
+    title = serializers.CharField(required=True)
+    contents = serializers.CharField(required=True)
+    score = serializers.CharField(required=True)
 
     class Meta:
         model = Blog
