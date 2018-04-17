@@ -38,6 +38,8 @@ AWS_S3_FILE_OVERWRITE = False
 COOLSMS_API_KEY = SECRETS['API_KEY']
 COOLSMS_API_SECRET = SECRETS['API_SECRET']
 
+# imagekit 설정
+IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'config.settings.imagekit-strategy.FixJustInTime'
 
 def set_config(obj, module_name=None, start=False):
     """
