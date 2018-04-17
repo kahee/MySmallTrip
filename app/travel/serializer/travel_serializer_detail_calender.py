@@ -9,9 +9,9 @@ class TravelInformationScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = TravelSchedule
         fields = (
-            'travel_info',
-            'is_possible',
+            # 'travel_info',
             'start_date',
+            'is_possible',
             'reserved_people',
         )
 
@@ -20,7 +20,7 @@ class TravelInformationScheduleSerializer(serializers.ModelSerializer):
         reserved_people = attrs.reserved_people
         reserve_people = self.context['people']
 
-        if maxPeople <= reserve_people + reserved_people:
+        if maxPeople < reserve_people + reserved_people:
             return False
         else:
             return True
@@ -36,8 +36,9 @@ class TravelInfoSerializer(serializers.ModelSerializer):
             'pk',
             'name',
             'maxPeople',
-            'schedules',
             'people',
+            'schedules',
+
         )
 
     def get_people(self, attrs):

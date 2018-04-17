@@ -8,7 +8,6 @@ from ..serializer import TravelInfoSerializer
 
 
 class TravelInformationDetailCalenderView(APIView):
-
     def get(self, request, *args, **kwargs):
         # people = request.META.get('HTTP_PEOPLE')
         people = kwargs['people']

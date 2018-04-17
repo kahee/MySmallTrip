@@ -82,7 +82,7 @@ class TravelData:
         # count = 0
         # while count < 3:
         #     count += 1
-            main_image_url = driver.find_element_by_class_name('img-container').find_element_by_class_name(
+            main_image_url = product.find_element_by_class_name('img-container').find_element_by_class_name(
                 'img').get_attribute("srcset")
             city_img_url = driver.find_element_by_class_name('header-container').find_element_by_tag_name(
                 'meta').get_attribute('content')
@@ -95,6 +95,7 @@ class TravelData:
             price = product.find_element_by_class_name('price').get_attribute("data-offer-price")
             category = product.find_element_by_class_name('category').text
             time = product.find_element_by_class_name('meta-infos').text
+            print(product_id)
 
             # detail_info = self.travel_detail('1474')
             detail_info = self.travel_detail(product_id)
@@ -167,7 +168,6 @@ class TravelData:
                 'product_title': product_title,
                 'product_description': product_description,
                 'main_image_url': main_image_url,
-
             })
         return result
 
@@ -176,16 +176,16 @@ if __name__ == '__main__':
     from travel.models import TravelInformation
 
     crawler = TravelData()
-    travel_infos = crawler.travel_infomation('Spain', 'Barcelona')
+    travel_infos = crawler.travel_infomation('Laos', 'Vangvieng')
+
+    # travel_info_city = travel_infos[0]['city']
 
     for travel_info in travel_infos:
-
         # 도시, 회사정보 저장
         city, _ = CityInformation.objects.get_or_create(
             name=travel_info['city'],
             continent='Europe',
             nationality=travel_info['country'],
-
         )
 
         # 도시이미지 저장부분
