@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from members.serializer import UserSerializer
 from ..models import TravelInformation, TravelSchedule
 
 
@@ -9,9 +10,9 @@ class TravelInformationScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = TravelSchedule
         fields = (
-            'travel_info',
-            'is_possible',
+            # 'travel_info',
             'start_date',
+            'is_possible',
             'reserved_people',
         )
 
@@ -20,15 +21,16 @@ class TravelInformationScheduleSerializer(serializers.ModelSerializer):
         reserved_people = attrs.reserved_people
         reserve_people = self.context['people']
 
-        if maxPeople <= reserve_people + reserved_people:
+        if maxPeople < reserve_people + reserved_people:
             return False
         else:
             return True
 
 
-class TravelInformationSerializer(serializers.ModelSerializer):
+class TravelInfoSerializer(serializers.ModelSerializer):
     people = serializers.SerializerMethodField()
     schedules = TravelInformationScheduleSerializer(context={'people': people}, many=True)
+    member = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
 
     class Meta:
         model = TravelInformation
@@ -36,8 +38,9 @@ class TravelInformationSerializer(serializers.ModelSerializer):
             'pk',
             'name',
             'maxPeople',
-            'schedules',
             'people',
+            'schedules',
+            'member',
         )
 
     def get_people(self, attrs):

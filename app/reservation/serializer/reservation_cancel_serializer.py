@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from reservation.models import Reservation
-from reservation.serializer import TravelScheduleSerializer
+from reservation.serializer import TravelScheduleSerializer, UserSerializer
 from travel.models import TravelSchedule
 
 User = get_user_model()
@@ -9,11 +9,13 @@ User = get_user_model()
 
 class ReservationCancelSerializer(serializers.ModelSerializer):
     pk = serializers.PrimaryKeyRelatedField(queryset=Reservation.objects.all())
+    member = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Reservation
         fields = (
             'pk',
+            'member',
             'is_canceled',
         )
 
@@ -23,7 +25,10 @@ class ReservationCancelSerializer(serializers.ModelSerializer):
         instance.save()
 
         travel_schedule = TravelSchedule.objects.filter(id=instance.travel_Schedule_id).first()
+
         reserve_user_sum = travel_schedule.reserved_people - instance.reserve_people
+        if reserve_user_sum < 0:
+            reserve_user_sum = 0
         max_people = travel_schedule.travel_info.maxPeople
 
         reserve_user_update = TravelScheduleSerializer(

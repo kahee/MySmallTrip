@@ -9,7 +9,7 @@ from io import BytesIO
 from django.core.files import File
 from selenium import webdriver
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
 
 import django
 
@@ -77,12 +77,13 @@ class TravelData:
         product = driver.find_element_by_class_name('list-wrapper').find_element_by_class_name('item')
 
         # 여러건 크롤링 할 때
-        # travel_product_list = driver.find_element_by_class_name('list-wrapper').find_elements_by_class_name('item')
-        # for product in travel_product_list:
-        count = 0
-        while count < 3:
-            count += 1
-
+        travel_product_list = driver.find_element_by_class_name('list-wrapper').find_elements_by_class_name('item')
+        for product in travel_product_list:
+        # count = 0
+        # while count < 3:
+        #     count += 1
+            main_image_url = product.find_element_by_class_name('img-container').find_element_by_class_name(
+                'img').get_attribute("srcset")
             city_img_url = driver.find_element_by_class_name('header-container').find_element_by_tag_name(
                 'meta').get_attribute('content')
             print(city_img_url)
@@ -94,6 +95,7 @@ class TravelData:
             price = product.find_element_by_class_name('price').get_attribute("data-offer-price")
             category = product.find_element_by_class_name('category').text
             time = product.find_element_by_class_name('meta-infos').text
+            print(product_id)
 
             # detail_info = self.travel_detail('1474')
             detail_info = self.travel_detail(product_id)
@@ -165,7 +167,7 @@ class TravelData:
                 'product_image': product_image,
                 'product_title': product_title,
                 'product_description': product_description,
-
+                'main_image_url': main_image_url,
             })
         return result
 
@@ -174,16 +176,16 @@ if __name__ == '__main__':
     from travel.models import TravelInformation
 
     crawler = TravelData()
-    travel_infos = crawler.travel_infomation('Czech+Republic', 'Praha')
+    travel_infos = crawler.travel_infomation('Laos', 'Vangvieng')
+
+    # travel_info_city = travel_infos[0]['city']
 
     for travel_info in travel_infos:
-
         # 도시, 회사정보 저장
         city, _ = CityInformation.objects.get_or_create(
             name=travel_info['city'],
             continent='Europe',
             nationality=travel_info['country'],
-
         )
 
         # 도시이미지 저장부분
@@ -233,8 +235,23 @@ if __name__ == '__main__':
             meeting_time=travel_info['meeting_time'],
             meeting_place='where',
             price=travel_info['price'],
+            #최대인원은 일단 10으로 지정
+            maxPeople=10,
             # is_usable=True,
         )
+        # 상품 대표이미지 저장 부분
+        main_image = requests.get(travel_info['main_image_url'])
+        url_img_main_image = main_image
+        binary_data = url_img_main_image.content
+        temp_file = BytesIO()
+        temp_file.write(binary_data)
+        temp_file.seek(0)
+
+        file_name = '{product_id}.main.{ext}'.format(
+            product_id=id,
+            ext=get_buffer_ext(temp_file),
+        )
+        travel.main_image.save(file_name, File(temp_file))
 
         # 상품이미지 저장 부분
 
@@ -265,5 +282,3 @@ if __name__ == '__main__':
             if image in TravelInformation.objects.all():
                 image.product_image.delete()
             image.product_image.save(file_name, File(temp_file))
-
-
