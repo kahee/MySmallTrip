@@ -1,3 +1,4 @@
+from rest_framework.exceptions import APIException
 from rest_framework.validators import UniqueValidator
 
 from blog.models import BlogImage, Blog
@@ -45,18 +46,16 @@ class BlogCreateSerializer(serializers.ModelSerializer):
         )
 
         for item in self.validated_data['images']:
-            print(item)
             blog.images.create(
                 blog_id=blog,
                 img_field=item
             )
             blog.save()
-
         return blog
 
 
 class BlogListSerializer(serializers.ModelSerializer):
-    images = BlogImageSerializer
+    images = BlogImageSerializer(many=True)
 
     class Meta:
         model = Blog
