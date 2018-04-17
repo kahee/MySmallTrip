@@ -25,7 +25,8 @@ class TravelScheduleSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     travel_Schedule = serializers.PrimaryKeyRelatedField(read_only=False, queryset=TravelSchedule.objects.all())
-    member = serializers.PrimaryKeyRelatedField(read_only=False, queryset=User.objects.all())
+    member = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
+    # member = serializers.PrimaryKeyRelatedField(read_only=False, queryset=User.objects.all())
 
     class Meta:
         model = Reservation

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from members.serializer import UserSerializer
 from ..models import TravelInformation, TravelSchedule
 
 
@@ -29,6 +30,7 @@ class TravelInformationScheduleSerializer(serializers.ModelSerializer):
 class TravelInfoSerializer(serializers.ModelSerializer):
     people = serializers.SerializerMethodField()
     schedules = TravelInformationScheduleSerializer(context={'people': people}, many=True)
+    member = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
 
     class Meta:
         model = TravelInformation
@@ -38,7 +40,7 @@ class TravelInfoSerializer(serializers.ModelSerializer):
             'maxPeople',
             'people',
             'schedules',
-
+            'member',
         )
 
     def get_people(self, attrs):
