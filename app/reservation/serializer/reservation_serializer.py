@@ -23,16 +23,10 @@ class TravelScheduleSerializer(serializers.ModelSerializer):
         )
 
 
-class ReservationSerializer(serializers.ModelSerializer):
+class ReservationCreateSerializer(serializers.ModelSerializer):
     start_date = serializers.DateField()
     travel_info = serializers.PrimaryKeyRelatedField(queryset=TravelInformation.objects.all())
-
-    # travel_Schedule = TravelScheduleSerializer(re, context={'travel_info': travel_info, 'start_date': start_date})
     member = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
-
-    # travel_Schedule = serializers.PrimaryKeyRelatedField(read_only=False, queryset=TravelSchedule.objects.all())
-
-    # member = serializers.PrimaryKeyRelatedField(read_only=False, queryset=User.objects.all())
 
     class Meta:
         model = Reservation
@@ -49,6 +43,19 @@ class ReservationSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validate_data):
+        """
+        1.travel_info.pk와 start_date, 예약할 사람을 입력받아서
+        2.해당 날짜에 대해 schedule이 없으면 만들고,있으면 reservation을 생성
+        3.예약가능 점검
+            3.1 현재 예약되어있는 인원 + 예약 할 인원 > 상품의 최대인원수
+            -> error
+            3.2 아니면
+            -> 현재 예약되어 있는 인원 update
+        4. 현재 예약된 인원 = 상품의 최대인원수
+            -> is_possible_reservation = False로 업데이트
+        :param validate_data:
+        :return: reservation
+        """
         # 1.받은 travel_id 와 user를 검증하고나서 reservation에 저장
         # 3.1.예약할 인원 + 예약한 인원=maxPeople이면
         #   travelschedule.is_possible_reservation update
@@ -102,3 +109,15 @@ class ReservationSerializer(serializers.ModelSerializer):
                 reserve_user_update2.save()
 
         return reservation
+
+
+class ReservationListSerializer(serializers.ModelSerializer):
+    travel_Schedule = TravelScheduleSerializer()
+
+    class Meta:
+        model = Reservation
+        fields = (
+            'id',
+            'reserve_people',
+            'travel_Schedule',
+        )

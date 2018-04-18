@@ -21,10 +21,18 @@ class TravelInformationScheduleSerializer(serializers.ModelSerializer):
         reserved_people = attrs.reserved_people
         reserve_people = self.context['people']
 
-        if maxPeople < reserve_people + reserved_people:
+        if attrs.is_possible_reservation:
+            if maxPeople < reserve_people + reserved_people:
+                return False
+            else :
+                return True
+        else :
             return False
-        else:
-            return True
+
+        # if maxPeople < reserve_people + reserved_people:
+        #     return False
+        # else:
+        #     return True
 
 
 class TravelInfoSerializer(serializers.ModelSerializer):
