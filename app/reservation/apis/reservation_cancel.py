@@ -10,15 +10,16 @@ class ReservationCancelView(APIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
-    def get(self, request, **kwargs):
+
+    def get(self):
         reservation_informations = Reservation.objects.filter(is_canceled=True)
         serializer = ReservationCancelSerializer(reservation_informations, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def patch(self, request, pk):
+    def patch(self, request):
         context = {'request': self.request}
-        reservation = Reservation.objects.get(pk=pk)
-        serializer = ReservationCancelSerializer(reservation, data=request.data,context=context, partial=True)
+        reservation = Reservation.objects.get(pk=request.data['pk'])
+        serializer = ReservationCancelSerializer(reservation, data=request.data, context=context, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
