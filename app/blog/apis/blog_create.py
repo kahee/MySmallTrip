@@ -22,7 +22,7 @@ class BlogListCreateView(generics.ListCreateAPIView):
     def create(self, request):
 
         context = {
-            "request": self.request ,
+            "request": self.request,
         }
 
         serializer = BlogCreateSerializer(data=request.data, context=context)
