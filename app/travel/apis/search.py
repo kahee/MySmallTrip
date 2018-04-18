@@ -1,11 +1,12 @@
 from django.core.handlers import exception
 from django.db.models import Q
 from requests import Response
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.exceptions import APIException
 
 from travel.models import TravelInformation
 from travel.serializer import TravelInformationSerializer
+
 
 
 #  해당 예약이 회원 예약리스트에 없는 경우
@@ -17,6 +18,9 @@ class ReservationDoesNotExists(APIException):
 
 class SearchTravelInformationView(generics.ListCreateAPIView):
     serializer_class = TravelInformationSerializer
+    permission_classes = (
+        permissions.IsAuthenticated,
+    )
 
     def get_queryset(self):
         keyword = self.request.query_params.get('keyword', None)
