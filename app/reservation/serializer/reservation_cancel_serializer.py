@@ -22,7 +22,7 @@ class ReservationCancelSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
 
         if instance.is_canceled :
-            raise serializers.ValidationError('이미 취소된 예약입니다. 관리자에게 문의해주세요.')
+            raise serializers.ValidationError('이미 취소된 예약입니다. WPS.유가희님관에게 문의해주세요.')
 
         instance.is_canceled = validated_data.get('is_canceled', True)
         instance.save()

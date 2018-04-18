@@ -97,7 +97,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
             if reserve_user_update.is_valid(raise_exception=True):
                 reserve_user_update.save()
         else:
-            raise serializers.ValidationError('해당상품은 최대인원을 초과했습니다. 관리자에게 문의해주세요.')
+            raise serializers.ValidationError('해당상품은 최대인원을 초과했습니다. WPS.유가희님에게 문의해주세요.')
 
         if travel_schedule.reserved_people == max_people:
             reserve_user_update2 = TravelScheduleSerializer(
