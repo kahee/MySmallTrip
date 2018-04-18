@@ -1,9 +1,9 @@
 from rest_framework import serializers, status
 from members.serializer import UserSerializer, get_user_model
-from reservation.models import Reservation, TravelInformation
+from reservation.models import Reservation
 from travel.models import TravelSchedule
 
-from travel.serializer import TravelInformationSerializer
+from travel.serializer import TravelInformationSerializer, TravelInformationMinSerializer
 
 User = get_user_model()
 
@@ -23,9 +23,45 @@ class TravelScheduleSerializer(serializers.ModelSerializer):
         )
 
 
+class TravelScheduleMinSerializer(serializers.ModelSerializer):
+    travel_info = TravelInformationMinSerializer()
+
+    class Meta:
+        model = TravelSchedule
+        exclude = (
+            'id',
+            'is_usable',
+            'creation_datetime',
+            'modify_datetime',
+            'reserved_people',
+            'is_possible_reservation',
+            'travelschedule_user',
+        )
+
+# 예약 현황 보여주는 리스트
+class ReservationListSerializer(serializers.ModelSerializer):
+    travel_Schedule = TravelScheduleMinSerializer()
+    member = UserSerializer()
+
+    class Meta:
+        model = Reservation
+        fields = (
+            'pk',
+            'travel_Schedule',
+            'member',
+            'is_canceled',
+            'price',
+            'reserve_people',
+            'concept',
+            'age_generation',
+            'personal_request',
+        )
+
+
 class ReservationSerializer(serializers.ModelSerializer):
     travel_Schedule = serializers.PrimaryKeyRelatedField(read_only=False, queryset=TravelSchedule.objects.all())
     member = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
+
     # member = serializers.PrimaryKeyRelatedField(read_only=False, queryset=User.objects.all())
 
     class Meta:
@@ -34,10 +70,12 @@ class ReservationSerializer(serializers.ModelSerializer):
             'travel_Schedule',
             'member',
             'is_canceled',
+            'price',
             'reserve_people',
             'concept',
             'age_generation',
             'personal_request',
+
         )
 
     def create(self, validate_data, **kwargs):

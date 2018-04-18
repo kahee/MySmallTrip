@@ -33,7 +33,8 @@ class SearchTravelInformationView(generics.ListCreateAPIView):
 
             except queryset.objects.none():
                 raise ReservationDoesNotExists
-            return queryset
+            # 검색 출력을 pk값으로
+            return queryset.order_by('pk')
 
     # def search(self, request):
     #     queryset = self.get_queryset()
