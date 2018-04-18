@@ -3,7 +3,7 @@ from members.serializer import UserSerializer, get_user_model
 from reservation.models import Reservation
 from travel.models import TravelSchedule, TravelInformation
 
-from travel.serializer import TravelInformationSerializer
+from travel.serializer import TravelInformationSerializer, TravelInformationMinSerializer
 
 User = get_user_model()
 
@@ -23,6 +23,22 @@ class TravelScheduleSerializer(serializers.ModelSerializer):
         )
 
 
+class TravelScheduleMinSerializer(serializers.ModelSerializer):
+    travel_info = TravelInformationMinSerializer()
+
+    class Meta:
+        model = TravelSchedule
+        exclude = (
+            'id',
+            'is_usable',
+            'creation_datetime',
+            'modify_datetime',
+            'reserved_people',
+            'is_possible_reservation',
+            'travelschedule_user',
+        )
+
+
 class ReservationCreateSerializer(serializers.ModelSerializer):
     start_date = serializers.DateField()
     travel_info = serializers.PrimaryKeyRelatedField(queryset=TravelInformation.objects.all())
@@ -36,10 +52,12 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
             'start_date',
             'member',
             'is_canceled',
+            'price',
             'reserve_people',
             'concept',
             'age_generation',
             'personal_request',
+
         )
 
     def create(self, validate_data):
@@ -111,13 +129,21 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
         return reservation
 
 
+# 예약 현황 보여주는 리스트
 class ReservationListSerializer(serializers.ModelSerializer):
-    travel_Schedule = TravelScheduleSerializer()
+    travel_Schedule = TravelScheduleMinSerializer()
+    member = UserSerializer()
 
     class Meta:
         model = Reservation
         fields = (
-            'id',
-            'reserve_people',
+            'pk',
             'travel_Schedule',
+            'member',
+            'is_canceled',
+            'price',
+            'reserve_people',
+            'concept',
+            'age_generation',
+            'personal_request',
         )

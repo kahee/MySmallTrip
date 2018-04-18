@@ -1,4 +1,6 @@
 from django.urls import path
+
+from reservation.apis.reservation_list import ReservationListView
 from .apis import ReservationView, ReservationCancelView
 from reservation.apis.wish_list import WishTravelListCreateView, WishTravelDeleteView
 
@@ -8,6 +10,7 @@ urlpatterns = [
     # 3.상품예약 리스트 url
     # path('calender/', CalenderView.as_view(), name='calender'),
     path('', ReservationView.as_view(), name='reservation'),
+    path('list/', ReservationListView.as_view(), name='reservation-list'),
     path('cancel/<int:pk>/', ReservationCancelView.as_view(), name='reservation-cancel'),
     path('wishlist/', WishTravelListCreateView.as_view(), name='wish-list'),
     path('wishlist/delete/', WishTravelDeleteView.as_view(), name='wish-list-delete'),

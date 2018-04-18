@@ -24,6 +24,7 @@ class Reservation(ReservationBase):
     )
     is_canceled = models.BooleanField('취소여부', default=False)
     reserve_people = models.IntegerField('예약수', default=1)
+    price = models.IntegerField('금액', default=0)
     concept = models.TextField('여행컨셉', blank=True)
     age_generation = models.CharField('연령대', blank=True, max_length=50)
     personal_request = models.TextField('요청사항', blank=True)

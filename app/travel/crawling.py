@@ -9,7 +9,7 @@ from io import BytesIO
 from django.core.files import File
 from selenium import webdriver
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
 
 import django
 
@@ -79,9 +79,9 @@ class TravelData:
         # 여러건 크롤링 할 때
         travel_product_list = driver.find_element_by_class_name('list-wrapper').find_elements_by_class_name('item')
         for product in travel_product_list:
-        # count = 0
-        # while count < 3:
-        #     count += 1
+            # count = 0
+            # while count < 3:
+            #     count += 1
             main_image_url = product.find_element_by_class_name('img-container').find_element_by_class_name(
                 'img').get_attribute("srcset")
             city_img_url = driver.find_element_by_class_name('header-container').find_element_by_tag_name(
@@ -235,7 +235,7 @@ if __name__ == '__main__':
             meeting_time=travel_info['meeting_time'],
             meeting_place='where',
             price=travel_info['price'],
-            #최대인원은 일단 10으로 지정
+            # 최대인원은 일단 10으로 지정
             maxPeople=10,
             # is_usable=True,
         )
