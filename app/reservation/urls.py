@@ -11,7 +11,7 @@ urlpatterns = [
     # path('calender/', CalenderView.as_view(), name='calender'),
     path('', ReservationView.as_view(), name='reservation'),
     path('list/', ReservationListView.as_view(), name='reservation-list'),
-    path('cancel/<int:pk>/', ReservationCancelView.as_view(), name='reservation-cancel'),
+    path('cancel/', ReservationCancelView.as_view(), name='reservation-cancel'),
     path('wishlist/', WishTravelListCreateView.as_view(), name='wish-list'),
     path('wishlist/delete/', WishTravelDeleteView.as_view(), name='wish-list-delete'),
 

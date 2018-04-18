@@ -52,7 +52,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
             'start_date',
             'member',
             'is_canceled',
-            'price',
+            'total_price',
             'reserve_people',
             'concept',
             'age_generation',
@@ -96,11 +96,14 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
         else:
             travel_schedule = travel_schedule_list
 
+        price = travel_schedule.travel_info.price
+
         reservation, _ = Reservation.objects.get_or_create(
             travel_Schedule=travel_schedule,
             member=validate_data["member"],
             is_canceled=False,
             reserve_people=validate_data['reserve_people'],
+            total_price=price * validate_data['reserve_people'],
         )
         max_people = travel_schedule.travel_info.maxPeople
 
@@ -141,7 +144,7 @@ class ReservationListSerializer(serializers.ModelSerializer):
             'travel_Schedule',
             'member',
             'is_canceled',
-            'price',
+            'total_price',
             'reserve_people',
             'concept',
             'age_generation',
