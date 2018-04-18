@@ -11,4 +11,5 @@ urlpatterns = [
     path('<str:cityname>/<int:pk>/', TravelInformationDetailView.as_view(), name='travel-information-detail'),
     path('<str:cityname>/<int:pk>/calender/<int:people>/', TravelInformationDetailCalenderView.as_view(),
          name='travel-information-detail-reserve'),
+
 ]

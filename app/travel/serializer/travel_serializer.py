@@ -36,6 +36,18 @@ class TravelInformationSerializer(serializers.ModelSerializer):
         )
 
 
+# 예약현황
+class TravelInformationMinSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TravelInformation
+        fields = (
+            'pk',
+            'name',
+            'main_image',
+        )
+
+
 class TravelInformationWishListSerializer(serializers.ModelSerializer):
     city = CityInformationSerializer()
 

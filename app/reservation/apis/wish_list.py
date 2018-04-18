@@ -66,7 +66,7 @@ class WishTravelDeleteView(APIView):
         """
 
         try:
-            wish_product = WishTravel.objects.get(travel_info=request.data['travel_info'], user=request.use)
+            wish_product = WishTravel.objects.get(travel_info=request.data['travel_info'], user=request.user)
 
             if wish_product:
                 wish_product.delete()
