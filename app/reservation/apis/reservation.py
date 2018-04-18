@@ -13,7 +13,7 @@ class ReservationView(APIView):
 
     def get(self):
         context = {'request': self.request}
-        reservation_informations = Reservation.objects.filter(is_canceled=False)
+        reservation_informations = Reservation.objects.filter()
         serializer = ReservationCreateSerializer(reservation_informations, context=context, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -22,9 +22,7 @@ class ReservationView(APIView):
             'request': self.request,
         }
         serializer = ReservationCreateSerializer(data=request.data, context=context)
-
         if serializer.is_valid(raise_exception=True):
-            print(serializer.validated_data)
             reservation = serializer.save()
             data = {
                 'reservation': ReservationListSerializer(reservation).data
