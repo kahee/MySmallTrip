@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions
 
 from reservation.models import Reservation
-from reservation.serializer import ReservationSerializer, ReservationListSerializer
+from reservation.serializer import ReservationListSerializer
 
 
 class ReservationListView(generics.ListAPIView):
