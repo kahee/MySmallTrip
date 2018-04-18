@@ -30,3 +30,9 @@ class TravelSchedule(ProductBase):
 
     def __str(self):
         return self.pk
+
+    class Meta:
+        app_label = 'travel'
+        unique_together = (
+            ('travel_info', 'start_date'),
+        )

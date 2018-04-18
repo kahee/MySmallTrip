@@ -1,7 +1,7 @@
 from rest_framework import serializers, status
 from members.serializer import UserSerializer, get_user_model
-from reservation.models import Reservation, TravelInformation
-from travel.models import TravelSchedule
+from reservation.models import Reservation
+from travel.models import TravelSchedule, TravelInformation
 
 from travel.serializer import TravelInformationSerializer
 
@@ -24,14 +24,22 @@ class TravelScheduleSerializer(serializers.ModelSerializer):
 
 
 class ReservationSerializer(serializers.ModelSerializer):
-    travel_Schedule = serializers.PrimaryKeyRelatedField(read_only=False, queryset=TravelSchedule.objects.all())
+    start_date = serializers.DateField()
+    travel_info = serializers.PrimaryKeyRelatedField(queryset=TravelInformation.objects.all())
+
+    # travel_Schedule = TravelScheduleSerializer(re, context={'travel_info': travel_info, 'start_date': start_date})
     member = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
+
+    # travel_Schedule = serializers.PrimaryKeyRelatedField(read_only=False, queryset=TravelSchedule.objects.all())
+
     # member = serializers.PrimaryKeyRelatedField(read_only=False, queryset=User.objects.all())
 
     class Meta:
         model = Reservation
         fields = (
-            'travel_Schedule',
+            # 'travel_Schedule',
+            'travel_info',
+            'start_date',
             'member',
             'is_canceled',
             'reserve_people',
@@ -40,16 +48,35 @@ class ReservationSerializer(serializers.ModelSerializer):
             'personal_request',
         )
 
-    def create(self, validate_data, **kwargs):
+    def create(self, validate_data):
         # 1.받은 travel_id 와 user를 검증하고나서 reservation에 저장
         # 3.1.예약할 인원 + 예약한 인원=maxPeople이면
         #   travelschedule.is_possible_reservation update
         # 3.2.예약할 인원 + 예약한 인원>maxPeople이면
         #   예약 안된다고 에러메세지
         # 2. reservation을 생성하면서 TravelSchedule.reserved_user와 reservation.reserve_user를 합쳐서 업데이트
+        # reservation = Reservation.objects.get_or_create
+        ## 스케쥴을 만들고, reservation만들고
+        travel_schedule_list = TravelSchedule.objects.filter(travel_info=validate_data["travel_info"]).filter(
+            start_date=validate_data["start_date"]).first()
 
-        reservation = Reservation.objects.create(**validate_data)
-        travel_schedule = TravelSchedule.objects.filter(id=reservation.travel_Schedule_id).first()
+        if travel_schedule_list is None:
+            travel_schedule, _ = TravelSchedule.objects.get_or_create(
+                travel_info=validate_data["travel_info"],
+                start_date=validate_data["start_date"],
+                reserved_people=0,
+                is_possible_reservation=True,
+            )
+
+        else:
+            travel_schedule = travel_schedule_list
+
+        reservation, _ = Reservation.objects.get_or_create(
+            travel_Schedule=travel_schedule,
+            member=validate_data["member"],
+            is_canceled=False,
+            reserve_people=validate_data['reserve_people'],
+        )
         max_people = travel_schedule.travel_info.maxPeople
 
         reserve_user_sum = reservation.reserve_people + travel_schedule.reserved_people
