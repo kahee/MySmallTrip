@@ -82,6 +82,8 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
         # 2. reservation을 생성하면서 TravelSchedule.reserved_user와 reservation.reserve_user를 합쳐서 업데이트
         # reservation = Reservation.objects.get_or_create
         ## 스케쥴을 만들고, reservation만들고
+
+        # exists()
         travel_schedule_list = TravelSchedule.objects.filter(travel_info=validate_data["travel_info"]).filter(
             start_date=validate_data["start_date"]).first()
 
@@ -89,6 +91,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
             travel_schedule, _ = TravelSchedule.objects.get_or_create(
                 travel_info=validate_data["travel_info"],
                 start_date=validate_data["start_date"],
+                # defaults
                 reserved_people=0,
                 is_possible_reservation=True,
             )
@@ -98,11 +101,14 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
 
         price = travel_schedule.travel_info.price
 
+        # 인원초과인지 검사를 이 위에 작성
+        # 매니저에 새 메서드를 추가 create_with_schedule() (TravelSchedule을 받아서 새 Reservation을 생성해주는)
         reservation, _ = Reservation.objects.get_or_create(
             travel_Schedule=travel_schedule,
             member=validate_data["member"],
             is_canceled=False,
             reserve_people=validate_data['reserve_people'],
+            # total_price는 빼고 필요하면 property로 작성
             total_price=price * validate_data['reserve_people'],
         )
         max_people = travel_schedule.travel_info.maxPeople
@@ -121,6 +127,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('해당상품은 최대인원을 초과했습니다. WPS.유가희님에게 문의해주세요.')
 
         if travel_schedule.reserved_people == max_people:
+            # SerializerMethodField
             reserve_user_update2 = TravelScheduleSerializer(
                 travel_schedule,
                 data={'is_possible_reservation': False},
