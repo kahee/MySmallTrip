@@ -42,7 +42,6 @@ class WishTravelListCreateView(APIView):
 
         if serializer.is_valid(raise_exception=True, ):
             wishlist_created = serializer.save()
-            print(wishlist_created)
             if wishlist_created:
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -70,9 +69,14 @@ class WishTravelDeleteView(APIView):
 
             if wish_product:
                 wish_product.delete()
-                return Response(status=status.HTTP_204_NO_CONTENT)
+
+                data = {
+                    'message': '해당 위시리스트 목록이 삭제되었습니다.'
+                }
+                return Response(data, status=status.HTTP_200_OK)
+
             else:
-                return Response(status.HTTP_400_BAD_REQUEST)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
         except WishTravel.DoesNotExist:
             raise TravelInfoDoesNotExists
