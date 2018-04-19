@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='reservation',
-            name='travel_Schedule',
+            name='travel_schedule',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='travel.TravelSchedule', verbose_name='travel_schedule'),
         ),
         migrations.AddField(
@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='recentvisitpage',
-            name='travel_Schedule',
+            name='travel_schedule',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='travel.TravelInformation'),
         ),
         migrations.AlterUniqueTogether(

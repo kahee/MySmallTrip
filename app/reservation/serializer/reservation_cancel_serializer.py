@@ -35,7 +35,7 @@ class ReservationCancelSerializer(serializers.ModelSerializer):
         instance.is_canceled = validated_data.get('is_canceled', True)
         instance.save()
 
-        travel_schedule = TravelSchedule.objects.filter(id=instance.travel_Schedule_id).first()
+        travel_schedule = TravelSchedule.objects.filter(id=instance.travel_schedule_id).first()
 
         reserve_user_sum = travel_schedule.reserved_people - instance.reserve_people
         if reserve_user_sum < 0:

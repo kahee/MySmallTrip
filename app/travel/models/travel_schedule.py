@@ -13,8 +13,8 @@ class TravelSchedule(ProductBase):
     travel_info = models.ForeignKey(
         TravelInformation,
         on_delete=models.CASCADE,
-        verbose_name='schedules',
-        related_name='schedules'
+        verbose_name='travel_info',
+        related_name='travel_info',
     )
 
     travelschedule_user = models.ManyToManyField(settings.AUTH_USER_MODEL, through='reservation.Reservation')
