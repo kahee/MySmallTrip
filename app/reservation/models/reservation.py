@@ -20,10 +20,9 @@ class Reservation(ReservationBase):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         verbose_name='user'
-
     )
     is_canceled = models.BooleanField('취소여부', default=False)
-    reserve_people = models.IntegerField('예약수', default=1)
+    people = models.IntegerField('예약수', default=1)
     # total_price = models.IntegerField('금액', default=0)
     concept = models.TextField('여행컨셉', blank=True)
     age_generation = models.CharField('연령대', blank=True, max_length=50)
@@ -34,4 +33,4 @@ class Reservation(ReservationBase):
 
     @property
     def total_price(self):
-        return self.reserve_people * self.travel_schedule.travel_info.price
+        return self.people * self.travel_schedule.travel_info.price

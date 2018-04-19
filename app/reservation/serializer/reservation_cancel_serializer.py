@@ -37,7 +37,7 @@ class ReservationCancelSerializer(serializers.ModelSerializer):
 
         travel_schedule = TravelSchedule.objects.filter(id=instance.travel_schedule_id).first()
 
-        reserve_user_sum = travel_schedule.reserved_people - instance.reserve_people
+        reserve_user_sum = travel_schedule.reserved_people - instance.people
         if reserve_user_sum < 0:
             reserve_user_sum = 0
         max_people = travel_schedule.travel_info.maxPeople

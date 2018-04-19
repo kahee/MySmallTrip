@@ -29,7 +29,7 @@ class TravelInformationScheduleSerializer(serializers.ModelSerializer):
         else :
             return False
 
-        # if maxPeople < reserve_people + reserved_people:
+        # if maxPeople < people + reserved_people:
         #     return False
         # else:
         #     return True

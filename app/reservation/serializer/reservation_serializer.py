@@ -40,9 +40,10 @@ class TravelScheduleMinSerializer(serializers.ModelSerializer):
 
 
 class ReservationCreateSerializer(serializers.ModelSerializer):
-    start_date = serializers.DateField()
-    travel_info = serializers.PrimaryKeyRelatedField(queryset=TravelInformation.objects.all())
+    start_date = serializers.DateField(required=True)
+    travel_info = serializers.PrimaryKeyRelatedField(required=True,queryset=TravelInformation.objects.all())
     member = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
+    people = serializers.IntegerField(required=True)
 
     class Meta:
         model = Reservation
@@ -52,7 +53,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
             'member',
             'is_canceled',
             'total_price',
-            'reserve_people',
+            'people',
             'concept',
             'age_generation',
             'personal_request',
@@ -85,7 +86,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
 
         max_people = travel_schedule.travel_info.maxPeople
 
-        reserve_user_sum = validate_data['reserve_people'] + travel_schedule.reserved_people
+        reserve_user_sum = validate_data['people'] + travel_schedule.reserved_people
 
         if reserve_user_sum <= max_people:
             reserve_user_update = TravelScheduleSerializer(
@@ -103,7 +104,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
             travel_schedule=travel_schedule,
             member=validate_data["member"],
             is_canceled=False,
-            reserve_people=validate_data['reserve_people'],
+            people=validate_data['people'],
         )
 
         if travel_schedule.reserved_people == max_people:
@@ -132,7 +133,7 @@ class ReservationListSerializer(serializers.ModelSerializer):
             'member',
             'is_canceled',
             'total_price',
-            'reserve_people',
+            'people',
             'concept',
             'age_generation',
             'personal_request',
