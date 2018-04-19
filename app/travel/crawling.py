@@ -9,7 +9,7 @@ from io import BytesIO
 from django.core.files import File
 from selenium import webdriver
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
 
 import django
 
@@ -176,7 +176,7 @@ if __name__ == '__main__':
     from travel.models import TravelInformation
 
     crawler = TravelData()
-    travel_infos = crawler.travel_infomation('Laos', 'Vangvieng')
+    travel_infos = crawler.travel_infomation('Ireland', 'Dublin')
 
     # travel_info_city = travel_infos[0]['city']
 
