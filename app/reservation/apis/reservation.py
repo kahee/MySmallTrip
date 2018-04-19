@@ -6,7 +6,7 @@ from reservation.models import Reservation
 from reservation.serializer import ReservationCreateSerializer, ReservationListSerializer
 
 
-class ReservationView(APIView):
+class ReservationCreateView(APIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
@@ -18,6 +18,7 @@ class ReservationView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
+
         context = {
             'request': self.request,
         }
