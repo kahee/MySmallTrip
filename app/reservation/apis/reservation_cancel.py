@@ -17,10 +17,16 @@ class ReservationCancelView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request):
-        context = {'request': self.request}
-        reservation = Reservation.objects.get(pk=request.data['pk'])
-        serializer = ReservationCancelSerializer(reservation, data=request.data, context=context, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        # user filter 거르기
+        #
+
+        reservation = Reservation.objects.filter(member=request.user).get(pk=request.data['pk'])
+
+        if reservation:
+            serializer = ReservationCancelSerializer(reservation, data=request.data,  partial=True)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
         return Response(status=status.HTTP_400_BAD_REQUEST)
