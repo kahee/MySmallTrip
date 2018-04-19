@@ -9,7 +9,7 @@ User = get_user_model()
 
 class ReservationCancelSerializer(serializers.ModelSerializer):
     pk = serializers.PrimaryKeyRelatedField(queryset=Reservation.objects.all())
-    member = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
+    member = UserSerializer()
 
     class Meta:
         model = Reservation
@@ -21,8 +21,8 @@ class ReservationCancelSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
 
-        if instance.is_canceled :
-            raise serializers.ValidationError('이미 취소된 예약입니다. WPS.유가희님관에게 문의해주세요.')
+        if instance.is_canceled:
+            raise serializers.ValidationError('이미 취소된 예약입니다. WPS.유가희님에게 문의해주세요.')
 
         instance.is_canceled = validated_data.get('is_canceled', True)
         instance.save()
@@ -36,7 +36,7 @@ class ReservationCancelSerializer(serializers.ModelSerializer):
 
         reserve_user_update = TravelScheduleSerializer(
             travel_schedule,
-            data={'reserved_people': reserve_user_sum },
+            data={'reserved_people': reserve_user_sum},
             partial=True
         )
         if reserve_user_update.is_valid(raise_exception=True):
