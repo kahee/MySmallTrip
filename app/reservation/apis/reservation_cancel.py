@@ -1,7 +1,9 @@
 from rest_framework import status, permissions
+from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from blog.serializer import ReservationDoesNotExists
 from reservation.models import Reservation
 from reservation.serializer import ReservationCancelSerializer
 
@@ -17,16 +19,22 @@ class ReservationCancelView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request):
-        # user filter 거르기
-        #
 
-        reservation = Reservation.objects.filter(member=request.user).get(pk=request.data['pk'])
+        pk = request.data.get('pk', None)
+        if pk is not None:
+            try:
+                reservation = Reservation.objects.filter(member=request.user).get(pk=request.data['pk'])
+                serializer = ReservationCancelSerializer(reservation, data=request.data, partial=True)
 
-        if reservation:
-            serializer = ReservationCancelSerializer(reservation, data=request.data,  partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            # 예약 번호가 해당 유저의 예약 리스트에 없는 경우
+            except Reservation.DoesNotExist:
+                raise ReservationDoesNotExists
 
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        else:
+            # pk가 안들어왔을 때 오류 처리 할것
+             pass
