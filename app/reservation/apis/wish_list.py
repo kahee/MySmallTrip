@@ -13,10 +13,6 @@ User = get_user_model()
 
 
 class WishTravelListCreateView(APIView):
-    # 모델 명 바꾸기
-    # 1. WishTraveled
-    # 2. api view create ,  reterive, delete 이렇게 나눠서
-
     permission_classes = (
         permissions.IsAuthenticated,
     )
