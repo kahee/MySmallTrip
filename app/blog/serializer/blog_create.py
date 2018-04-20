@@ -8,6 +8,13 @@ from members.serializer import UserSerializer, UserSerializerWishList
 from reservation.models import Reservation
 
 
+#  해당 예약이 회원 예약리스트에 없는 경우
+class ReservationDoesNotExists(APIException):
+    status_code = 400
+    default_detail = '해당 예약 번호가 올바르지 않습니다.'
+    default_code = 'reservation_DoesNotExists'
+
+
 class BlogImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogImage
@@ -18,16 +25,24 @@ class BlogImageSerializer(serializers.ModelSerializer):
         )
 
 
-#  해당 예약이 회원 예약리스트에 없는 경우
-class ReservationDoesNotExists(APIException):
-    status_code = 400
-    default_detail = '해당 예약 번호가 올바르지 않습니다.'
-    default_code = 'reservation_DoesNotExists'
+class BlogListSerializer(serializers.ModelSerializer):
+    images = BlogImageSerializer(many=True)
+
+    class Meta:
+        model = Blog
+        fields = (
+            'pk',
+            'travel_reservation',
+            'title',
+            'contents',
+            'score',
+            'images',
+        )
 
 
 class BlogCreateSerializer(serializers.ModelSerializer):
     images = serializers.ListField(
-        child=serializers.ImageField(allow_empty_file=True)
+        child=serializers.ImageField(allow_empty_file=True), write_only=True
     )
 
     travel_reservation = serializers.PrimaryKeyRelatedField(
@@ -49,7 +64,23 @@ class BlogCreateSerializer(serializers.ModelSerializer):
             'images',
         )
 
+    def to_representation(self, instance):
+        """
+        해당 인스턴스를 BlogListSerializer로 변경해서 리턴
+        :param instance:
+        :return:
+        """
+        data = BlogListSerializer(instance).data
+        return data
+
     def validate_travel_reservation(self, travel_reservation):
+        """
+        해당 예약 번호가 현재 유저의 예약 리스트에 있는지 검사
+        1. 없는 경우 예외 처리
+        2. 있으면 그대로 travel_reservation 리턴
+        :param travel_reservation:
+        :return:
+        """
         user_reservation = Reservation.objects.filter(member=self.context['request'].user)
         if travel_reservation in user_reservation:
             return travel_reservation
@@ -71,18 +102,3 @@ class BlogCreateSerializer(serializers.ModelSerializer):
             )
             blog.save()
         return blog
-
-
-class BlogListSerializer(serializers.ModelSerializer):
-    images = BlogImageSerializer(many=True)
-
-    class Meta:
-        model = Blog
-        fields = (
-            'pk',
-            'travel_reservation',
-            'title',
-            'contents',
-            'score',
-            'images',
-        )

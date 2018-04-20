@@ -41,6 +41,7 @@ COOLSMS_API_SECRET = SECRETS['API_SECRET']
 # imagekit 설정
 IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'config.settings.imagekit-strategy.FixJustInTime'
 
+
 def set_config(obj, module_name=None, start=False):
     """
     Python객체를 받아, 해당 객체의 key-value쌍을
@@ -113,7 +114,7 @@ setattr(sys.modules[__name__], 'raven', importlib.import_module('raven'))
 
 SECRET_KEY = SECRETS['SECRET_KEY']
 
-AUTHENTICATION_BACKENDS =[
+AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'members.backends.APIFacebookBackends',
 ]
@@ -176,8 +177,8 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
-    )
-
+    ),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
 ROOT_URLCONF = 'config.urls'
