@@ -61,15 +61,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validate_data):
         """
-        1.travel_info.pk와 start_date, 예약할 사람을 입력받아서
-        2.해당 날짜에 대해 schedule이 없으면 만들고,있으면  travel_info.pk와 start_date에 대한 객체를 불러온다.
-        --> 이부분은 Manager에 새로운 메서드를 추가(create_with_schedule())
-            TravelSchedule을 받아서 새 Reservation을 생성해주는 역할
-        3.예약가능 점검
-            3.1 현재 예약되어있는 인원 + 예약 할 인원 > 상품의 최대인원수
-            -> error
-        4. reservation 생성
-        5. 현재 예약되어 있는 인원 update
+
 
         6. (삭제하고, is_possible_reservation필드 삭제, serializerMethod필드(is_possible로 통합,변경) :
             현재 예약된 인원 = 상품의 최대인원수
