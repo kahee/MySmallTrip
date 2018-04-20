@@ -1,4 +1,5 @@
-from rest_framework import serializers, status
+from rest_framework import serializers
+
 from members.serializer import UserSerializer, get_user_model
 from reservation.models import Reservation
 from travel.models import TravelSchedule, TravelInformation
@@ -19,7 +20,6 @@ class TravelScheduleSerializer(serializers.ModelSerializer):
             'reserved_people',
             'start_date',
             'end_date',
-            # 'is_possible_reservation',
         )
 
 
@@ -34,14 +34,13 @@ class TravelScheduleMinSerializer(serializers.ModelSerializer):
             'creation_datetime',
             'modify_datetime',
             'reserved_people',
-            # 'is_possible_reservation',
             'travelschedule_user',
         )
 
 
 class ReservationCreateSerializer(serializers.ModelSerializer):
     start_date = serializers.DateField(required=True)
-    travel_info = serializers.PrimaryKeyRelatedField(required=True,queryset=TravelInformation.objects.all())
+    travel_info = serializers.PrimaryKeyRelatedField(required=True, queryset=TravelInformation.objects.all())
     member = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
     people = serializers.IntegerField(required=True)
 
@@ -74,49 +73,17 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
 
         6. (삭제하고, is_possible_reservation필드 삭제, serializerMethod필드(is_possible로 통합,변경) :
             현재 예약된 인원 = 상품의 최대인원수
-            -> is_possible_reservation = False로 업데이트
+            -> is_possible_reservation = False로 업데이트(필드 삭제)
 
         :param validate_data:
         :return: reservation
         """
-        travel_schedule, _ = TravelSchedule.objects.get_or_create(
+        reservation = Reservation.objects.create_with_schedule(
             travel_info=validate_data["travel_info"],
             start_date=validate_data["start_date"],
-        )
-
-        max_people = travel_schedule.travel_info.max_people
-
-        reserve_user_sum = validate_data['people'] + travel_schedule.reserved_people
-
-        if reserve_user_sum <= max_people:
-            reserve_user_update = TravelScheduleSerializer(
-                travel_schedule,
-                data={'reserved_people': reserve_user_sum},
-                partial=True
-            )
-            if reserve_user_update.is_valid(raise_exception=True):
-                reserve_user_update.save()
-        else:
-            raise serializers.ValidationError('해당상품은 최대인원을 초과했습니다. WPS.유가희님에게 문의해주세요.')
-
-        # 매니저에 새 메서드를 추가 create_with_schedule() (TravelSchedule을 받아서 새 Reservation을 생성해주는)
-        reservation, _ = Reservation.objects.get_or_create(
-            travel_schedule=travel_schedule,
-            member=validate_data["member"],
-            is_canceled=False,
             people=validate_data['people'],
+            member=validate_data['member'],
         )
-
-        # if travel_schedule.reserved_people == max_people:
-        #     # SerializerMethodField
-        #     reserve_user_update2 = TravelScheduleSerializer(
-        #         travel_schedule,
-        #         data={'is_possible_reservation': False},
-        #         partial=True
-        #     )
-        #     if reserve_user_update2.is_valid(raise_exception=True):
-        #         reserve_user_update2.save()
-
         return reservation
 
 
