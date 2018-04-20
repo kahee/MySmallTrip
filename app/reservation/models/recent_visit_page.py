@@ -8,7 +8,7 @@ from travel.models import TravelInformation
 
 
 class RecentVisitPage(ReservationBase):
-    travel_Schedule = models.ForeignKey(
+    travel_schedule = models.ForeignKey(
         TravelInformation,
         on_delete=models.CASCADE)
     member = models.ForeignKey(

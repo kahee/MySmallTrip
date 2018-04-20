@@ -8,7 +8,7 @@ from .apis import CityInformationView
 from .models import TravelInformation, CityInformation
 
 
-class TestMainListTest(APITestCase):
+class CityListTest(APITestCase):
     MODEL = CityInformation
     VIEW = CityInformationView
     URL = '/travel-information/'
@@ -17,16 +17,24 @@ class TestMainListTest(APITestCase):
     TEST_CONTINENT = 'Europe'
     TEST_NATIONALITY = 'France'
 
-    def create_city(self):
-        self.MODEL.objects.create(
-            id=1,
-            name=self.TEST_NAME,
-            continent=self.TEST_CONTINENT,
-            nationality=self.TEST_NATIONALITY,
-        )
+    CREATE_NUM = 10
 
-    def test_list(self):
-        self.create_city()
+    def create_city(self, num):
+        for i in range(num):
+            self.MODEL.objects.create(
+                id=i,
+                name=self.TEST_NAME,
+                continent=self.TEST_CONTINENT,
+                nationality=self.TEST_NATIONALITY,
+            )
+
+    def test_city_list(self):
+        self.create_city(self.CREATE_NUM)
         response = self.client.get(self.URL)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # self.assertEqual(len(response.data,))
+        print(len(response.data))
+        print(self.CREATE_NUM)
+        # self.assertEqual(len(response.data), self.CREATE_NUM)
+        #
+        # self.assertEqual(response.data['name'], self.TEST_NAME)
+        # self.assertEqual(response.data['continent'], self.TEST_CONTINENT)

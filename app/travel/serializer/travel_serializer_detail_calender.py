@@ -17,27 +17,19 @@ class TravelInformationScheduleSerializer(serializers.ModelSerializer):
         )
 
     def get_is_possible(self, attrs):
-        maxPeople = attrs.travel_info.maxPeople
+        max_people = attrs.travel_info.max_people
         reserved_people = attrs.reserved_people
         reserve_people = self.context['people']
 
-        if attrs.is_possible_reservation:
-            if maxPeople < reserve_people + reserved_people:
-                return False
-            else :
-                return True
-        else :
+        if max_people < reserve_people + reserved_people:
             return False
-
-        # if maxPeople < reserve_people + reserved_people:
-        #     return False
-        # else:
-        #     return True
+        else:
+            return True
 
 
 class TravelInfoSerializer(serializers.ModelSerializer):
     people = serializers.SerializerMethodField()
-    schedules = TravelInformationScheduleSerializer(context={'people': people}, many=True)
+    travel_info = TravelInformationScheduleSerializer(context={'people': people}, many=True)
     member = UserSerializer(read_only=True, default=serializers.CurrentUserDefault())
 
     class Meta:
@@ -45,9 +37,9 @@ class TravelInfoSerializer(serializers.ModelSerializer):
         fields = (
             'pk',
             'name',
-            'maxPeople',
+            'max_people',
             'people',
-            'schedules',
+            'travel_info',
             'member',
         )
 

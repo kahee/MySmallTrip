@@ -6,7 +6,7 @@ from reservation.models import Reservation
 from reservation.serializer import ReservationCreateSerializer, ReservationListSerializer
 
 
-class ReservationView(APIView):
+class ReservationCreateView(APIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
