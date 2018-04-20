@@ -236,7 +236,7 @@ if __name__ == '__main__':
             meeting_place='where',
             price=travel_info['price'],
             # 최대인원은 일단 10으로 지정
-            maxPeople=10,
+            max_people=10,
             # is_usable=True,
         )
         # 상품 대표이미지 저장 부분

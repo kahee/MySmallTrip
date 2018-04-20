@@ -59,7 +59,7 @@ class TravelInformation(ProductBase):
     price = models.IntegerField('상품금액', default=0)
     price_descrption = models.TextField('상품금액 포함사항', blank=True)
 
-    maxPeople = models.IntegerField('최대 사람 수', default=0)
+    max_people = models.IntegerField('최대 사람 수', default=0)
 
     main_image = models.ImageField('대표이미지', upload_to='main_image')
     main_image_thumbnail= models.ImageField(upload_to='main-image-thumbnail')

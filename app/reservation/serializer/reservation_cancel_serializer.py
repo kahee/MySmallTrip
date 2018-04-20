@@ -40,7 +40,7 @@ class ReservationCancelSerializer(serializers.ModelSerializer):
         reserve_user_sum = travel_schedule.reserved_people - instance.people
         if reserve_user_sum < 0:
             reserve_user_sum = 0
-        max_people = travel_schedule.travel_info.maxPeople
+        max_people = travel_schedule.travel_info.max_people
 
         reserve_user_update = TravelScheduleSerializer(
             travel_schedule,
@@ -50,13 +50,13 @@ class ReservationCancelSerializer(serializers.ModelSerializer):
         if reserve_user_update.is_valid(raise_exception=True):
             reserve_user_update.save()
 
-        if travel_schedule.reserved_people < max_people:
-            reserve_user_update2 = TravelScheduleSerializer(
-                travel_schedule,
-                data={'is_possible_reservation': True},
-                partial=True
-            )
-            if reserve_user_update2.is_valid(raise_exception=True):
-                reserve_user_update2.save()
+        # if travel_schedule.reserved_people < max_people:
+        #     reserve_user_update2 = TravelScheduleSerializer(
+        #         travel_schedule,
+        #         data={'is_possible_reservation': True},
+        #         partial=True
+        #     )
+        #     if reserve_user_update2.is_valid(raise_exception=True):
+        #         reserve_user_update2.save()
 
         return instance

@@ -35,5 +35,5 @@ class TravelInformationDetailSerializer(serializers.ModelSerializer):
             'description_title',
             'description',
             'images',
-            'maxPeople',
+            'max_people',
         )

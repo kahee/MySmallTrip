@@ -19,7 +19,7 @@ class TravelScheduleSerializer(serializers.ModelSerializer):
             'reserved_people',
             'start_date',
             'end_date',
-            'is_possible_reservation',
+            # 'is_possible_reservation',
         )
 
 
@@ -34,7 +34,7 @@ class TravelScheduleMinSerializer(serializers.ModelSerializer):
             'creation_datetime',
             'modify_datetime',
             'reserved_people',
-            'is_possible_reservation',
+            # 'is_possible_reservation',
             'travelschedule_user',
         )
 
@@ -84,7 +84,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
             start_date=validate_data["start_date"],
         )
 
-        max_people = travel_schedule.travel_info.maxPeople
+        max_people = travel_schedule.travel_info.max_people
 
         reserve_user_sum = validate_data['people'] + travel_schedule.reserved_people
 
@@ -107,15 +107,15 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
             people=validate_data['people'],
         )
 
-        if travel_schedule.reserved_people == max_people:
-            # SerializerMethodField
-            reserve_user_update2 = TravelScheduleSerializer(
-                travel_schedule,
-                data={'is_possible_reservation': False},
-                partial=True
-            )
-            if reserve_user_update2.is_valid(raise_exception=True):
-                reserve_user_update2.save()
+        # if travel_schedule.reserved_people == max_people:
+        #     # SerializerMethodField
+        #     reserve_user_update2 = TravelScheduleSerializer(
+        #         travel_schedule,
+        #         data={'is_possible_reservation': False},
+        #         partial=True
+        #     )
+        #     if reserve_user_update2.is_valid(raise_exception=True):
+        #         reserve_user_update2.save()
 
         return reservation
 
