@@ -37,7 +37,7 @@ urlpatterns = [
     path('login/', LoginforAuthTokenView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('facebook-login/', FacebookLogin.as_view(), name='facebook-login'),
-    path('search/', SearchTravelInformationView.as_view(), name='search-keyword'),
+    path('q/', SearchTravelInformationView.as_view(), name='search-keyword'),
 
 ]
 
