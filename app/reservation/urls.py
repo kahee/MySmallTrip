@@ -2,7 +2,7 @@ from django.urls import path
 
 from reservation.apis.reservation_list import ReservationListView
 from .apis import ReservationCancelView, ReservationCreateView
-from reservation.apis.wish_list import WishTravelListCreateView, WishTravelDeleteView
+from reservation.apis.wish_travel import WishTravelListCreateView, WishTravelDeleteView
 
 urlpatterns = [
     # 1.상품예약 url

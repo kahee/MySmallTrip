@@ -1,6 +1,4 @@
-from django.db.models import Q
-
-from rest_framework import generics, status, permissions, filters
+from rest_framework import generics, permissions, filters
 from travel.models import TravelInformation
 from travel.serializer import TravelInformationSerializer
 
