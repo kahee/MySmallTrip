@@ -10,7 +10,7 @@ User = get_user_model()
 
 
 #  관리자가 필요한 기능
-class TravelScheduleSerializer(serializers.ModelSerializer):
+class TravelScheduleListSerializer(serializers.ModelSerializer):
     travel_info = TravelInformationSerializer()
 
     class Meta:
@@ -22,20 +22,20 @@ class TravelScheduleSerializer(serializers.ModelSerializer):
             'end_date',
         )
 
-
-class TravelScheduleMinSerializer(serializers.ModelSerializer):
-    travel_info = TravelInformationMinSerializer()
-
-    class Meta:
-        model = TravelSchedule
-        exclude = (
-            'id',
-            'is_usable',
-            'creation_datetime',
-            'modify_datetime',
-            'reserved_people',
-            'travelschedule_user',
-        )
+#
+# class TravelScheduleMinSerializer(serializers.ModelSerializer):
+#     travel_info = TravelInformationMinSerializer()
+#
+#     class Meta:
+#         model = TravelSchedule
+#         exclude = (
+#             'id',
+#             'is_usable',
+#             'creation_datetime',
+#             'modify_datetime',
+#             'reserved_people',
+#             'travelschedule_user',
+#         )
 
 
 class ReservationCreateSerializer(serializers.ModelSerializer):
@@ -61,12 +61,6 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validate_data):
         """
-
-
-        6. (삭제하고, is_possible_reservation필드 삭제, serializerMethod필드(is_possible로 통합,변경) :
-            현재 예약된 인원 = 상품의 최대인원수
-            -> is_possible_reservation = False로 업데이트(필드 삭제)
-
         :param validate_data:
         :return: reservation
         """
@@ -81,7 +75,7 @@ class ReservationCreateSerializer(serializers.ModelSerializer):
 
 # 예약 현황 보여주는 리스트
 class ReservationListSerializer(serializers.ModelSerializer):
-    travel_schedule = TravelScheduleMinSerializer()
+    travel_schedule = TravelScheduleListSerializer()
     member = UserSerializer()
 
     class Meta:
