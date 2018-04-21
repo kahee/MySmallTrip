@@ -59,4 +59,5 @@ class TravelInformationWishListSerializer(serializers.ModelSerializer):
             'city',
             'price',
             'time',
+            'main_image',
         )

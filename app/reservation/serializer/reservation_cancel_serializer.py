@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import APIException
 
 from reservation.models import Reservation
-from reservation.serializer import TravelScheduleSerializer, UserSerializer
+from reservation.serializer import UserSerializer
 from travel.models import TravelSchedule
 
 User = get_user_model()
