@@ -33,11 +33,14 @@ class ReservationCreateTest(APITestCase):
 
     def reservation_create_test(self):
         # self.setUp(self.CREATE_NUM)
+        # print('예약테스트')
+        # print('success')
+
         response = self.client.get(self.URL)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         reservations = Reservation.objects.all()
         serializer = ReservationCreateSerializer(reservations, many=True)
         self.assertEqual(response.data, serializer.data)
-        print(response.data)
-        print(serializer.data)
+        # print(response.data)
+        # print(serializer.data)
