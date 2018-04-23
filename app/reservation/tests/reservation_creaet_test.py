@@ -4,8 +4,8 @@ from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from .apis import ReservationCreateView, ReservationCreateSerializer
-from .models import Reservation
+from ..apis import ReservationCreateView, ReservationCreateSerializer
+from ..models import Reservation
 
 
 class ReservationCreateTest(APITestCase):

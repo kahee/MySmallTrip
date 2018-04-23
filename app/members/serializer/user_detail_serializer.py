@@ -42,12 +42,21 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
 
 
 class ChangeImageSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
         fields = (
             'img_profile',
         )
+
+    #
+    #
+    # def update(self, instance, validated_data):
+    #     print(instance)
+    #     print(self)
+    #     user = User.objects.get(username=self.request.user)
+    #     user.img_profile = validated_data['img_profile']
+    #     user.save()
+    #     return user
 
 
 class ChangePhoneNumberSerializer(serializers.ModelSerializer):
