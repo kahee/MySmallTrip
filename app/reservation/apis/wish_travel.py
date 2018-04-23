@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from reservation.models import WishTravel
-from reservation.serializer.wish_list import WishListCreateSerializer
+from reservation.serializer.wish_travel import WishTravelSerializer
 from travel.serializer import TravelInformationWishListSerializer
 
 User = get_user_model()
@@ -34,7 +34,7 @@ class WishTravelListCreateView(APIView):
             "request": self.request,
         }
 
-        serializer = WishListCreateSerializer(data=request.data, context=context)
+        serializer = WishTravelSerializer(data=request.data, context=context)
 
         if serializer.is_valid(raise_exception=True, ):
             wishlist_created = serializer.save()
@@ -53,27 +53,40 @@ class TravelInfoDoesNotExists(APIException):
 
 
 class WishTravelDeleteView(APIView):
+    permission_classes = (
+        permissions.IsAuthenticated,
+    )
+
     def delete(self, request):
         """
         위시리스트 삭제
+        1. travel_info 와 request.user 정보를 통해 해당 위시리스트 목록을 삭제
+        예외처리
+        - travel_info 없는 경우
+        - 유저의 위시리스트에 해당 travel_info가 없는 경우
         :param request:
         :return:
         """
 
-        try:
-            wish_product = WishTravel.objects.get(travel_info=request.data['travel_info'], user=request.user)
+        if 'travel_info' in request.data:
+            try:
+                wish_product = WishTravel.objects.get(travel_info=request.data['travel_info'], user=request.user)
 
-            if wish_product:
-                wish_product.delete()
+                if wish_product:
+                    wish_product.delete()
+                    data = {
+                        'message': '해당 위시리스트 목록이 삭제되었습니다.'
+                    }
+                    return Response(data, status=status.HTTP_200_OK)
 
-                data = {
-                    'message': '해당 위시리스트 목록이 삭제되었습니다.'
-                }
-                return Response(data, status=status.HTTP_200_OK)
+                else:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
 
-            else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+            except WishTravel.DoesNotExist:
+                raise TravelInfoDoesNotExists
 
-        except WishTravel.DoesNotExist:
-            raise TravelInfoDoesNotExists
-#
+        else:
+            data = {
+                'travel_info': "이 필드는 blank일 수 없습니다."
+            }
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)

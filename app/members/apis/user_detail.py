@@ -1,7 +1,7 @@
 import random
 
 from django.contrib.auth import get_user_model
-from rest_framework import permissions, status
+from rest_framework import permissions, status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -37,6 +37,24 @@ class UserDetailView(APIView):
 
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# #
+# class UserDetailImageView(generics.UpdateAPIView):
+#     permission_classes = (
+#         permissions.IsAuthenticated,
+#     )
+#
+#     serializer_class = ChangeImageSerializer
+#
+#     def get_queryset(self):
+#         queryset = User.objects.get(self.request.user)
+#         return queryset
+#
+#     def partial_update(self, request, *args, **kwargs):
+#
+#
+
 
 
 class UserDetailImageView(APIView):

@@ -12,7 +12,6 @@ from .models import CityHotplace, TravelInformation, TravelSchedule, CompanyInfo
 #     admin_thumbnail = AdminThumbnail(image_field='product_thumbnail')
 
 
-
 admin.site.register(CityInformation)
 admin.site.register(CityHotplace)
 admin.site.register(CompanyInformation)
