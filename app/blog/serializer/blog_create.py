@@ -4,7 +4,6 @@ from rest_framework.validators import UniqueValidator
 from blog.models import BlogImage, Blog
 from rest_framework import serializers
 
-from members.serializer import UserSerializer, UserSerializerWishList
 from reservation.models import Reservation
 
 
