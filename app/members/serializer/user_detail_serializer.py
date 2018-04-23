@@ -1,14 +1,15 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
-from rest_framework import serializers
+from requests import Response
+from rest_framework import serializers, status
 from rest_framework.exceptions import ValidationError
 
 User = get_user_model()
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(source='user.password')
-    password2 = serializers.CharField()
+    password = serializers.CharField()
+    password2 = serializers.CharField(read_only=True)
 
     class Meta:
         model = User
@@ -39,6 +40,16 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(errors)
 
         return password
+
+    def update(self, instance, validated_data):
+        print(validated_data)
+        print(instance)
+        instance.set_password(validated_data['password'])
+        instance.save()
+
+        return instance
+
+
 
 
 class ChangeImageSerializer(serializers.ModelSerializer):

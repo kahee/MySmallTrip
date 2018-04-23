@@ -24,6 +24,12 @@ class UserDetailView(APIView):
         serializer = UserSerializer(request.user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+class UserChangePasswordView(APIView):
+    permission_classes = (
+        permissions.IsAuthenticated,
+    )
+
     # 비밀번호 변경
     def patch(self, request, *args, **kwargs):
         serializer = ChangePasswordSerializer(data=request.data)
@@ -31,7 +37,6 @@ class UserDetailView(APIView):
         # 비밀번호 유효성 검사가 패스 되면, 새로운 비밀번호로 변경
         if serializer.is_valid():
             user = User.objects.get(username=request.user)
-            user.set_password(serializer.validated_data['user']['password'])
             user.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -40,7 +45,7 @@ class UserDetailView(APIView):
 
 
 # #
-# class UserDetailImageView(generics.UpdateAPIView):
+# class UserChangeImageView(generics.UpdateAPIView):
 #     permission_classes = (
 #         permissions.IsAuthenticated,
 #     )
@@ -56,8 +61,7 @@ class UserDetailView(APIView):
 #
 
 
-
-class UserDetailImageView(APIView):
+class UserChangeImageView(APIView):
     # 인증
     permission_classes = (
         permissions.IsAuthenticated,
@@ -76,7 +80,7 @@ class UserDetailImageView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserDetailPhoneNumberView(APIView):
+class UserChangePhoneNumberView(APIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
