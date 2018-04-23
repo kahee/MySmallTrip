@@ -24,3 +24,4 @@ class BlogListCreateView(generics.ListCreateAPIView):
         queryset = Blog.objects.select_related('travel_reservation').filter(
             travel_reservation__member=self.request.user)
         return queryset
+
