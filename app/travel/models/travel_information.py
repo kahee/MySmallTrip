@@ -57,12 +57,12 @@ class TravelInformation(ProductBase):
     meeting_place = models.CharField('만남장소', max_length=100, blank=True)
 
     price = models.IntegerField('상품금액', default=0)
-    price_descrption = models.TextField('상품금액 포함사항', blank=True)
+    price_description = models.TextField('상품금액 포함사항', blank=True)
 
     max_people = models.IntegerField('최대 사람 수', default=0)
 
     main_image = models.ImageField('대표이미지', upload_to='main_image')
-    main_image_thumbnail= models.ImageField(upload_to='main-image-thumbnail')
+    main_image_thumbnail = models.ImageField(upload_to='main-image-thumbnail')
 
     def save(self, *args, **kwargs):
         self._save_thumbnail_process()
