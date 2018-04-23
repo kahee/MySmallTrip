@@ -176,7 +176,7 @@ if __name__ == '__main__':
     from travel.models import TravelInformation
 
     crawler = TravelData()
-    travel_infos = crawler.travel_infomation('Ireland', 'Dublin')
+    travel_infos = crawler.travel_infomation('Viet+Nam', 'Nha+trang')
 
     # travel_info_city = travel_infos[0]['city']
 
