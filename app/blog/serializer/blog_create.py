@@ -101,3 +101,4 @@ class BlogCreateSerializer(serializers.ModelSerializer):
             )
             blog.save()
         return blog
+
