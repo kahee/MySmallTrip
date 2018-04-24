@@ -37,5 +37,4 @@ class ReservationCancelView(APIView):
             data = {
                 'pk': '예약 pk를 입력해주세요'
             }
-            # pk가 안들어왔을 때 오류 처리 할것
             return Response(data, status=status.HTTP_400_BAD_REQUEST)

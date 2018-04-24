@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 
-from rest_framework import permissions, status
+from rest_framework import permissions, status, generics
 from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,37 +12,23 @@ from travel.serializer import TravelInformationWishListSerializer
 User = get_user_model()
 
 
-class WishTravelListCreateView(APIView):
+class WishTravelListCreateView(generics.ListCreateAPIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
 
-    def get(self, request):
-        user = User.objects.get(username=request.user)
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def get_queryset(self):
+        user = User.objects.get(username=self.request.user)
         wish_lists = user.wish_products.all()
-        serializer = TravelInformationWishListSerializer(wish_lists, many=True)
-        return Response(serializer.data, status.HTTP_200_OK)
+        return wish_lists
 
-    def post(self, request):
-        """
-        위시리스트 생성
-        :param request:
-        :return:
-        """
-
-        context = {
-            "request": self.request,
-        }
-
-        serializer = WishTravelSerializer(data=request.data, context=context)
-
-        if serializer.is_valid(raise_exception=True, ):
-            wishlist_created = serializer.save()
-            if wishlist_created:
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        else:
-            return Response(status.HTTP_400_BAD_REQUEST)
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return WishTravelSerializer
+        return TravelInformationWishListSerializer
 
 
 #  해당 상품이 위시리스트에 있는지 체크
