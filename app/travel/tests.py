@@ -180,4 +180,3 @@ class TravelCalenderTest(APITestCase):
             print("예약가능")
         else:
             print("예약불가")
-        
