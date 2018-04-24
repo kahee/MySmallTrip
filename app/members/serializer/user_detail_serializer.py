@@ -50,24 +50,27 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         return instance
 
 
-
-
 class ChangeImageSerializer(serializers.ModelSerializer):
+    img_profile = serializers.ImageField(allow_empty_file=True)
+
     class Meta:
         model = User
         fields = (
             'img_profile',
         )
 
-    #
-    #
-    # def update(self, instance, validated_data):
-    #     print(instance)
-    #     print(self)
-    #     user = User.objects.get(username=self.request.user)
-    #     user.img_profile = validated_data['img_profile']
-    #     user.save()
-    #     return user
+    def update(self, instance, validated_data):
+
+        if 'img_profile' in validated_data:
+            instance.img_profile.delete()
+            instance.img_profile = validated_data['img_profile']
+            instance.save()
+            return instance
+
+        else:
+            instance.img_profile.delete()
+            instance.save()
+            return instance
 
 
 class ChangePhoneNumberSerializer(serializers.ModelSerializer):

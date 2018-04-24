@@ -1,3 +1,5 @@
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.db import models, IntegrityError
@@ -46,13 +48,10 @@ class User(AbstractUser):
     )
 
     REQUIRED_FIELDS = ['email', 'first_name']
-    #
-    # def toggle_wish_product(self, travel_id):
-    #     # 유저가 선택한 상품이 이미 선택한 상품인지 체크
-    #     # 만약 없다면 위시리스트에 추가 있으면 위시리스트 삭제
-    #     wish, wish_created = self.wish_products_info_list.get_or_create(pk=travel_id)
-    #
-    #     if not wish_created:
-    #         wish.delete()
-    #
-    #     return wish_created
+
+
+@receiver(post_delete, sender=User)
+def photo_delete(sender, instance, **kwargs):
+    # sender - 모델 객체가 옴
+    # instance - 시그널이 발생된 모델 인스턴스가 온다.
+    instance.file.delete(False)

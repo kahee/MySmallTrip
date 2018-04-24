@@ -22,21 +22,6 @@ class TravelScheduleListSerializer(serializers.ModelSerializer):
             'end_date',
         )
 
-#
-# class TravelScheduleMinSerializer(serializers.ModelSerializer):
-#     travel_info = TravelInformationMinSerializer()
-#
-#     class Meta:
-#         model = TravelSchedule
-#         exclude = (
-#             'id',
-#             'is_usable',
-#             'creation_datetime',
-#             'modify_datetime',
-#             'reserved_people',
-#             'travelschedule_user',
-#         )
-
 
 class ReservationCreateSerializer(serializers.ModelSerializer):
     start_date = serializers.DateField(required=True)
