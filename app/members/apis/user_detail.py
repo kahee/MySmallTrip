@@ -44,23 +44,6 @@ class UserChangePasswordView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# #
-# class UserChangeImageView(generics.UpdateAPIView):
-#     permission_classes = (
-#         permissions.IsAuthenticated,
-#     )
-#
-#     serializer_class = ChangeImageSerializer
-#
-#     def get_queryset(self):
-#         queryset = User.objects.get(self.request.user)
-#         return queryset
-#
-#     def partial_update(self, request, *args, **kwargs):
-#
-#
-
-
 class UserChangeImageView(APIView):
     # 인증
     permission_classes = (
@@ -68,13 +51,12 @@ class UserChangeImageView(APIView):
     )
 
     # 프로필 이미지 변경
-    def patch(self, request, *args, **kwargs):
-        serializer = ChangeImageSerializer(data=request.data)
+    def patch(self, request):
+        user = User.objects.get(username=request.user)
+        serializer = ChangeImageSerializer(user, data=request.data, partial=True)
 
         if serializer.is_valid():
-            user = User.objects.get(username=request.user)
-            user.img_profile = serializer.validated_data['img_profile']
-            user.save()
+            serializer.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
