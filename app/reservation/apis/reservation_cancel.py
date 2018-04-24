@@ -19,7 +19,6 @@ class ReservationCancelView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request):
-
         pk = request.data.get('pk', None)
         if pk is not None:
             try:
@@ -34,7 +33,8 @@ class ReservationCancelView(APIView):
             except Reservation.DoesNotExist:
                 raise ReservationDoesNotExists
 
-
         else:
-            # pk가 안들어왔을 때 오류 처리 할것
-             pass
+            data = {
+                'pk': '예약 pk를 입력해주세요'
+            }
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
