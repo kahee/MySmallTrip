@@ -10,7 +10,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '.elasticbeanstalk.com',
     '.hongsj.kr',
-    ]
+]
 WSGI_APPLICATION = 'config.wsgi.dev.application'
 
 INSTALLED_APPS += [
@@ -22,6 +22,7 @@ INSTALLED_APPS += [
 # S3대신 EC2에서 정적파일을 제공 (프리티어의 put사용량 절감을 위해 )
 STATICFILES_STORAGE = 'config.storage.StaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'config.storage.DefaultFileStorage'
+
 
 def is_ec2_linux():
     """Detect if we are running on an EC2 Linux Instance

@@ -10,72 +10,9 @@ from ..models import TravelInformation
 User = get_user_model()
 
 
-class TestWishTravelCreate(APITestCase):
-    def setUp(self):
-        self.test_user = User.objects.create_user(
-            email='yuygh131@gmail.com',
-            username='yuygh131@gmail.com',
-            password='rkgml12345',
-            first_name='kahee',
-        )
+class TestBasic(APITestCase):
 
-        city = self.test_city_info = CityInformation.objects.create(
-            name='더블린',
-            continent='유럽',
-            nationality='독일',
-        )
-        company = self.test_company_info = CompanyInformation.objects.create(
-            name='kim',
-            info='test_kim',
-        )
-        self.test_travel_info = TravelInformation.objects.create(
-            travel_id=1,
-            name='더블리너스 - 더블린 사람들처럼 빠른걸음 속의 여유를 갖는 워킹투어 (1인~최대10인)',
-            product_type='단체 투어',
-            language='한국어',
-            city=city,
-            time='3시간',
-            company=company,
-            description_title='더블린에서 생활하듯이 구석구석 둘러보며 기네스와 아이리쉬 커피로 더블린사람들의 흥과 여유도 함께 즐겨보아요',
-            description='test_description',
-        )
-
-        self.create_url = reverse('wish-list')
-
-    def test_wish_travel_create(self):
-        """
-        1. 토큰 로그인
-        2. travel_info post 요청
-        2-1. travel_info가 TravelInformation에 없는 경우 에러
-        2-2. travel_info로 이미 WishTravel 있는 경우 에러
-        3. WishTravel 목록에 생성
-        :return:
-        """
-
-        data = {
-            'username': 'yuygh131@gmail.com',
-            'password': 'rkgml12345',
-        }
-        response = self.client.post('/login/', data)
-        user = User.objects.latest('id')
-        token = Token.objects.get(user=user)
-        self.assertEqual(response.data['token'], token.key)
-
-        # request에 필요한 사용자 토큰 헤더에 포함
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-
-        data = {
-            'travel_info': '1',
-        }
-
-        # travel_info 에 대해 wishtravel 목록 생성
-        response = self.client.post(self.create_url, data)
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(WishTravel.objects.count(), 1)
-
-
-class TestWishTravelDelete(APITestCase):
-    def setUp(self):
+    def set_up_test_data(self):
         user = self.test_user = User.objects.create_user(
             email='yuygh131@gmail.com',
             username='yuygh131@gmail.com',
@@ -103,13 +40,98 @@ class TestWishTravelDelete(APITestCase):
             description_title='더블린에서 생활하듯이 구석구석 둘러보며 기네스와 아이리쉬 커피로 더블린사람들의 흥과 여유도 함께 즐겨보아요',
             description='test_description',
         )
+        return user, travel_info
 
-        self.test_wish_list_created = WishTravel.objects.create(
-            travel_info=travel_info,
+    def login(self):
+        data = {
+            'username': 'yuygh131@gmail.com',
+            'password': 'rkgml12345',
+        }
+        response = self.client.post('/login/', data)
+        user = User.objects.latest('id')
+        token = Token.objects.get(user=user)
+        self.assertEqual(response.data['token'], token.key)
+        # request에 필요한 사용자 토큰 헤더에 포함
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+
+
+class TestWishTravelCreate(TestBasic):
+
+    def setUp(self):
+        self.set_up_test_data()
+        self.login()
+        self.create_url = reverse('wish-list')
+
+    def test_wish_travel_create_not_exists_travel_info(self):
+        data = {
+            'travel_info': '2',
+        }
+
+        response = self.client.post(self.create_url, data)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(WishTravel.objects.count(), 0)
+        self.assertNotIn(2, TravelInformation.objects.all())
+
+    def test_wish_travel_create(self):
+        """
+        1. 토큰 로그인
+        2. travel_info post 요청
+        2-1. travel_info가 TravelInformation에 없는 경우 에러
+        2-2. travel_info로 이미 WishTravel 있는 경우 에러
+        3. WishTravel 목록에 생성
+        :return:
+        """
+        data = {
+            'travel_info': '1',
+        }
+
+        response = self.client.post(self.create_url, data)
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(WishTravel.objects.count(), 1)
+
+    def test_wish_travel_create_exists_wish_travel(self):
+        self.test_wish_travel_create()
+
+        data = {
+            'travel_info': '1',
+        }
+
+        response = self.client.post('/reservation/wishlist/', data)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(WishTravel.objects.count(), 1)
+
+
+class TestWishTravelDelete(TestBasic):
+
+    def setUp(self):
+        user, travel_info = self.set_up_test_data()
+        self.login()
+        self.test_wish_travel = WishTravel.objects.create(
             user=user,
+            travel_info=travel_info
         )
-
         self.create_url = reverse('wish-list-delete')
+
+    def test_wish_travel_delete_not_exist_wish_travel(self):
+        # Travel_info가 위시리스트에 없는 경우
+        data = {
+            'travel_info': '2',
+        }
+        response = self.client.delete(self.create_url, data)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(WishTravel.objects.count(), 1)
+
+    def test_wish_travel_delete_not_exist_travel_info(self):
+        # Travel_info pk가 없는 경우
+        data = {
+            'travel_info': '2',
+        }
+        response = self.client.delete(self.create_url, data)
+        self.assertEqual(response.status_code, 400)
+        self.assertNotIn(2, TravelInformation.objects.all())
 
     def test_wish_travel_delete(self):
         """
@@ -120,35 +142,6 @@ class TestWishTravelDelete(APITestCase):
         3. WishTravel 삭제
         :return:
         """
-
-        data = {
-            'username': 'yuygh131@gmail.com',
-            'password': 'rkgml12345',
-        }
-        response = self.client.post('/login/', data)
-        user = User.objects.latest('id')
-        token = Token.objects.get(user=user)
-        self.assertEqual(response.data['token'], token.key)
-
-        # request에 필요한 사용자 토큰 헤더에 포함
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-
-        # Travel_info가 위시리스트에 없는 경우
-        data = {
-            'travel_info': '2',
-        }
-        response = self.client.delete(self.create_url, data)
-        self.assertEqual(response.status_code, 400)
-        self.assertEqual(WishTravel.objects.count(), 1)
-
-        # Travel_info pk가 없는 경우
-        data = {
-            'travel_info': '2',
-        }
-        response = self.client.delete(self.create_url, data)
-        self.assertEqual(response.status_code, 400)
-        self.assertNotIn(2, TravelInformation.objects.all())
-
         # travel_info 에 대해 wishtravel 목록 삭제
         data = {
             'travel_info': '1',
