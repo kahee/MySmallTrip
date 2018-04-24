@@ -35,6 +35,8 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
     img_profile = serializers.ImageField(required=False, allow_empty_file=True)
+    first_name = serializers.CharField(required=True)
+
 
     class Meta:
         model = User
