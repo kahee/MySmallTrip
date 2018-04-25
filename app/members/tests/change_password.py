@@ -16,7 +16,7 @@ class TestChangePassword(APITestCase):
             first_name='kahee',
         )
 
-        self.create_url = reverse('user-detail')
+        self.create_url = reverse('user-password')
 
     def test_change_password(self):
         data = {

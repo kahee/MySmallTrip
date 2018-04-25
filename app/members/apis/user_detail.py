@@ -32,12 +32,12 @@ class UserChangePasswordView(APIView):
 
     # 비밀번호 변경
     def patch(self, request, *args, **kwargs):
-        serializer = ChangePasswordSerializer(data=request.data)
+        user = User.objects.get(username=request.user)
+        serializer = ChangePasswordSerializer(user, data=request.data, partial=True)
 
         # 비밀번호 유효성 검사가 패스 되면, 새로운 비밀번호로 변경
         if serializer.is_valid():
-            user = User.objects.get(username=request.user)
-            user.save()
+            serializer.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         else:
