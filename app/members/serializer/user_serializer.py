@@ -37,7 +37,6 @@ class UserSerializer(serializers.ModelSerializer):
     img_profile = serializers.ImageField(required=False, allow_empty_file=True)
     first_name = serializers.CharField(required=True)
 
-
     class Meta:
         model = User
         fields = (
