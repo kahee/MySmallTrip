@@ -118,7 +118,7 @@ FROM    <사용자명>/<저장소명>:base
 
 ```json
 {
-  "SECRET_KEY": "<Django settings SECRET_KEY value>"
+  "SECRET_KEY": "<Django settings SECRET_KEY value>",
   "RAVEN_CONFIG": {
     "dsn": "https://<sentry_Client_Keys>",
     "release": "raven.fetch_git_sha(os.path.abspath(os.pardir))"
@@ -153,7 +153,7 @@ FROM    <사용자명>/<저장소명>:base
       "NAME": "<DB name>",
       "USER": "<DB username>",
       "PASSWORD": "<DB user password>",
-      "PORT": <Port number, default:5432>
+      "PORT": "<Port number, default:5432>"
     }
   }
 }
