@@ -7,5 +7,7 @@
 #git add -f .secrets && eb deploy --staged --profile=eb; git reset HEAD .secrets
 
 branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+echo ${branch}
 git checkout master
 git merge ${branch}
+git push
