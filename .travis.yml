@@ -1,7 +1,6 @@
 language: python
 python:
 - '3.6'
-- '3.7'
 before_install:
 - openssl aes-256-cbc -K $encrypted_41a5e3ead560_key -iv $encrypted_41a5e3ead560_iv
   -in secrets.tar.enc -out secrets.tar -d
