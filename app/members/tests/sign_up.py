@@ -27,7 +27,7 @@ class TestCreateUser(APITestCase):
     def test_create_user(self):
         # /.media/user/cat.png
         # 테스트용 user 파일을 불러옴
-        file_path = os.path.join(settings.MEDIA_ROOT, 'user', 'cat.png')
+        file_path = os.path.join(settings.MEDIA_ROOT, 'user', 'cat.jpg')
         print(file_path)
 
         # with create(post) 요청

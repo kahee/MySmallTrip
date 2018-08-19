@@ -5,7 +5,7 @@
 /.static
 /.secrets
 .secrets
-
+secrets.tar
 
 ### Django ###
 *.log
