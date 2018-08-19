@@ -8,4 +8,4 @@
 
 branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 git checkout master
-git merge ${bra
+git merge ${branch}
