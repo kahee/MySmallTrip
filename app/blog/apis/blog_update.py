@@ -27,6 +27,6 @@ class BlogUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
         return queryset
 
     def get_object(self):
-        queryset= self.filter_queryset(self.get_queryset())
+        queryset = self.filter_queryset(self.get_queryset())
         obj = queryset.get()
         return obj
