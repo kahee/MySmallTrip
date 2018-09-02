@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.db import models, IntegrityError
-from travel.models import TravelInformation
+from ..travel.models import TravelInformation
 
 
 class User(AbstractUser):
