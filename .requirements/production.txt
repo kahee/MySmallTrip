@@ -1,6 +1,6 @@
 raven<6.7
 uWSGI<2.1
-djangorestframework==3.7.7
+djangorestframework==3.11.2
 boto3<1.7
 Django<2.1
 django-storages==1.6.5
