@@ -2,7 +2,7 @@ raven<6.7
 uWSGI<2.1
 djangorestframework==3.7.7
 boto3<1.7
-Django<2.1
+Django<2.3
 django-storages==1.6.5
 Pillow<6.0.0
 coolsms-python-sdk==2.0.3
